@@ -8,7 +8,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 // set up dotenv, express app, etc.
 require("dotenv").config();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -54,24 +54,25 @@ function(accessToken, refreshToken, profile, cb) {
 // routes
 const userRouter = require("./routes/account");
 const bizRouter = require("./routes/biz");
+const registerRouter = require("./routes/register");
 app.use("/account", userRouter);
+// app.use("/register", registerRouter);
 app.use("/biz", bizRouter);
 
 const path = require("path");
 
-app.get("/", function(req, res){
-	if (req.user) {
-		console.log("Logged in Homepage!");
-		res.sendFile(path.resolve("../client/public/testHome.html"));
-	} else {
-		console.log("Not logged in version of the homepage");
-		res.sendFile(path.resolve("../client/public/testHome.html"));
-	}
-});
+// app.get("/", function(req, res){
+// 	if (req.user) {
+// 		console.log("Logged in Homepage!");
+// 		res.sendFile(path.resolve("../client/public/testHome.html"));
+// 	} else {
+// 		console.log("Not logged in version of the homepage");
+// 		res.sendFile(path.resolve("../client/public/testHome.html"));
+// 	}
+// });
 
 // account sign ins
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
-
 app.get("/auth/google/bundo", 
 	passport.authenticate("google", {failureRedirect: "/login"}),
 	function(req, res) {
@@ -79,17 +80,26 @@ app.get("/auth/google/bundo",
 	});
 
 app.post("/register", function(req, res) {
-	User.register({username: req.body.username}, req.body.password, function(err, user) {
+
+	User.register({username: req.body.email}, req.body.password, function(err, user) {
 		if (err){
 			console.log(err);
 			res.redirect("/register");	
 		} else {
-			passport.authenticate("local", {failureRedirect: "/register"})(req, res, function(){
-				console.log("Successful local registration");
-				res.redirect("/");
+			const firstN = req.body.firstName;
+			const lastN = req.body.lastName;
+			// add first and last name
+			User.updateOne({username: req.body.email}, {firstName: firstN, lastName: lastN}, {upsert: true}, function(error, result){
+				if (error){
+					console.log(`Error updating user info when registering: ${error}`);
+				} else {
+					console.log("Successfully added in first and last name of user.");
+				}
 			});
+			passport.authenticate("local", {failureRedirect: "/register"});
 		}
 	});
+
 });
 
 app.post("/login", passport.authenticate("local", {failureRedirect: "/login"}), function(req, res){

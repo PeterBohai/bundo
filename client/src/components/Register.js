@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import request from "request";
 import "./Register.css";
 import bunnyIcon from "../images/bunnyicon.png";
+import { GoogleLoginButton } from "react-social-login-buttons";
 
 class Register extends Component {
 	constructor(props){
@@ -12,6 +15,7 @@ class Register extends Component {
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangePassword = this.onChangePassword.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleGoogleLogin = this.handleGoogleLogin.bind(this);
 
 		this.state = {
 			firstName: "",
@@ -20,7 +24,6 @@ class Register extends Component {
 			password: ""
 		};
 	}
-
 
 	onChangeFirstName(event) {
 		this.setState({
@@ -55,15 +58,28 @@ class Register extends Component {
 			password: this.state.password
 		};
 
-		console.log(registerInfo);
+		console.table(registerInfo);
+
+		axios.post("http://localhost:3001/register", registerInfo)
+			.then(res => console.log(res.data));
+
 		window.location = "/";
 		
+	}
+
+	handleGoogleLogin(event) {
+		request.get("http://localhost:3001/auth/google")
+			.on("response", function(response){
+				console.log(response.statusCode);
+			});
 	}
 
 	render() {
 		return (
 			<div className="text-center Register"> 
 				<h3>Bundo</h3>
+
+				<GoogleLoginButton onClick={this.handleGoogleLogin} />
 
 				<form className="form-signin" onSubmit={this.handleSubmit}>
 					<img className="mb-4" src={bunnyIcon} alt="" width="72" height="72" />
