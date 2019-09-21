@@ -72,6 +72,8 @@ const path = require("path");
 // });
 
 // account sign ins
+var authenticated = false;
+
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
 app.get("/auth/google/bundo", 
 	passport.authenticate("google", {failureRedirect: "/login"}),
@@ -102,13 +104,37 @@ app.post("/register", function(req, res) {
 
 });
 
-app.post("/login", passport.authenticate("local", {failureRedirect: "/login"}), function(req, res){
-	res.redirect("/biz/testing-login");
+app.post("/login", passport.authenticate("local", {failureRedirect: "/check-auth"}), function(req, res) {
+	if (req.user) {
+		console.log("here");
+		authenticated = true;
+		res.json({isAuthenticated: true});
+	} else {
+		authenticated = false;
+		res.json({isAuthenticated: false});
+	}
+
 });
 
 app.get("/logout", function(req, res){
 	req.logOut();
-	res.redirect("/");
+	if (req.user) {
+		authenticated = true;
+		res.json({isAuthenticated: true});
+	} else {
+		authenticated = false;
+		res.json({isAuthenticated: false});
+	}
+});
+
+app.get("/check-auth", function(req, res){
+	if (authenticated) {
+		console.log("Authenticated");
+		res.json({isAuthenticated: true});
+	} else {
+		console.log("Not Authenticated");
+		res.json({isAuthenticated: false});
+	}
 });
 
 // start server

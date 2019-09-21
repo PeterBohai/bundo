@@ -1,26 +1,13 @@
-/* .form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-}
-
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-} */
-
-
-
- .home-page{
-	background: darkgray;
-	padding-top: 2rem;
+.search-and-nav-section{
+	background: #00adb5;
+	padding-top: 1.5rem;
 	padding-left: 15rem;
 	padding-right: 15rem;
 	padding-bottom: 10rem;
+}
+
+.main-title {
+	color: #222831
 }
 
 /*
@@ -37,14 +24,14 @@
   .nav-masthead .nav-link {
 	padding: .25rem 0;
 	font-weight: 700;
-	color: rgba(255, 255, 255, .5);
+	color: #eeeeee;
 	background-color: transparent;
 	border-bottom: .25rem solid transparent;
   }
   
   .nav-masthead .nav-link:hover,
   .nav-masthead .nav-link:focus {
-	border-bottom-color: rgba(255, 255, 255, .25);
+	border-bottom-color: #eeeeee;
   }
   
   .nav-masthead .nav-link + .nav-link {
@@ -55,18 +42,44 @@
 	color: #fff;
 	border-bottom-color: #fff;
   }
-  
 
+/*
+ * Search Form
+ */
 
 .form-signin .form-control:focus {
   z-index: 2;
 }
 
 .home-page-form {
-	margin-top: 5rem;
+	margin-top: 3.5rem;
 }
 
 .search-button {
+	background: #222831;
 	margin: 0 auto;
 	margin-top: 2rem;
 }
+
+/*
+ * About Us
+ */
+
+ .about-us-section {
+	color: #222831;
+	padding-top: 10rem;
+	padding-left: 15rem;
+	padding-right: 15rem;
+	padding-bottom: 10rem;
+	background: #eeeeee;
+ }
+
+ .sub-header {
+	 color: #393e46;
+	 margin-bottom: 1.8rem;
+ }
+
+.sub-paras {
+	 line-height: 1.75;
+	 font-size: 1.3rem;
+ }

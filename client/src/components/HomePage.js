@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./HomePage.css";
+import axios from "axios";
+import "../stylesheets/HomePage.css";
+import Footer from "./Footer";
 
 class HomePage extends Component {
 
@@ -10,11 +12,23 @@ class HomePage extends Component {
 		this.onChangeFind = this.onChangeFind.bind(this);
 		this.onChangeNear = this.onChangeNear.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
 
 		this.state = {
 			findDescription: "",
-			nearLocation: ""
+			nearLocation: "",
+			authenticated: false
 		};
+	}
+
+	componentDidMount(){
+		axios.get("http://localhost:3001/check-auth")
+			.then(response => {
+				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
+				this.setState({
+					authenticated: response.data.isAuthenticated
+				});
+			});
 	}
 
 	onChangeFind(event) {
@@ -45,40 +59,72 @@ class HomePage extends Component {
 		
 	}
 
+	handleLogout(event) {
+		event.preventDefault();
+
+		axios.get("http://localhost:3001/logout")
+			.then(function(response) {
+				if (response.data.isAuthenticated) {
+					console.log("still logged in!");
+					window.location = "/login";
+				} else {
+					window.location.reload();
+				}
+			});
+	}
+
 	render() {
+
+		let leftBtn = <div></div>
+		let rightBtn = <div></div>
+
+		if (this.state.authenticated) {
+			leftBtn = <Link className="nav-link" to="/" onClick={this.handleLogout}>Logout</Link>;
+			rightBtn = <Link className="nav-link active" to="/account">Peter</Link>;
+		} else {
+			leftBtn = <Link className="nav-link" to="/login">Login</Link>;
+			rightBtn = <Link className="nav-link active" to="/register">Sign Up</Link>;
+		}
+
 		return (
-			<div className="home-page text-right"> 
-				<div className="masthead">
-					<div className="inner">
-						<nav className="nav nav-masthead justify-content-center">
-							<Link className="nav-link" to="/login">Login</Link>
-							<Link className="nav-link active" to="/register">Sign Up</Link>
-						</nav>
+			<div className="home-page text-right">
+				<div className="search-and-nav-section">
+					<div className="masthead">
+						<div className="inner">
+							<nav className="nav nav-masthead justify-content-center">
+								{leftBtn}
+								{rightBtn}
+							</nav>
+						</div>
+					</div>
+					{/* <Link to="/biz/gyukaku-vancouver">Search gyukaku vancouver</Link> */}
+					
+					<div className="front-content text-center">
+						<h1 className="display-3 main-title">Bundo!</h1>
+						<form className="home-page-form" onSubmit={this.handleSubmit}>
+							<div className="form-row align-items-center">
+								<div className="col-sm-6">
+									<label htmlFor="inputFind" className="sr-only">Find</label>
+									<input type="text" id="inputFind" className="form-control" placeholder="Find" required value={this.state.findDescription} onChange={this.onChangeFind} />
+								</div>
+
+								<div className="col-sm-6">
+									<label htmlFor="inputLocation" className="sr-only">Near</label>
+									<input type="text" id="inputLocation" className="form-control" placeholder="Near" required value={this.state.nearLocation} onChange={this.onChangeNear} />
+								</div>
+
+								<button className="search-button btn btn-dark" type="submit">Search</button>
+							</div>
+						</form>
 					</div>
 				</div>
-				{/* <Link to="/biz/gyukaku-vancouver">Search gyukaku vancouver</Link> */}
 				
-				<div className="front-content text-center">
-					<h1>Bundo!</h1>
-					<form className="home-page-form" onSubmit={this.handleSubmit}>
-						<div className="form-row align-items-center">
-							<div className="col-sm-6">
-								<label htmlFor="inputFind" className="sr-only">Find</label>
-								<input type="text" id="inputFind" className="form-control" placeholder="Find" required value={this.state.findDescription} onChange={this.onChangeFind} />
-							</div>
-
-							<div className="col-sm-6">
-								<label htmlFor="inputLocation" className="sr-only">Near</label>
-								<input type="text" id="inputLocation" className="form-control" placeholder="Near" required value={this.state.nearLocation} onChange={this.onChangeNear} />
-							</div>
-
-							<button className="search-button btn btn-dark" type="submit">Search</button>
-						</div>
-						
-					</form>
+				<div className="about-us-section text-center">
+					<h1 className="sub-header">About Us</h1>
+					<p className="sub-paras">Bundo is the new way to find more reliable and accurate ratings for any kind of business! By aggregating data from trusted, popular crowd-sourced review sites such as Yelp, Google, or Trip Advisor, you can see how a business is rated amongst all these platforms. Its the best of many worlds in one place! What are you waiting for? Start BUNDOing!</p>
+					
 				</div>
-				
-		
+				<Footer />
 			</div>
 		);
 	}

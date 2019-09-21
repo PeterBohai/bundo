@@ -1,0 +1,18 @@
+.footer {
+	display: flex;
+	background: #393e46;
+	height: 2.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+ .footer-content {
+	display: inline-block;
+	color: #eeeeee;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 0.9rem;
+}
+.footer-content p {
+	margin: 0;
+}

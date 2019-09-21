@@ -1,0 +1,67 @@
+.Register {
+	height: 100vh;
+	background: #eeeeee;
+}
+.register-mid-section {
+	position: relative;
+	background: #eeeeee;
+	width: 100%;
+	height: 100%;
+}
+.navbar {
+	background: #00adb5;
+}
+.navbar-brand {
+	color: #eeeeee;
+	font-size: 1.5rem;
+}
+
+.mid-container {
+	width: 20rem;
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.login-msg {
+	margin-bottom: 2rem;
+}
+
+.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.top-input {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+  }
+.bot-input {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.register-button{
+	margin-top: 2.5rem;
+}
+
+.footer-section {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}

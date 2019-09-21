@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "./Register.css";
-import bunnyIcon from "../images/bunnyicon.png";
+import axios from "axios";
+import "../stylesheets/Login.css";
+import Footer from "./Footer";
 
 class Login extends Component {
 	constructor(props){
@@ -33,35 +34,62 @@ class Login extends Component {
 		event.preventDefault();
 
 		const loginInfo = {
-			email: this.state.email,
+			username: this.state.email,
 			password: this.state.password
 		};
 
 		console.log(loginInfo);
-		window.location = "/";
+		axios.post("http://localhost:3001/login", loginInfo)
+			.then(function(response) {
+				if (response.data.isAuthenticated) {
+					window.location = "/";
+				} else {
+					console.log("Could not log in, try again!");
+					
+					window.location.reload();
+				}
+			})
+			.catch(function(error){
+				console.log(error);
+				console.log("Error while trying to log in, try again!");
+				window.location.reload();
+			});
 		
 	}
 
 	render() {
 		return (
-			<div className="text-center Register"> 
-				<h3>Bundo</h3>
+			<div className="text-center Login">
+				<div className="header">
+					<div className="navbar navbar-expand-md fixed-top justify-content-center">
+						<Link className="navbar-brand" to="/">Bundo</Link>
+					</div>
+				</div>
 
-				<form className="form-signin" onSubmit={this.handleSubmit}>
-					<img className="mb-4" src={bunnyIcon} alt="" width="72" height="72" />
+				<div className="login-mid-section">
 
-					<h1 className="h3 mb-3 font-weight-normal">Log In to Bundo!</h1>
 					
-					<label htmlFor="inputEmail" className="sr-only">Email</label>
-					<input type="email" id="inputEmail" className="form-control" placeholder="Email" required value={this.state.email} onChange={this.onChangeEmail} />
+					<div className="mid-container">
+						<h3 className="login-msg">Log In to Bundo!</h3>
+						
+						<form className="form-signin" onSubmit={this.handleSubmit}>
+							
+							<label htmlFor="inputEmail" className="sr-only">Email</label>
+							<input type="email" id="inputEmail" className="form-control" placeholder="Email" required value={this.state.email} onChange={this.onChangeEmail} />
+							
+							<label htmlFor="inputPassword" className="sr-only">Password</label>
+							<input type="password" id="inputPassword" className="form-control" placeholder="Password" required value={this.state.password} onChange={this.onChangePassword} />
+							
+							<button className="btn btn-lg btn-info btn-block login-button" type="submit">Log in</button>
+						</form>
+					</div>
 					
-					<label htmlFor="inputPassword" className="sr-only">Password</label>
-					<input type="password" id="inputPassword" className="form-control" placeholder="Password" required value={this.state.password} onChange={this.onChangePassword} />
-					
-					<button className="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-				</form>
-
-				<Link to="/">Home</Link>
+				</div>
+				
+				<div className="footer-section">
+					<Footer />
+				</div>
+				
 			</div>
 		);
 	}
