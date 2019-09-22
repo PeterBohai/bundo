@@ -14,8 +14,19 @@ class Login extends Component {
 
 		this.state = {
 			email: "",
-			password: ""
+			password: "",
+			formError: "" 
 		};
+	}
+
+	componentDidMount(){
+		axios.get("http://localhost:3001/check-error")
+			.then(response => {
+				console.log("ERRROR:" + response.data.errorMsg);
+				this.setState({
+					formError: response.data.errorMsg
+				});
+			});
 	}
 
 	onChangeEmail(event) {
@@ -73,7 +84,11 @@ class Login extends Component {
 						<h3 className="login-msg">Log In to Bundo!</h3>
 						
 						<form className="form-signin" onSubmit={this.handleSubmit}>
-							
+							{
+								<p className="error-msg form-text">
+									{this.state.formError} 
+								</p>
+							}
 							<label htmlFor="inputEmail" className="sr-only">Email</label>
 							<input type="email" id="inputEmail" className="form-control" placeholder="Email" required value={this.state.email} onChange={this.onChangeEmail} />
 							

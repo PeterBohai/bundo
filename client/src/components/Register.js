@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../stylesheets/Register.css";
 import Footer from "./Footer";
+import validator from "email-validator";
 
 class Register extends Component {
 	constructor(props){
 		super(props);
 		
+		this.validateEmail = this.validateEmail.bind(this);
+		this.validatePassword = this.validatePassword.bind(this);
+		this.validateForm = this.validateForm.bind(this);
 		this.onChangeFirstName = this.onChangeFirstName.bind(this);
 		this.onChangeLastName = this.onChangeLastName.bind(this);
 		this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -18,8 +22,54 @@ class Register extends Component {
 			firstName: "",
 			lastName: "",
 			email: "",
-			password: ""
+			password: "",
+			formErrors: {email: "", password: ""},
+			emailValid: false,
+			passwordValid: false,
+			formValid: false
 		};
+	}
+
+	componentDidMount(){
+		axios.get("http://localhost:3001/check-error")
+			.then(response => {
+				let formErrorValidation = this.state.formErrors;
+				formErrorValidation.email = response.data.emailErrorMsg;
+
+				this.setState({
+					formErrors: formErrorValidation
+				});
+			});
+	}
+
+	validateEmail(value) {
+		let fieldValidationErrors = this.state.formErrors;
+		let emailValid = this.state.emailValid;
+		
+		emailValid = validator.validate(value);
+		fieldValidationErrors.email = emailValid ? "" : "Please enter a valid email address";
+
+		this.setState({
+			formErrors: fieldValidationErrors,
+			emailValid: emailValid,
+		}, this.validateForm);
+	}
+
+	validatePassword(value) {
+		let fieldValidationErrors = this.state.formErrors;
+		let passwordValid = this.state.passwordValid;
+		
+		passwordValid = value.length >= 6;
+		fieldValidationErrors.password = passwordValid ? "": "Password must be longer than 6 characters";
+
+		this.setState({
+			formErrors: fieldValidationErrors,
+			passwordValid: passwordValid,
+		}, this.validateForm);
+	}
+
+	validateForm() {
+		this.setState({formValid: this.state.emailValid && this.state.passwordValid});
 	}
 
 	onChangeFirstName(event) {
@@ -36,11 +86,15 @@ class Register extends Component {
 		this.setState({
 			email: event.target.value
 		});
+
+		this.validateEmail(event.target.value);
 	}
 	onChangePassword(event) {
 		this.setState({
 			password: event.target.value
 		});
+
+		this.validatePassword(event.target.value);
 	}
 	handleSubmit(event) {
 		event.preventDefault();
@@ -55,9 +109,26 @@ class Register extends Component {
 		console.table(registerInfo);
 
 		axios.post("http://localhost:3001/register", registerInfo)
-			.then(res => console.log(res.data));
+			.then(function(response) {
+				if (response.data.isRegistered) {
+					console.log("Successfully signed up for Bundo! Please log in.");
+					window.location = "/login";
+				} else {
+					if (response.data.error === "UserExistsError") {
+						console.log("Email is already in use, please try again");
+					} else {
+						console.log("Could not log in, try again!");
+					}
+					
+					window.location.reload();
+				}
+			})
+			.catch(function(error){
+				console.log(error);
+				console.log("Error while trying to log in, try again!");
+				window.location.reload();
+			});
 
-		window.location = "/";	
 	}
 
 	render() {
@@ -75,7 +146,7 @@ class Register extends Component {
 					<div className="mid-container">
 						<h3 className="login-msg">Sign Up for Bundo!</h3>
 						
-						<form className="form-signin" onSubmit={this.handleSubmit}>
+						<form className="form-signin text-left" onSubmit={this.handleSubmit}>
 							
 							<label htmlFor="inputFirstName" className="sr-only">First Name</label>
 							<input type="text" id="inputFirstName" className="top-input form-control" placeholder="First Name" required autoFocus value={this.state.firstName} onChange={this.onChangeFirstName} />
@@ -83,13 +154,46 @@ class Register extends Component {
 							<label htmlFor="inputLastName" className="sr-only">Last Name</label>
 							<input type="text" id="inputLastName" className="bot-input form-control" placeholder="Last Name" required value={this.state.lastName} onChange={this.onChangeLastName} />
 							
-							<label htmlFor="inputEmail" className="sr-only">Email</label>
-							<input type="email" id="inputEmail" className="top-input form-control" placeholder="Email" required value={this.state.email} onChange={this.onChangeEmail} />
+							<hr></hr>
 							
-							<label htmlFor="inputPassword" className="sr-only">Password</label>
-							<input type="password" id="inputPassword" className="bot-input form-control" placeholder="Password" required value={this.state.password} onChange={this.onChangePassword} />
-							
-							<button className="register-button btn btn-lg btn-info btn-block" type="submit">Sign Up</button>
+							<div className="form-group">
+								<label htmlFor="inputEmail">Email address</label>
+								<input 	type="email" 
+									className="form-control" id="inputEmail" placeholder="Enter email" 
+									value={this.state.email} 
+									onChange={this.onChangeEmail}
+									required />
+
+								{this.state.emailValid ? 
+									null :
+									<small 
+										className="error-msg form-text">
+										{this.state.formErrors.email} 
+									</small>
+								}
+							</div>
+
+
+							<div className="form-group">
+								<label htmlFor="inputPassword">Password</label>
+								<input 	type="password" 
+									className="form-control" id="inputPassword" placeholder="Enter password" 
+									value={this.state.password} 
+									onChange={this.onChangePassword}
+									required />
+
+								{this.state.passwordValid ? 
+									null :
+									<small 
+										className="error-msg form-text">
+										{this.state.formErrors.password} 
+									</small>
+								}
+							</div>
+
+							<button 
+								className="register-button btn btn-lg btn-info btn-block" type="submit" 
+								disabled={!this.state.formValid}>Sign Up</button>
 						</form>
 
 					</div>

@@ -3,7 +3,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 // set up dotenv, express app, etc.
 require("dotenv").config();
@@ -27,34 +26,21 @@ connection.once("open", function() {
 	console.log("MongoDB connection established successfully");
 });
 
-const User = require("./models/user.model");
-
+const User = require("./models/user");
+passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
 	done(null, user.id);
 });
+  
 passport.deserializeUser(function(id, done) {
 	User.findById(id, function(err, user) {
 		done(err, user);
 	});
 });
 
-// OAuth strategies
-passport.use(new GoogleStrategy({
-	clientID: process.env.GOOGLE_CLIENT_ID,
-	clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-	callbackURL: "http://localhost:3000/auth/google/bundo"
-},
-function(accessToken, refreshToken, profile, cb) {
-	User.findOrCreate({googleID: profile.id}, function (err, user) {
-		return cb(err, user);
-	});
-}
-));
-
 // routes
 const userRouter = require("./routes/account");
 const bizRouter = require("./routes/biz");
-const registerRouter = require("./routes/register");
 app.use("/account", userRouter);
 // app.use("/register", registerRouter);
 app.use("/biz", bizRouter);
@@ -73,43 +59,39 @@ const path = require("path");
 
 // account sign ins
 var authenticated = false;
+var emailError = "";
+var authError = "";
 
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }));
-app.get("/auth/google/bundo", 
-	passport.authenticate("google", {failureRedirect: "/login"}),
-	function(req, res) {
-		res.redirect("/");
+app.post("/register", function(req, res, next) {
+
+	const newUser = new User ({
+		username: req.body.email,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName
 	});
 
-app.post("/register", function(req, res) {
-
-	User.register({username: req.body.email}, req.body.password, function(err, user) {
+	User.register(newUser, req.body.password, function(err, user) {
 		if (err){
 			console.log(err);
-			res.redirect("/register");	
-		} else {
-			const firstN = req.body.firstName;
-			const lastN = req.body.lastName;
-			// add first and last name
-			User.updateOne({username: req.body.email}, {firstName: firstN, lastName: lastN}, {upsert: true}, function(error, result){
-				if (error){
-					console.log(`Error updating user info when registering: ${error}`);
-				} else {
-					console.log("Successfully added in first and last name of user.");
-				}
-			});
-			passport.authenticate("local", {failureRedirect: "/register"});
+			emailError = "Email already in use, try again.";
+			return res.json({isRegistered: false, error: err.name});	
+		} 
+		
+		else {
+			emailError = "";
+			return res.json({isRegistered: true});
 		}
 	});
 
 });
 
-app.post("/login", passport.authenticate("local", {failureRedirect: "/check-auth"}), function(req, res) {
+app.post("/login", passport.authenticate("local", {failureRedirect: "/login-fail"}), function(req, res) {
 	if (req.user) {
-		console.log("here");
+		authError = "";
 		authenticated = true;
 		res.json({isAuthenticated: true});
 	} else {
+		authError = "Invalid email or password";
 		authenticated = false;
 		res.json({isAuthenticated: false});
 	}
@@ -127,7 +109,15 @@ app.get("/logout", function(req, res){
 	}
 });
 
+app.get("/login-fail", function(req, res){
+	console.log("/login-fail");
+	authError = "Invalid email or password";
+	res.json({isAuthenticated: false});
+});
+
 app.get("/check-auth", function(req, res){
+	emailError = "";
+	authError = "";
 	if (authenticated) {
 		console.log("Authenticated");
 		res.json({isAuthenticated: true});
@@ -135,6 +125,10 @@ app.get("/check-auth", function(req, res){
 		console.log("Not Authenticated");
 		res.json({isAuthenticated: false});
 	}
+});
+
+app.get("/check-error", function(req, res){
+	res.json({emailErrorMsg: emailError, errorMsg: authError});
 });
 
 // start server

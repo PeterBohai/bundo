@@ -19,6 +19,5 @@ userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = mongoose.model("User", userSchema);
-passport.use(User.createStrategy());
 
 module.exports = User;
