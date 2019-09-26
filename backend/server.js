@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
+const request = require("request");
 
 // set up dotenv, express app, etc.
 require("dotenv").config();
@@ -129,6 +130,34 @@ app.get("/check-auth", function(req, res){
 
 app.get("/check-error", function(req, res){
 	res.json({emailErrorMsg: emailError, errorMsg: authError});
+});
+
+app.post("/search", function(req, res){
+	let userTerm = req.body.userQueryTerm;
+	let userLoc = req.body.userQueryLocation;
+
+	// console.log(userTerm);
+	// console.log(userLoc);
+	
+	const baseUrl = "https://api.yelp.com/v3/businesses/search";
+	const options = {
+		url: baseUrl,
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${process.env.YELP_API_KEY}`
+		},
+		qs: {
+			term: userTerm,
+			location: userLoc
+		}
+	};
+
+	request(options, function(err, response, body) {
+		let data = JSON.parse(body);
+
+		res.json(data);
+	});
+
 });
 
 // start server

@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter} from "react-router-dom";
 import axios from "axios";
 import "../stylesheets/HomePage.css";
 import Footer from "./Footer";
+import PropTypes from "prop-types"
 
 class HomePage extends Component {
+	static propTypes = {
+		history: PropTypes.object.isRequired
+	};
+
 
 	constructor(props){
 		super(props);
@@ -19,6 +24,8 @@ class HomePage extends Component {
 			nearLocation: "",
 			authenticated: false
 		};
+
+		const { match, location, history } = this.props;
 	}
 
 	componentDidMount(){
@@ -53,9 +60,13 @@ class HomePage extends Component {
 
 		console.log(searchInfo);
 
-		// Search for business near location and return top result
-		// redirect with business alias as the path after /biz/
-		window.location = `/biz/${searchInfo.findDescription}`;
+		let bizAlias = this.state.findDescription;
+
+		this.props.history.push({
+			pathname: `/biz/${bizAlias}`,
+			state: {findTerm: this.state.findDescription, 
+					queryLocation: this.state.nearLocation}
+		  });
 		
 	}
 
