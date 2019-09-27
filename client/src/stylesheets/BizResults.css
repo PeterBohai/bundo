@@ -1,5 +1,4 @@
 .BizResults {
-	height: 100vh;
 	background: #eeeeee;
 }
 
@@ -11,7 +10,7 @@
 	font-size: 1.5rem;
 }
 
-hr {
+.bizResults-hr {
 	width: 60%;
 	border: none;
 	height: 1px;

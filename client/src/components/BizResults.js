@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ResultsCard from "./ResultsCard";
 import axios from "axios";
 import PropTypes from "prop-types";
 import Footer from "./Footer";
@@ -36,11 +37,13 @@ class BizResults extends Component {
 			userQueryLocation: nearLocation
 		})
 			.then(response => {
-				console.log(response.data)
+				this.setState({bizResults: response.data.businesses});
+				console.log(response.data.businesses);
 			});
 	}
 
 	render() {
+		const resultCards = this.state.bizResults.map((biz) => <ResultsCard biz={biz}/>)
 		return (
 			<div className="BizResults">
 				<div className="header">
@@ -51,60 +54,22 @@ class BizResults extends Component {
 
 				<div className="mid-section">
 					
-					<div class="jumbotron text-center page-title-content">
-						<div class="container page-title-content-container">
-							<h2 class="term-title">{this.state.findQuery} <p className="location-title">{ this.state.locationQuery}</p></h2>
+					<div className="jumbotron text-center page-title-content">
+						<div className="container page-title-content-container">
+							<h2 className="term-title">{this.state.findQuery} <p className="location-title">{ this.state.locationQuery}</p></h2>
 						</div>
 					</div>
 
-					<hr></hr>
+					<hr className="bizResults-hr"></hr>
 
 					<div className="container card-results">
 						<div className="row">
-							
-							<div className="col-lg-4 col-md-6 mb-4">
-								
-								<div className="card shadow-sm">
-									<img src="https://s3-media1.fl.yelpcdn.com/bphoto/siv49lMrhZ2ANEg-zXQn9w/o.jpg" alt="" className="card-img-top" />
-									<div className="card-body">
-										<h5 className="card-title">Card title</h5>
-										<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										<Link to="#">read more</Link>
-									</div>
-								</div>
-
-							</div>
-
-							<div className="col-lg-4 col-md-6 mb-4">
-								<div className="card shadow-sm">
-									<img src="https://s3-media1.fl.yelpcdn.com/bphoto/siv49lMrhZ2ANEg-zXQn9w/o.jpg" alt="" className="card-img-top" />
-									<div className="card-body">
-										<h5 className="card-title">Card title</h5>
-										<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										<Link to="#">read more</Link>
-									</div>
-								</div>
-							</div>
-
-							<div className="col-lg-4 col-md-6">
-
-								<div className="card shadow-sm mb-4">
-									<img src="https://s3-media1.fl.yelpcdn.com/bphoto/siv49lMrhZ2ANEg-zXQn9w/o.jpg" alt="" className="card-img-top" />
-									<div className="card-body">
-										<h5 className="card-title">Card title</h5>
-										<p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-										<Link to="#">read more</Link>
-									</div>
-								</div>
-
-							</div>
+							{resultCards}
 						</div>
 					</div>
 					
 				</div>
-				
-				
-				
+
 			</div>
 		);
 	}

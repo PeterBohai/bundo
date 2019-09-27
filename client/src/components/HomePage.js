@@ -10,7 +10,6 @@ class HomePage extends Component {
 		history: PropTypes.object.isRequired
 	};
 
-
 	constructor(props){
 		super(props);
 		
@@ -58,7 +57,7 @@ class HomePage extends Component {
 			nearLocation: this.state.nearLocation
 		};
 
-		console.log(searchInfo);
+		console.log("serach info from Home Page: " + JSON.stringify(searchInfo));
 
 		let bizAlias = this.state.findDescription;
 

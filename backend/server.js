@@ -136,12 +136,13 @@ app.post("/search", function(req, res){
 	let userTerm = req.body.userQueryTerm;
 	let userLoc = req.body.userQueryLocation;
 
-	// console.log(userTerm);
-	// console.log(userLoc);
+	let bizData = {
+		businesses: []
+	};
 	
-	const baseUrl = "https://api.yelp.com/v3/businesses/search";
-	const options = {
-		url: baseUrl,
+	const yelpBaseUrl = "https://api.yelp.com/v3/businesses/search";
+	const yelpOptions = {
+		url: yelpBaseUrl,
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${process.env.YELP_API_KEY}`
@@ -152,10 +153,35 @@ app.post("/search", function(req, res){
 		}
 	};
 
-	request(options, function(err, response, body) {
-		let data = JSON.parse(body);
+	request(yelpOptions, function(err, response, body) {
+		let yelpData = JSON.parse(body);
 
-		res.json(data);
+		yelpData.businesses.forEach(function(business, index) {
+			
+			// let displayAddress = business.location.display_address.join(", ");
+			let availability = "";
+			if (business.is_closed) {
+				availability = "Closed";
+			} else {
+				availability = "Open now";
+			}
+			bizData.businesses.push({
+				indexID: index + 1,
+				name: business.name,
+				imageUrl: business.image_url,
+				rating: business.rating,
+				reviewCount: business.review_count,
+				price: business.price,
+				address: business.location.display_address,
+				phone: business.display_phone,
+				isOpen: availability,
+				yelpUrl: business.url
+			});
+		});
+
+		// request google api and add weighted ratings and total up review count
+
+		res.json(bizData);
 	});
 
 });

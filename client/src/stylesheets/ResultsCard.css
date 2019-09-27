@@ -1,0 +1,77 @@
+.card-img-top {
+    width: 100%;
+    height: 22vw;
+    object-fit: cover;
+}
+
+.biz-link {
+	font-size: 1.3rem;
+	color: #00adb5;
+}
+
+.jumbotron {
+	padding: 0.8rem;
+}
+
+.biz-url {
+	text-align: center;
+}
+
+ /* YELP Info section */
+.yelp-data {
+	position: relative;
+}
+
+.yelp-logo {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.yelp-rating {
+	display: inline-block;
+}
+
+.yelp-review-count {
+	color: #393e46;
+	display: inline-block;
+	font-size: 0.9rem;
+	margin: 0;
+	margin-left: 0.4rem;
+}
+
+.price-category {
+	color: #757b86;
+	font-size: 0.9rem;
+}
+
+.biz-info-section {
+	color: #393e46;
+	margin-top: 1rem; 
+	font-size: 0.9rem;
+}
+
+.biz-address {
+	text-align: center;
+	margin-bottom: 1rem;
+	background-color: #f9f7f7;
+}
+
+.biz-phone {
+	margin-top: 0;
+}
+
+.open {
+	color: #049c02;
+	font-weight: bold;
+}
+
+.closed {
+	color: red;
+	font-weight: bold;
+}
+
+.biz-url {
+	margin-top: 2rem;
+}
+
