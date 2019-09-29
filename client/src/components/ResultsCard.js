@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { BrowserRouter as Router, Route} from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
 import "../stylesheets/ResultsCard.css";
 import yelp_0 from "../images/yelp_stars/regular/regular_0.png";
 import yelp_1 from "../images/yelp_stars/regular/regular_1.png";
@@ -12,12 +16,14 @@ import yelp_35 from "../images/yelp_stars/regular/regular_3_half.png";
 import yelp_4 from "../images/yelp_stars/regular/regular_4.png";
 import yelp_45 from "../images/yelp_stars/regular/regular_4_half.png";
 import yelp_5 from "../images/yelp_stars/regular/regular_5.png";
+import googleAttr from "../images/google/powered_by_google_on_white.png";
 
 
 
 function ResultsCard(props) {
+	
+	// different yelp ratings image 
 	let ratingImage = null;
-
 	switch (props.biz.rating) {
 	case 0:
 		ratingImage = <img src={yelp_0} alt="" />;
@@ -54,12 +60,34 @@ function ResultsCard(props) {
 		
 	}
 
+	// different colored open/close status display
 	const address = props.biz.address.map((line) => <p key={props.biz.indexID}>{line}</p>);
 	let hours = null;
 	if (props.biz.isOpen === "Open now") {
 		hours = <p className="biz-hours"><strong>Hours: </strong><span className="open">{props.biz.isOpen}</span></p>;
 	} else {
 		hours = <p className="biz-hours closed"><strong>Hours: </strong><span className="closed">{props.biz.isOpen}</span></p>;
+	}
+
+
+	// different google ratings
+	let googleRatingImage = [];
+	for (let i = 0; i < 5; i++) {
+		if (i + 1 <= Math.floor(props.biz.googleRatings)) {
+			googleRatingImage.push(<FontAwesomeIcon icon={faStar} />);
+		} else {
+			if (i + 1 > Math.ceil(props.biz.googleRatings)){
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} />);
+			} else if (props.biz.googleRatings - Math.floor(props.biz.googleRatings) >= 0.8) {
+				googleRatingImage.push(<FontAwesomeIcon icon={faStar} />);
+			} else if(props.biz.googleRatings - Math.floor(props.biz.googleRatings) >= 0.3) {
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarHalfAlt} />);
+			} else {
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} />);
+			}
+
+			
+		}
 	}
 	
 	return (
@@ -73,7 +101,11 @@ function ResultsCard(props) {
 
 						{/* YELP section */}
 						<div className="jumbotron yelp-data">
+							<div className="yelp-logo-container">
+								<img src="https://s3-media2.fl.yelpcdn.com/assets/srv0/styleguide/1ea40efd80f5/assets/img/brand_guidelines/yelp_fullcolor.png" alt=""  width="25%" className="yelp-logo"/>
+							</div>
 							
+
 							<div className="yelp-review-section">
 								<div className="yelp-rating">
 									{ratingImage}
@@ -82,10 +114,8 @@ function ResultsCard(props) {
 								<p className="yelp-review-count">{props.biz.reviewCount} reviews</p>
 							</div>
 
-							<img src="https://s3-media2.fl.yelpcdn.com/assets/srv0/styleguide/1ea40efd80f5/assets/img/brand_guidelines/yelp_fullcolor.png" alt=""  width="22%" className="yelp-logo"/>
-
 							<div className="price-category">
-								<p>{props.biz.price} {'\u00A0'} • {'\u00A0'} Category</p>
+								<p>{props.biz.price} {"\u00A0"} • {"\u00A0"} Category</p>
 							</div>
 
 							<div className="biz-info-section">
@@ -93,19 +123,37 @@ function ResultsCard(props) {
 									{address}
 								</div>
 								
-								<p className="biz-phone"><strong>Phone: </strong>{props.biz.phone}</p>
+								<p className="biz-phone"><strong>Phone: </strong>{props.biz.displayPhone}</p>
 								{hours}
 
 							</div>
 
 							<div className="biz-url">
-								<a target="_blank" rel="noopener noreferrer" href={props.biz.yelpUrl} className="external-anchor">Go to Yelp</a>
+								<a target="_blank" rel="noopener noreferrer" href={props.biz.yelpUrl} className="external-anchor">View on Yelp</a>
 							</div>
 							
 						</div>
 					
 						{/* GOOGLE Reviews section */}
+						<div className="jumbotron google-data">
+							<div className="google-logo-container">
+								<img src={googleAttr} alt="" className="google-logo"/>
+							</div>
 
+							<div className="google-review-section">
+								<div className="google-rating">
+									<p className="google-rating-num">{props.biz.googleRatings}</p>
+									{googleRatingImage}
+								</div>
+								
+								<p className="google-review-count">{props.biz.googleReviewCount} reviews</p>
+							</div>
+
+							<div className="biz-url">
+								<a target="_blank" rel="noopener noreferrer" href={props.biz.googleUrl} className="external-anchor">View on Google</a>
+							</div>
+							
+						</div>
 
 						{/* TRIPADVISOR section */}
 					</div>

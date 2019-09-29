@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const request = require("request");
+const axios = require("axios");
 
 // set up dotenv, express app, etc.
 require("dotenv").config();
@@ -47,16 +48,6 @@ app.use("/account", userRouter);
 app.use("/biz", bizRouter);
 
 const path = require("path");
-
-// app.get("/", function(req, res){
-// 	if (req.user) {
-// 		console.log("Logged in Homepage!");
-// 		res.sendFile(path.resolve("../client/public/testHome.html"));
-// 	} else {
-// 		console.log("Not logged in version of the homepage");
-// 		res.sendFile(path.resolve("../client/public/testHome.html"));
-// 	}
-// });
 
 // account sign ins
 var authenticated = false;
@@ -153,7 +144,8 @@ app.post("/search", function(req, res){
 		}
 	};
 
-	request(yelpOptions, function(err, response, body) {
+	// make request to YELP
+	request(yelpOptions, async function(err, response, body) {
 		let yelpData = JSON.parse(body);
 
 		yelpData.businesses.forEach(function(business, index) {
@@ -165,6 +157,7 @@ app.post("/search", function(req, res){
 			} else {
 				availability = "Open now";
 			}
+
 			bizData.businesses.push({
 				indexID: index + 1,
 				name: business.name,
@@ -173,14 +166,46 @@ app.post("/search", function(req, res){
 				reviewCount: business.review_count,
 				price: business.price,
 				address: business.location.display_address,
-				phone: business.display_phone,
+				phone: business.phone,
+				displayPhone: business.display_phone,
 				isOpen: availability,
 				yelpUrl: business.url
 			});
+
 		});
 
-		// request google api and add weighted ratings and total up review count
+		// Google
+		for (const business of bizData.businesses) {
+			let businessPhone = business.phone.toString();
+			let placeId = "";
+			business.googleRatings = "";
+			business.googleReviewCount = "";
+			business.googleUrl = "";
 
+			// request for place_id of each business
+			let findResponse = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${"%2B" + businessPhone.slice(1)}&inputtype=phonenumber`)
+				.then(function(response){
+					placeId = response.data.candidates[0].place_id;
+				});
+		
+			console.log(placeId);
+			const googleDetailsOptions = {
+				params: {
+					key: process.env.GOOGLE_API_KEY,
+					place_id: placeId,
+					fields: "rating,user_ratings_total,url"
+				}
+			};
+
+			let detailResponse = await axios.get("https://maps.googleapis.com/maps/api/place/details/json", googleDetailsOptions)
+				.then(function(bizDetailResponse){
+					business.googleRatings = bizDetailResponse.data.result.rating;
+					business.googleReviewCount = bizDetailResponse.data.result.user_ratings_total;
+					business.googleUrl = bizDetailResponse.data.result.url;
+					
+				});
+		}
+		console.log(bizData);
 		res.json(bizData);
 	});
 

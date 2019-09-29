@@ -62,7 +62,7 @@ class BizResults extends Component {
 
 					<hr className="bizResults-hr"></hr>
 
-					<div className="container card-results">
+					<div className="fluid-container card-results">
 						<div className="row">
 							{resultCards}
 						</div>

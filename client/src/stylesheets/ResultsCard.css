@@ -11,10 +11,12 @@
 
 .jumbotron {
 	padding: 0.8rem;
+	margin-bottom: 1rem;
 }
 
 .biz-url {
 	text-align: center;
+	padding-top: 0.5rem;
 }
 
  /* YELP Info section */
@@ -22,10 +24,17 @@
 	position: relative;
 }
 
+.yelp-logo-container {
+	position: relative;
+	margin-bottom: 1.5rem; 
+}
+
 .yelp-logo {
+	display: inline-block;
 	position: absolute;
-	right: 0;
-	top: 0;
+	top: -0.8rem;
+	right: -0.3rem;
+
 }
 
 .yelp-rating {
@@ -35,7 +44,7 @@
 .yelp-review-count {
 	color: #393e46;
 	display: inline-block;
-	font-size: 0.9rem;
+	font-size: 0.8rem;
 	margin: 0;
 	margin-left: 0.4rem;
 }
@@ -72,6 +81,43 @@
 }
 
 .biz-url {
-	margin-top: 2rem;
+	margin-top: 0.5rem;
 }
 
+ /* GOOGLE Info section */
+
+.google-data {
+	position: relative;
+}
+
+.google-rating{
+	color: darkorange;
+	display: inline-block
+ }
+
+.google-rating-num {
+	font-size: 0.9rem;
+	display: inline-block;
+	margin-right: 0.3rem;
+}
+
+.google-review-count {
+	color: #393e46;
+	display: inline-block;
+	font-size: 0.8rem;
+	margin: 0;
+	margin-left: 0.4rem;
+}
+
+.google-logo-container {
+	position: relative;
+	margin-bottom: 1.5rem; 
+}
+
+.google-logo {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+
+}
