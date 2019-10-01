@@ -17,6 +17,7 @@ import yelp_4 from "../images/yelp_stars/regular/regular_4.png";
 import yelp_45 from "../images/yelp_stars/regular/regular_4_half.png";
 import yelp_5 from "../images/yelp_stars/regular/regular_5.png";
 import googleAttr from "../images/google/powered_by_google_on_white.png";
+import facebookLogo from "../images/facebook/facebook_logo.png";
 
 
 
@@ -86,8 +87,30 @@ function ResultsCard(props) {
 				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} />);
 			}
 
-			
 		}
+	}
+
+	let facebookSection = null;
+	if (!props.biz.error) {
+		facebookSection = 
+		<div className="jumbotron facebook-data">
+			<div className="facebook-logo-container">
+				<img src={facebookLogo} alt="" className="facebook-logo" width="80px"/>
+			</div>
+
+			<div className="facebook-review-section">
+				<div className="facebook-rating">
+					{props.biz.fbRatings}
+				</div>
+				
+				<p className="facebook-review-count">{props.biz.fbReviewCount} opinions</p>
+			</div>
+
+			<div className="biz-url">
+				<a target="_blank" rel="noopener noreferrer" href={props.biz.fbUrl} className="external-anchor">View on Facebook</a>
+			</div>
+		
+		</div>;
 	}
 	
 	return (
@@ -155,7 +178,9 @@ function ResultsCard(props) {
 							
 						</div>
 
-						{/* TRIPADVISOR section */}
+						{/* FACEBOOK Places section */}
+						{facebookSection}
+
 					</div>
 				</div>
 			</div>

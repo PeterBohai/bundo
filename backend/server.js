@@ -160,6 +160,7 @@ app.post("/search", function(req, res){
 
 			bizData.businesses.push({
 				indexID: index + 1,
+				error: false,
 				name: business.name,
 				imageUrl: business.image_url,
 				rating: business.rating,
@@ -169,26 +170,24 @@ app.post("/search", function(req, res){
 				phone: business.phone,
 				displayPhone: business.display_phone,
 				isOpen: availability,
-				yelpUrl: business.url
+				yelpUrl: business.url,
+				latitude: business.coordinates.latitude,
+				longitude: business.coordinates.longitude
 			});
 
 		});
 
-		// Google
+		// query Google and Facebook
 		for (const business of bizData.businesses) {
 			let businessPhone = business.phone.toString();
 			let placeId = "";
-			business.googleRatings = "";
-			business.googleReviewCount = "";
-			business.googleUrl = "";
 
-			// request for place_id of each business
+			// request for Google place_id of each business
 			let findResponse = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${"%2B" + businessPhone.slice(1)}&inputtype=phonenumber`)
 				.then(function(response){
 					placeId = response.data.candidates[0].place_id;
 				});
 		
-			console.log(placeId);
 			const googleDetailsOptions = {
 				params: {
 					key: process.env.GOOGLE_API_KEY,
@@ -196,7 +195,6 @@ app.post("/search", function(req, res){
 					fields: "rating,user_ratings_total,url"
 				}
 			};
-
 			let detailResponse = await axios.get("https://maps.googleapis.com/maps/api/place/details/json", googleDetailsOptions)
 				.then(function(bizDetailResponse){
 					business.googleRatings = bizDetailResponse.data.result.rating;
@@ -204,7 +202,54 @@ app.post("/search", function(req, res){
 					business.googleUrl = bizDetailResponse.data.result.url;
 					
 				});
+			
+			// request for Facebook place id of each business
+			let fbPlaceId = "";
+			let fbAccessToken = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`;
+			let queryName = business.name
+			if (business.name.indexOf(" ") !== -1) {
+				queryName = business.name.substr(0, business.name.indexOf(" "))
+			}
+
+			const fbSearchParams = {
+				params: {
+					type: "place",
+					center: `${business.latitude},${business.longitude}`,
+					q: queryName,
+					limit: 2,
+					access_token: fbAccessToken
+				}
+			};	
+			let fbSearchResponse = await axios.get("https://graph.facebook.com/search", fbSearchParams)
+				.then(function(response){
+					console.log(response.data);
+					fbPlaceId = response.data.data[0].id;
+				})
+				.catch(function(error) {
+					business.error = error.response.status;
+					console.log("Error Status Code: " + error.response.status);
+				});
+			
+			if (!business.error) {
+				const fbDetailsOptions = {
+					params: {
+						fields: "overall_star_rating,rating_count,link",
+						access_token: fbAccessToken
+					}
+				};
+				let fbDetailResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbPlaceId}`, fbDetailsOptions)
+					.then(function(fbBizDetailResponse){
+						business.fbRatings = fbBizDetailResponse.data.overall_star_rating;
+						business.fbReviewCount = fbBizDetailResponse.data.rating_count;
+						business.fbUrl = fbBizDetailResponse.data.link;
+					})
+					.catch(function(error) {
+						business.error = error.response.status;
+					});
+			}
+
 		}
+
 		console.log(bizData);
 		res.json(bizData);
 	});

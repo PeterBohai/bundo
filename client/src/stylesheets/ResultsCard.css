@@ -119,5 +119,39 @@
 	position: absolute;
 	top: 0;
 	right: 0;
+}
 
+.facebook-data {
+	position: relative;
+}
+
+.facebook-rating {
+	background: rgb(66, 103, 178);
+	border-radius: 50%;
+	color: white;
+	font-size: 1.5rem;
+	width: 3.5rem;
+	height: 3.5rem;
+	text-align: center;
+	line-height: 3.5rem;
+	display: inline-block;
+}
+
+.facebook-review-section {
+	margin-top: 2rem;
+}
+
+.facebook-review-count {
+	color: #393e46;
+	display: inline-block;
+	font-size: 0.8rem;
+	margin: 0;
+	margin-left: 0.4rem;
+}
+
+.facebook-logo {
+	display: inline-block;
+	position: absolute;
+	top: 0.8rem;
+	right: 0.8rem;
 }
