@@ -1,0 +1,62 @@
+
+.Account {
+}
+
+.navbar {
+	background: #00adb5;
+}
+.navbar-brand {
+	color: #eeeeee;
+	font-size: 1.5rem;
+}
+
+.main {
+
+}
+
+.profile-pic-name-container {
+	display: flex;
+	align-items: center;
+}
+
+.profile-pic{
+	width: 8rem;
+	height: 8rem;
+	display: inline-block;
+	border: #393e46 solid 2px;
+	border-radius: 10px;
+
+}
+
+.profile-name {
+	display: inline-block;
+	margin: 0;
+	margin-left: 2rem;
+	color: #393e46;
+	font-size: 3rem;
+	font-weight: normal;
+}
+
+.basic-profile-info {
+	padding: 3rem 2rem;
+	background: lightcyan;
+}
+
+.profile-content {
+
+	position: relative;
+	background: #eeeeee;
+	width: 100%;
+	height: 100%;
+	padding-top: 4rem;
+
+}
+
+.bookmarks-title {
+	font-size: 1.5rem;
+	text-decoration: underline;
+}
+
+.footer-section {
+	position: relative;
+}

@@ -28,7 +28,7 @@ class HomePage extends Component {
 	}
 
 	componentDidMount(){
-		axios.get("http://localhost:3001/check-auth")
+		axios.get("http://localhost:3001/check-auth", {withCredentials: true})
 			.then(response => {
 				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
 				this.setState({
@@ -76,7 +76,7 @@ class HomePage extends Component {
 			.then(function(response) {
 				if (response.data.isAuthenticated) {
 					console.log("still logged in!");
-					window.location = "/login";
+					window.location.reload();
 				} else {
 					window.location.reload();
 				}
@@ -131,7 +131,7 @@ class HomePage extends Component {
 				
 				<div className="about-us-section text-center">
 					<h1 className="sub-header">About Us</h1>
-					<p className="sub-paras">Bundo is the new way to find more reliable and accurate ratings for any kind of business! By aggregating data from trusted, popular crowd-sourced review sites such as Yelp, Google, or Trip Advisor, you can see how a business is rated amongst all these platforms. Its the best of many worlds in one place! What are you waiting for? Start BUNDOing!</p>
+					<p className="sub-paras">Bundo is the new way to find more reliable and accurate ratings for any kind of business! By bundling data from trusted, popular crowd-sourced review sites such as Yelp, Google, or Facebook together, you can see how a business is rated on all these platforms. Its the best of many worlds in <strong>ONE</strong> convenient place! What are you waiting for? Start <strong>BUNDO</strong>ing!</p>
 					
 				</div>
 				<Footer />

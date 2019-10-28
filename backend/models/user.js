@@ -12,7 +12,7 @@ const userSchema = new Schema({
 	username: String,
 	password: String,
 	googleID: String,
-	bookmarks: [String]
+	bookmarks: [Object]
 });
 
 userSchema.plugin(passportLocalMongoose);

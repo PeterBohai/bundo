@@ -4,6 +4,7 @@ import HomePage from "./components/HomePage";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import BizResults from "./components/BizResults";
+import Account from "./components/Account";
 
 function App() {
 	return (
@@ -11,6 +12,7 @@ function App() {
 			<Route path="/" exact component={HomePage} />
 			<Route path="/register" exact component={Register} />
 			<Route path="/login" exact component={Login} />
+			<Route path="/account" exact component={Account} />
 			<Route path="/biz/:bizAlias" exact component={BizResults} />	
 		</Router>
 

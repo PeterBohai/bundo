@@ -1,10 +1,10 @@
 body {
-  background: #393e46;
+  background: #eeeeee;
+  /* #393e46 */
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 p {

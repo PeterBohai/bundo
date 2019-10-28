@@ -6,6 +6,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarReg } from "@fortawesome/free-regular-svg-icons";
 import "../stylesheets/ResultsCard.css";
+import axios from "axios";
 import yelp_0 from "../images/yelp_stars/regular/regular_0.png";
 import yelp_1 from "../images/yelp_stars/regular/regular_1.png";
 import yelp_15 from "../images/yelp_stars/regular/regular_1_half.png";
@@ -112,14 +113,33 @@ function ResultsCard(props) {
 		
 		</div>;
 	}
+
+	function saveClickHandler(e) {
+		e.preventDefault();
+		console.log("save button was clicked");
+		console.log("Yelp ID is:" + props.biz.yelpID);
+		
+		axios.post("http://localhost:3001/save", {
+			targetBusiness: props.biz,
+		})
+			.then(response => {
+				console.log("SAVED");
+			});
+	}
 	
 	return (
 		<div className="col-lg-4 col-md-6 mb-4">				
-			<div className="card shadow-sm h-100">
+			<div className="card shadow-sm h-100 ">
 				<img src={props.biz.imageUrl} alt="" className="card-img-top"  />
 				<div className="card-body">
 					<h5 className="card-title">
-						{props.biz.indexID + ". "} <Link className="biz-link" to="#">{props.biz.name}</Link></h5>
+						{props.biz.indexID + ". "} <Link className="biz-link" to="#">{props.biz.name}</Link>
+					</h5>
+
+					<div className="bookmark-section text-center">
+						<button className="btn btn-outline-danger save-button" onClick={saveClickHandler}>Save</button>
+					</div>
+
 					<div className="card-text">
 
 						{/* YELP section */}

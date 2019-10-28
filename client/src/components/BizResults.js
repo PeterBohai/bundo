@@ -43,7 +43,7 @@ class BizResults extends Component {
 	}
 
 	render() {
-		const resultCards = this.state.bizResults.map((biz) => <ResultsCard biz={biz}/>)
+		const resultCards = this.state.bizResults.map((biz) => <ResultsCard key={biz.id} biz={biz}/>)
 		return (
 			<div className="BizResults">
 				<div className="header">

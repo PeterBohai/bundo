@@ -11,7 +11,7 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({credentials: true, origin: "http://localhost:3000"}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -22,7 +22,7 @@ app.use(passport.session());
 
 // connect to mongodb
 const url = process.env.MONGO_ATLAS_URI;
-mongoose.connect(url, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect(url, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false});
 const connection = mongoose.connection;
 connection.once("open", function() {
 	console.log("MongoDB connection established successfully");
@@ -50,9 +50,10 @@ app.use("/biz", bizRouter);
 const path = require("path");
 
 // account sign ins
-var authenticated = false;
-var emailError = "";
-var authError = "";
+let authenticated = false;
+let emailError = "";
+let authError = "";
+let userInfo = {};
 
 app.post("/register", function(req, res, next) {
 
@@ -82,6 +83,11 @@ app.post("/login", passport.authenticate("local", {failureRedirect: "/login-fail
 		authError = "";
 		authenticated = true;
 		res.json({isAuthenticated: true});
+		userInfo.email = req.user.username;
+		userInfo.firstName = req.user.firstName;
+		userInfo.lastName = req.user.lastName;
+		userInfo.bookmarks = req.user.bookmarks;
+		console.log(userInfo);
 	} else {
 		authError = "Invalid email or password";
 		authenticated = false;
@@ -112,6 +118,7 @@ app.get("/check-auth", function(req, res){
 	authError = "";
 	if (authenticated) {
 		console.log("Authenticated");
+		console.log(req.user);
 		res.json({isAuthenticated: true});
 	} else {
 		console.log("Not Authenticated");
@@ -121,6 +128,26 @@ app.get("/check-auth", function(req, res){
 
 app.get("/check-error", function(req, res){
 	res.json({emailErrorMsg: emailError, errorMsg: authError});
+});
+
+app.get("/user-info", function(req, res){
+	res.json(userInfo);
+});
+
+app.post("/save", function(req, res){
+	let savedBiz = req.body.targetBusiness;
+	User.findOneAndUpdate({username: userInfo.email}, {$push: {bookmarks: savedBiz}}, function (err, result){
+		if (err) {
+			console.log(err);
+		} else {
+
+			console.log("Added a new bookmark to current user!");
+			userInfo.bookmarks = result.bookmarks;
+			console.log(userInfo.bookmarks);
+			// userInfo.bookmarks = req.user.bookmarks;
+		}
+	});
+
 });
 
 app.post("/search", function(req, res){
@@ -160,6 +187,7 @@ app.post("/search", function(req, res){
 
 			bizData.businesses.push({
 				indexID: index + 1,
+				yelpID: business.id,
 				error: false,
 				name: business.name,
 				imageUrl: business.image_url,
@@ -197,7 +225,7 @@ app.post("/search", function(req, res){
 			};
 			let detailResponse = await axios.get("https://maps.googleapis.com/maps/api/place/details/json", googleDetailsOptions)
 				.then(function(bizDetailResponse){
-					business.googleRatings = bizDetailResponse.data.result.rating;
+					business.googleRatings = Math.round( bizDetailResponse.data.result.rating * 10 ) / 10;
 					business.googleReviewCount = bizDetailResponse.data.result.user_ratings_total;
 					business.googleUrl = bizDetailResponse.data.result.url;
 					
