@@ -49,7 +49,21 @@ class Account extends Component {
 	render() {
 		let resultCards = null;
 		if (this.state.userInfo.bookmarks) {
-			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.id} biz={biz}/>);
+			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} isBookmark="true"/>);
+		}
+
+		let footer = null;
+		console.log(this.state.userInfo.bookmarks);
+		if (this.state.userInfo.bookmarks !== undefined && this.state.userInfo.bookmarks.length > 0){
+			footer = <div className="footer-section">
+				<Footer />
+			</div>;
+			console.log("here");
+		} else {
+			footer = <div className="footer-section-empty">
+				<Footer />
+			</div>;
+			console.log("HERE");
 		}
 		
 		return (
@@ -65,7 +79,7 @@ class Account extends Component {
 					<div className="basic-profile-info jumbotron">
 						<div className="container">
 							<div className="profile-pic-name-container">
-								<img className="profile-pic" src={temp_pfp} width="124px" alt="profile picture" />
+								<img className="profile-pic" src={temp_pfp} width="124px" alt="profile" />
 								<h1 className="profile-name">{this.state.userInfo.firstName} {this.state.userInfo.lastName}</h1>
 							</div>
 						</div>
@@ -84,9 +98,7 @@ class Account extends Component {
 					
 				</div>
 
-				<div className="footer-section">
-					<Footer />
-				</div>
+				{footer}
 				
 			</div>
 		);

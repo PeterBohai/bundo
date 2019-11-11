@@ -8,9 +8,11 @@ import "../stylesheets/BizResults.css";
 
 
 class BizResults extends Component {
-	static propTypes = {
-		history: PropTypes.object.isRequired
-	};
+	static get propTypes() { 
+		return { 
+			history: PropTypes.object.isRequired
+		}; 
+	}
 
 	constructor(props){
 		super(props);
@@ -29,7 +31,13 @@ class BizResults extends Component {
 		let findDescription = this.props.location.state.findTerm;
 		let nearLocation = this.props.location.state.queryLocation;
 		this.setState({findQuery: findDescription, locationQuery: nearLocation});
-
+		axios.get("http://localhost:3001/check-auth", {withCredentials: true})
+			.then(response => {
+				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
+				this.setState({
+					authenticated: response.data.isAuthenticated
+				});
+			});
 		console.log("bizResults: "+ findDescription + ", " + nearLocation)
 
 		axios.post("http://localhost:3001/search", {
@@ -43,7 +51,7 @@ class BizResults extends Component {
 	}
 
 	render() {
-		const resultCards = this.state.bizResults.map((biz) => <ResultsCard key={biz.id} biz={biz}/>)
+		const resultCards = this.state.bizResults.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} authenticated={this.state.authenticated}/>);
 		return (
 			<div className="BizResults">
 				<div className="header">

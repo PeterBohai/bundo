@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +23,40 @@ import facebookLogo from "../images/facebook/facebook_logo.png";
 
 function ResultsCard(props) {
 	
+	function saveClickHandler(e) {
+		e.preventDefault();
+		if (props.authenticated) {
+			console.log("save button was clicked");
+			console.log("Yelp ID is:" + props.biz.yelpID);
+			
+			axios.post("http://localhost:3001/save", {
+				targetBusiness: props.biz,
+				save: true
+			})
+				.then(response => {
+					console.log("SAVED");
+				});
+		} else {
+			console.log("Need to be signed in to bookmark");
+			alert("Sign in to bookmark");
+		}
+		
+	}
+
+	function unsaveClickHandler(e) {
+		e.preventDefault();
+		console.log("unsave button was clicked");
+		console.log("Yelp ID is:" + props.biz.yelpID);
+		
+		axios.post("http://localhost:3001/save", {
+			targetBusiness: props.biz,
+			save: false
+		})
+			.then(response => {
+				console.log("UNSAVED");
+			});
+	}
+
 	// different yelp ratings image 
 	let ratingImage = null;
 	switch (props.biz.rating) {
@@ -63,12 +96,25 @@ function ResultsCard(props) {
 	}
 
 	// different colored open/close status display
-	const address = props.biz.address.map((line) => <p key={props.biz.indexID}>{line}</p>);
+	const address = props.biz.address.map((line, i) => <p key={i}>{line}</p>);
 	let hours = null;
 	if (props.biz.isOpen === "Open now") {
 		hours = <p className="biz-hours"><strong>Hours: </strong><span className="open">{props.biz.isOpen}</span></p>;
 	} else {
 		hours = <p className="biz-hours closed"><strong>Hours: </strong><span className="closed">{props.biz.isOpen}</span></p>;
+	}
+	
+	let saveUnsaveBtn = null;
+	if (!props.isBookmark) {
+		saveUnsaveBtn = 
+		<div className="bookmark-section text-center">
+			<button className="btn btn-outline-danger save-button" onClick={saveClickHandler}>Save</button>
+		</div>;
+	} else {
+		saveUnsaveBtn = 
+		<div className="bookmark-section-un text-center">
+			<button className="btn btn-outline-secondary save-button" onClick={unsaveClickHandler}>Unsave</button>
+		</div>;
 	}
 
 
@@ -76,16 +122,16 @@ function ResultsCard(props) {
 	let googleRatingImage = [];
 	for (let i = 0; i < 5; i++) {
 		if (i + 1 <= Math.floor(props.biz.googleRatings)) {
-			googleRatingImage.push(<FontAwesomeIcon icon={faStar} />);
+			googleRatingImage.push(<FontAwesomeIcon icon={faStar} key={"google" + props.biz.yelpID + i}/>);
 		} else {
 			if (i + 1 > Math.ceil(props.biz.googleRatings)){
-				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} />);
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} key={"google" + props.biz.yelpID + i}/>);
 			} else if (props.biz.googleRatings - Math.floor(props.biz.googleRatings) >= 0.8) {
-				googleRatingImage.push(<FontAwesomeIcon icon={faStar} />);
+				googleRatingImage.push(<FontAwesomeIcon icon={faStar} key={"google" + props.biz.yelpID + i}/>);
 			} else if(props.biz.googleRatings - Math.floor(props.biz.googleRatings) >= 0.3) {
-				googleRatingImage.push(<FontAwesomeIcon icon={faStarHalfAlt} />);
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarHalfAlt} key={"google" + props.biz.yelpID + i}/>);
 			} else {
-				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} />);
+				googleRatingImage.push(<FontAwesomeIcon icon={faStarReg} key={"google" + props.biz.yelpID + i}/>);
 			}
 
 		}
@@ -113,22 +159,9 @@ function ResultsCard(props) {
 		
 		</div>;
 	}
-
-	function saveClickHandler(e) {
-		e.preventDefault();
-		console.log("save button was clicked");
-		console.log("Yelp ID is:" + props.biz.yelpID);
-		
-		axios.post("http://localhost:3001/save", {
-			targetBusiness: props.biz,
-		})
-			.then(response => {
-				console.log("SAVED");
-			});
-	}
-	
+	console.log(props);
 	return (
-		<div className="col-lg-4 col-md-6 mb-4">				
+		<div className="col-lg-4 col-md-6 mb-4" >				
 			<div className="card shadow-sm h-100 ">
 				<img src={props.biz.imageUrl} alt="" className="card-img-top"  />
 				<div className="card-body">
@@ -136,9 +169,7 @@ function ResultsCard(props) {
 						{props.biz.indexID + ". "} <Link className="biz-link" to="#">{props.biz.name}</Link>
 					</h5>
 
-					<div className="bookmark-section text-center">
-						<button className="btn btn-outline-danger save-button" onClick={saveClickHandler}>Save</button>
-					</div>
+					{saveUnsaveBtn}
 
 					<div className="card-text">
 

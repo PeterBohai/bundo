@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { Link, withRouter} from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../stylesheets/HomePage.css";
 import Footer from "./Footer";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 
 class HomePage extends Component {
-	static propTypes = {
-		history: PropTypes.object.isRequired
-	};
+	static get propTypes() { 
+		return { 
+			history: PropTypes.object.isRequired
+		}; 
+	}
 
 	constructor(props){
 		super(props);
@@ -64,8 +66,8 @@ class HomePage extends Component {
 		this.props.history.push({
 			pathname: `/biz/${bizAlias}`,
 			state: {findTerm: this.state.findDescription, 
-					queryLocation: this.state.nearLocation}
-		  });
+				queryLocation: this.state.nearLocation}
+		});
 		
 	}
 

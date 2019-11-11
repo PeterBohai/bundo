@@ -136,17 +136,33 @@ app.get("/user-info", function(req, res){
 
 app.post("/save", function(req, res){
 	let savedBiz = req.body.targetBusiness;
-	User.findOneAndUpdate({username: userInfo.email}, {$push: {bookmarks: savedBiz}}, function (err, result){
-		if (err) {
-			console.log(err);
-		} else {
 
-			console.log("Added a new bookmark to current user!");
-			userInfo.bookmarks = result.bookmarks;
-			console.log(userInfo.bookmarks);
-			// userInfo.bookmarks = req.user.bookmarks;
-		}
-	});
+	if (req.body.save){
+		User.findOneAndUpdate({username: userInfo.email}, {$push: {bookmarks: savedBiz}}, function (err, result){
+			if (err) {
+				console.log(err);
+			} else {
+
+				console.log("Added a new bookmark to current user!");
+				userInfo.bookmarks = result.bookmarks;
+				console.log(userInfo.bookmarks);
+				// userInfo.bookmarks = req.user.bookmarks;
+			}
+		});
+	} else {
+		User.findOneAndUpdate({username: userInfo.email}, {$pull: {bookmarks: savedBiz}}, function (err, result){
+			if (err) {
+				console.log(err);
+			} else {
+
+				console.log("Deleted a new bookmark from current user!");
+				userInfo.bookmarks = result.bookmarks;
+				console.log(userInfo.bookmarks);
+				// userInfo.bookmarks = req.user.bookmarks;
+			}
+		});
+	}
+	
 
 });
 
@@ -278,11 +294,19 @@ app.post("/search", function(req, res){
 
 		}
 
-		console.log(bizData);
+		// console.log(bizData);
 		res.json(bizData);
 	});
 
 });
+
+if (process.env.NODE_ENV === "production"){
+	app.use(express.static("client/build"));
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
+}
+
 
 // start server
 app.listen(port, function (){
