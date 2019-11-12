@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import Footer from "./Footer";
 import "../stylesheets/BizResults.css";
 
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
 
 class BizResults extends Component {
 	static get propTypes() { 
@@ -31,7 +33,7 @@ class BizResults extends Component {
 		let findDescription = this.props.location.state.findTerm;
 		let nearLocation = this.props.location.state.queryLocation;
 		this.setState({findQuery: findDescription, locationQuery: nearLocation});
-		axios.get("http://localhost:3001/check-auth", {withCredentials: true})
+		axios.get(root_url + "check-auth", {withCredentials: true})
 			.then(response => {
 				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
 				this.setState({
@@ -40,7 +42,7 @@ class BizResults extends Component {
 			});
 		console.log("bizResults: "+ findDescription + ", " + nearLocation)
 
-		axios.post("http://localhost:3001/search", {
+		axios.post(root_url + "/search", {
 			userQueryTerm: findDescription,
 			userQueryLocation: nearLocation
 		})

@@ -4,6 +4,9 @@ import axios from "axios";
 import "../stylesheets/Login.css";
 import Footer from "./Footer";
 
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
+
 class Login extends Component {
 	constructor(props){
 		super(props);
@@ -20,7 +23,7 @@ class Login extends Component {
 	}
 
 	componentDidMount(){
-		axios.get("http://localhost:3001/check-error")
+		axios.get(root_url + "/check-error")
 			.then(response => {
 				console.log("ERRROR:" + response.data.errorMsg);
 				this.setState({
@@ -50,7 +53,7 @@ class Login extends Component {
 		};
 
 		console.log(loginInfo);
-		axios.post("http://localhost:3001/login", loginInfo)
+		axios.post(root_url + "/login", loginInfo)
 			.then(function(response) {
 				if (response.data.isAuthenticated) {
 					window.location = "/";

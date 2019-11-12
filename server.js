@@ -11,7 +11,7 @@ require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cors({credentials: true, origin: "https://bundo-reviews.herokuapp.com/"}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 

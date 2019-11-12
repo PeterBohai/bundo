@@ -5,6 +5,9 @@ import "../stylesheets/Register.css";
 import Footer from "./Footer";
 import validator from "email-validator";
 
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
+
 class Register extends Component {
 	constructor(props){
 		super(props);
@@ -31,7 +34,7 @@ class Register extends Component {
 	}
 
 	componentDidMount(){
-		axios.get("http://localhost:3001/check-error")
+		axios.get(root_url + "/check-error")
 			.then(response => {
 				let formErrorValidation = this.state.formErrors;
 				formErrorValidation.email = response.data.emailErrorMsg;
@@ -108,7 +111,7 @@ class Register extends Component {
 
 		console.table(registerInfo);
 
-		axios.post("http://localhost:3001/register", registerInfo)
+		axios.post(root_url + "/register", registerInfo)
 			.then(function(response) {
 				if (response.data.isRegistered) {
 					console.log("Successfully signed up for Bundo! Please log in.");

@@ -6,6 +6,9 @@ import Footer from "./Footer";
 import ResultsCard from "./ResultsCard";
 import temp_pfp from "../images/bundo-profile.jpg";
 
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
+
 class Account extends Component {
 	constructor(props){
 		super(props);
@@ -19,7 +22,7 @@ class Account extends Component {
 	}
 
 	componentDidMount(){
-		axios.get("http://localhost:3001/check-auth")
+		axios.get(root_url + "/check-auth")
 			.then(response => {
 				console.log(`User is authenticated: ${response.data.isAuthenticated}`);
 				this.setState({
@@ -30,7 +33,7 @@ class Account extends Component {
 					window.location = "/";
 				} else {
 					console.log("User logged in");
-					axios.get("http://localhost:3001/user-info").then(
+					axios.get(root_url + "/user-info").then(
 						res => {
 							console.log(res.data);
 							this.setState({

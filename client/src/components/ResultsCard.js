@@ -19,7 +19,8 @@ import yelp_5 from "../images/yelp_stars/regular/regular_5.png";
 import googleAttr from "../images/google/powered_by_google_on_white.png";
 import facebookLogo from "../images/facebook/facebook_logo.png";
 
-
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
 
 function ResultsCard(props) {
 	
@@ -29,7 +30,7 @@ function ResultsCard(props) {
 			console.log("save button was clicked");
 			console.log("Yelp ID is:" + props.biz.yelpID);
 			
-			axios.post("http://localhost:3001/save", {
+			axios.post(root_url + "/save", {
 				targetBusiness: props.biz,
 				save: true
 			})
@@ -48,7 +49,7 @@ function ResultsCard(props) {
 		console.log("unsave button was clicked");
 		console.log("Yelp ID is:" + props.biz.yelpID);
 		
-		axios.post("http://localhost:3001/save", {
+		axios.post(root_url +"save", {
 			targetBusiness: props.biz,
 			save: false
 		})

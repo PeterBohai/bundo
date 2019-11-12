@@ -5,6 +5,9 @@ import "../stylesheets/HomePage.css";
 import Footer from "./Footer";
 import PropTypes from "prop-types";
 
+let root_url = "https://bundo-reviews.herokuapp.com";
+// let test_url = "http://localhost:3001";
+
 class HomePage extends Component {
 	static get propTypes() { 
 		return { 
@@ -30,7 +33,7 @@ class HomePage extends Component {
 	}
 
 	componentDidMount(){
-		axios.get("http://localhost:3001/check-auth", {withCredentials: true})
+		axios.get(root_url + "/check-auth", {withCredentials: true})
 			.then(response => {
 				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
 				this.setState({
@@ -74,7 +77,7 @@ class HomePage extends Component {
 	handleLogout(event) {
 		event.preventDefault();
 
-		axios.get("http://localhost:3001/logout")
+		axios.get(root_url + "/logout")
 			.then(function(response) {
 				if (response.data.isAuthenticated) {
 					console.log("still logged in!");
