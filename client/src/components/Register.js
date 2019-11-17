@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import validator from "email-validator";
 
 let root_url = "https://bundo-reviews.herokuapp.com";
-// let test_url = "http://localhost:3001";
+let test_url = "http://localhost:3001";
 
 class Register extends Component {
 	constructor(props){

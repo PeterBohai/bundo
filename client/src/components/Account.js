@@ -7,7 +7,7 @@ import ResultsCard from "./ResultsCard";
 import temp_pfp from "../images/bundo-profile.jpg";
 
 let root_url = "https://bundo-reviews.herokuapp.com";
-// let test_url = "http://localhost:3001";
+let test_url = "http://localhost:3001";
 
 class Account extends Component {
 	constructor(props){
@@ -52,7 +52,7 @@ class Account extends Component {
 	render() {
 		let resultCards = null;
 		if (this.state.userInfo.bookmarks) {
-			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} isBookmark="true"/>);
+			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} inAccountPage={true}/>);
 		}
 
 		let footer = null;

@@ -6,12 +6,13 @@ import Footer from "./Footer";
 import PropTypes from "prop-types";
 
 let root_url = "https://bundo-reviews.herokuapp.com";
-// let test_url = "http://localhost:3001";
+let test_url = "http://localhost:3001";
 
 class HomePage extends Component {
 	static get propTypes() { 
 		return { 
-			history: PropTypes.object.isRequired
+			history: PropTypes.object.isRequired,
+			location: PropTypes.object.isRequired
 		}; 
 	}
 
@@ -29,7 +30,6 @@ class HomePage extends Component {
 			authenticated: false
 		};
 
-		const { match, location, history } = this.props;
 	}
 
 	componentDidMount(){
@@ -90,8 +90,8 @@ class HomePage extends Component {
 
 	render() {
 
-		let leftBtn = <div></div>
-		let rightBtn = <div></div>
+		let leftBtn = <div></div>;
+		let rightBtn = <div></div>;
 
 		if (this.state.authenticated) {
 			leftBtn = <Link className="nav-link" to="/" onClick={this.handleLogout}>Logout</Link>;
@@ -120,12 +120,12 @@ class HomePage extends Component {
 							<div className="form-row align-items-center">
 								<div className="col-sm-6">
 									<label htmlFor="inputFind" className="sr-only">Find</label>
-									<input type="text" id="inputFind" className="form-control" placeholder="Find" required value={this.state.findDescription} onChange={this.onChangeFind} />
+									<input type="text" id="inputFind" className="form-control" placeholder="Find (Try &quot;Gyukaku&quot;)" required value={this.state.findDescription} onChange={this.onChangeFind} />
 								</div>
 
 								<div className="col-sm-6">
 									<label htmlFor="inputLocation" className="sr-only">Near</label>
-									<input type="text" id="inputLocation" className="form-control" placeholder="Near" required value={this.state.nearLocation} onChange={this.onChangeNear} />
+									<input type="text" id="inputLocation" className="form-control" placeholder="Near (Try &quot;Vancouver&quot;)" required value={this.state.nearLocation} onChange={this.onChangeNear} />
 								</div>
 
 								<button className="search-button btn btn-dark" type="submit">Search</button>
@@ -143,6 +143,7 @@ class HomePage extends Component {
 			</div>
 		);
 	}
+	
 }
 
 export default HomePage;

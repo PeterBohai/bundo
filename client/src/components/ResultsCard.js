@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -20,9 +21,15 @@ import googleAttr from "../images/google/powered_by_google_on_white.png";
 import facebookLogo from "../images/facebook/facebook_logo.png";
 
 let root_url = "https://bundo-reviews.herokuapp.com";
-// let test_url = "http://localhost:3001";
+let test_url = "http://localhost:3001";
 
 function ResultsCard(props) {
+
+	ResultsCard.propTypes = {
+		biz: PropTypes.array,
+		authenticated: PropTypes.bool,
+		inAccountPage: PropTypes.bool
+	};
 	
 	function saveClickHandler(e) {
 		e.preventDefault();
@@ -35,7 +42,7 @@ function ResultsCard(props) {
 				save: true
 			})
 				.then(response => {
-					console.log("SAVED");
+					console.log(`Saved with response: ${response}`);
 				});
 		} else {
 			console.log("Need to be signed in to bookmark");
@@ -49,7 +56,7 @@ function ResultsCard(props) {
 		console.log("unsave button was clicked");
 		console.log("Yelp ID is:" + props.biz.yelpID);
 		
-		axios.post(root_url +"save", {
+		axios.post(root_url + "/save", {
 			targetBusiness: props.biz,
 			save: false
 		})
@@ -106,7 +113,7 @@ function ResultsCard(props) {
 	}
 	
 	let saveUnsaveBtn = null;
-	if (!props.isBookmark) {
+	if (!props.inAccountPage) {
 		saveUnsaveBtn = 
 		<div className="bookmark-section text-center">
 			<button className="btn btn-outline-danger save-button" onClick={saveClickHandler}>Save</button>

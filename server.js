@@ -10,8 +10,10 @@ const axios = require("axios");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3001;
+let root_url = "https://bundo-reviews.herokuapp.com/";
+let test_url = "http://localhost:3000";
 
-app.use(cors({credentials: true, origin: "https://bundo-reviews.herokuapp.com/"}));
+app.use(cors({credentials: true, origin: root_url}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -183,7 +185,8 @@ app.post("/search", function(req, res){
 		},
 		qs: {
 			term: userTerm,
-			location: userLoc
+			location: userLoc,
+			limit: 12
 		}
 	};
 
@@ -224,35 +227,69 @@ app.post("/search", function(req, res){
 		// query Google and Facebook
 		for (const business of bizData.businesses) {
 			let businessPhone = business.phone.toString();
+			let businessName = business.name;
 			let placeId = "";
 
+			let googleSearchPhoneInput = "%2B" + businessPhone.slice(1);
 			// request for Google place_id of each business
-			let findResponse = await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${"%2B" + businessPhone.slice(1)}&inputtype=phonenumber`)
+			await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${googleSearchPhoneInput}&inputtype=phonenumber`)
 				.then(function(response){
-					placeId = response.data.candidates[0].place_id;
+					if (response.data.status !== "OK" || response.data.candidates.length === 0) {
+						console.log("GOOGLE: Failed to find business using phone number\n", response.data, "\n");
+					} 
+					else {
+						placeId = response.data.candidates[0].place_id;
+					}	
+				})
+				.catch(function (error) {
+					console.log("GOOGLE Places Search ERROR:\n", error, "\n");
 				});
-		
+			
+			if (placeId.length === 0) {
+				await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${businessName}&inputtype=textquery`)
+					.then(function(response){
+						if (response.data.status !== "OK" || response.data.candidates.length === 0) {
+							console.log("GOOGLE: Failed to find business using business name\n", response.data, "\n");
+						} 
+						else {
+							placeId = response.data.candidates[0].place_id;
+						}	
+					})
+					.catch(function (error) {
+						console.log("GOOGLE Places Search ERROR:\n", error, "\n");
+					});
+			}
+			
 			const googleDetailsOptions = {
 				params: {
 					key: process.env.GOOGLE_API_KEY,
 					place_id: placeId,
-					fields: "rating,user_ratings_total,url"
+					fields: "rating,user_ratings_total,url,formatted_phone_number"
 				}
 			};
-			let detailResponse = await axios.get("https://maps.googleapis.com/maps/api/place/details/json", googleDetailsOptions)
+
+			await axios.get("https://maps.googleapis.com/maps/api/place/details/json", googleDetailsOptions)
 				.then(function(bizDetailResponse){
 					business.googleRatings = Math.round( bizDetailResponse.data.result.rating * 10 ) / 10;
 					business.googleReviewCount = bizDetailResponse.data.result.user_ratings_total;
 					business.googleUrl = bizDetailResponse.data.result.url;
-					
+
+					// set phone number of business if Yelp couldn't find a phone number for it
+					if (business.displayPhone === undefined || business.displayPhone.length === 0 ) {
+						business.displayPhone = bizDetailResponse.data.result.formatted_phone_number;
+					}
+				})
+				.catch(function (error) {
+					console.log("GOOGLE Places Details ERROR:\n", error, "\n");
 				});
+			
 			
 			// request for Facebook place id of each business
 			let fbPlaceId = "";
 			let fbAccessToken = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`;
-			let queryName = business.name
+			let queryName = business.name;
 			if (business.name.indexOf(" ") !== -1) {
-				queryName = business.name.substr(0, business.name.indexOf(" "))
+				queryName = business.name.substr(0, business.name.indexOf(" "));
 			}
 
 			const fbSearchParams = {
@@ -264,14 +301,16 @@ app.post("/search", function(req, res){
 					access_token: fbAccessToken
 				}
 			};	
-			let fbSearchResponse = await axios.get("https://graph.facebook.com/search", fbSearchParams)
+			await axios.get("https://graph.facebook.com/search", fbSearchParams)
 				.then(function(response){
 					console.log(response.data);
 					fbPlaceId = response.data.data[0].id;
 				})
 				.catch(function(error) {
 					business.error = error.response.status;
-					console.log("Error Status Code: " + error.response.status);
+					console.log("FACEBOOK Search ERROR:\n", 
+						"status - " + error.response.status, "\n",
+						"status text- " + error.response.statusText, "\n");
 				});
 			
 			if (!business.error) {
@@ -281,7 +320,7 @@ app.post("/search", function(req, res){
 						access_token: fbAccessToken
 					}
 				};
-				let fbDetailResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbPlaceId}`, fbDetailsOptions)
+				await axios.get(`https://graph.facebook.com/v4.0/${fbPlaceId}`, fbDetailsOptions)
 					.then(function(fbBizDetailResponse){
 						business.fbRatings = fbBizDetailResponse.data.overall_star_rating;
 						business.fbReviewCount = fbBizDetailResponse.data.rating_count;
@@ -289,6 +328,9 @@ app.post("/search", function(req, res){
 					})
 					.catch(function(error) {
 						business.error = error.response.status;
+						console.log("FACEBOOK Details ERROR:\n", 
+							"status - " + error.response.status, "\n",
+							"status text- " + error.response.statusText, "\n");
 					});
 			}
 
@@ -306,7 +348,6 @@ if (process.env.NODE_ENV === "production"){
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
 }
-
 
 // start server
 app.listen(port, function (){
