@@ -1,140 +1,139 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import "../stylesheets/Register.css";
-import Footer from "./Footer";
-import validator from "email-validator";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import '../stylesheets/Register.css'
+import Footer from './Footer'
+import validator from 'email-validator'
 
-let root_url = "https://bundo-reviews.herokuapp.com";
-let test_url = "http://localhost:3001";
 
 class Register extends Component {
 	constructor(props){
-		super(props);
+		super(props)
 		
-		this.validateEmail = this.validateEmail.bind(this);
-		this.validatePassword = this.validatePassword.bind(this);
-		this.validateForm = this.validateForm.bind(this);
-		this.onChangeFirstName = this.onChangeFirstName.bind(this);
-		this.onChangeLastName = this.onChangeLastName.bind(this);
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.validateEmail = this.validateEmail.bind(this)
+		this.validatePassword = this.validatePassword.bind(this)
+		this.validateForm = this.validateForm.bind(this)
+		this.onChangeFirstName = this.onChangeFirstName.bind(this)
+		this.onChangeLastName = this.onChangeLastName.bind(this)
+		this.onChangeEmail = this.onChangeEmail.bind(this)
+		this.onChangePassword = this.onChangePassword.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
 
 		this.state = {
-			firstName: "",
-			lastName: "",
-			email: "",
-			password: "",
-			formErrors: {email: "", password: ""},
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			formErrors: {email: '', password: ''},
 			emailValid: false,
 			passwordValid: false,
 			formValid: false
-		};
+		}
 	}
 
 	componentDidMount(){
-		axios.get(root_url + "/check-error")
+		axios.get('/check-error')
 			.then(response => {
-				let formErrorValidation = this.state.formErrors;
-				formErrorValidation.email = response.data.emailErrorMsg;
+				let formErrorValidation = this.state.formErrors
+				formErrorValidation.email = response.data.emailErrorMsg
 
 				this.setState({
 					formErrors: formErrorValidation
-				});
-			});
+				})
+			})
 	}
 
 	validateEmail(value) {
-		let fieldValidationErrors = this.state.formErrors;
-		let emailValid = this.state.emailValid;
+		let fieldValidationErrors = this.state.formErrors
+		let emailValid = this.state.emailValid
 		
-		emailValid = validator.validate(value);
-		fieldValidationErrors.email = emailValid ? "" : "Please enter a valid email address";
+		emailValid = validator.validate(value)
+		fieldValidationErrors.email = emailValid ? '' : 'Please enter a valid email address'
 
 		this.setState({
 			formErrors: fieldValidationErrors,
 			emailValid: emailValid,
-		}, this.validateForm);
+		}, this.validateForm)
 	}
 
 	validatePassword(value) {
-		let fieldValidationErrors = this.state.formErrors;
-		let passwordValid = this.state.passwordValid;
+		let fieldValidationErrors = this.state.formErrors
+		let passwordValid = this.state.passwordValid
 		
-		passwordValid = value.length >= 6;
-		fieldValidationErrors.password = passwordValid ? "": "Password must be longer than 6 characters";
+		passwordValid = value.length >= 6
+		fieldValidationErrors.password = passwordValid ? '': 'Password must be longer than 6 characters'
 
 		this.setState({
 			formErrors: fieldValidationErrors,
 			passwordValid: passwordValid,
-		}, this.validateForm);
+		}, this.validateForm)
 	}
 
 	validateForm() {
-		this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+		this.setState({formValid: this.state.emailValid && this.state.passwordValid})
 	}
 
 	onChangeFirstName(event) {
 		this.setState({
 			firstName: event.target.value
-		});
+		})
 	}
 	onChangeLastName(event) {
 		this.setState({
 			lastName: event.target.value
-		});
+		})
 	}
 	onChangeEmail(event) {
 		this.setState({
 			email: event.target.value
-		});
+		})
 
-		this.validateEmail(event.target.value);
+		this.validateEmail(event.target.value)
 	}
 	onChangePassword(event) {
 		this.setState({
 			password: event.target.value
-		});
+		})
 
-		this.validatePassword(event.target.value);
+		this.validatePassword(event.target.value)
 	}
 	handleSubmit(event) {
-		event.preventDefault();
+		event.preventDefault()
 
 		const registerInfo = {
 			firstName: this.state.firstName,
 			lastName: this.state.lastName,
 			email: this.state.email,
 			password: this.state.password
-		};
+		}
 
-		console.table(registerInfo);
-
-		axios.post(root_url + "/register", registerInfo)
+		console.table(registerInfo)
+		axios.post('/register', registerInfo)
 			.then(function(response) {
 				if (response.data.isRegistered) {
-					console.log("Successfully signed up for Bundo! Please log in.");
-					window.location = "/login";
+
+					console.log('Successfully signed up for Bundo! Please log in.')
+					window.location = '/login'
 				} else {
-					if (response.data.error === "UserExistsError") {
-						console.log("Email is already in use, please try again");
+					if (response.data.error === 'UserExistsError') {
+						console.log('Email is already in use, please try again')
 					} else {
-						console.log("Could not log in, try again!");
+						console.log('Could not log in, try again!')
 					}
 					
-					window.location.reload();
+					window.location.reload()
 				}
 			})
 			.catch(function(error){
-				console.log(error);
-				console.log("Error while trying to log in, try again!");
-				window.location.reload();
-			});
+				console.log(error)
+				console.log('Error while trying to log in, try again!')
+				window.location.reload()
+			})
 
 	}
 
 	render() {
+		
 		return (
 			<div className="text-center Register"> 
 
@@ -207,8 +206,8 @@ class Register extends Component {
 					<Footer />
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
-export default Register;
+export default Register

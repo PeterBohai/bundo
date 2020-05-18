@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "../stylesheets/Footer.css";
+import React, { Component } from 'react'
+import '../stylesheets/Footer.css'
 
 class Footer extends Component {
 	render() {
@@ -9,9 +9,9 @@ class Footer extends Component {
 					<p>Peter Hu © 2019</p>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
 
-export default Footer;
+export default Footer

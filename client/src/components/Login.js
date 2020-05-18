@@ -1,73 +1,73 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import "../stylesheets/Login.css";
-import Footer from "./Footer";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import '../stylesheets/Login.css'
+import Footer from './Footer'
 
-let root_url = "https://bundo-reviews.herokuapp.com";
-let test_url = "http://localhost:3001";
 
 class Login extends Component {
 	constructor(props){
-		super(props);
+		super(props)
 		
-		this.onChangeEmail = this.onChangeEmail.bind(this);
-		this.onChangePassword = this.onChangePassword.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.onChangeEmail = this.onChangeEmail.bind(this)
+		this.onChangePassword = this.onChangePassword.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
 
 		this.state = {
-			email: "",
-			password: "",
-			formError: "" 
-		};
+			email: '',
+			password: '',
+			formError: '' 
+		}
 	}
 
 	componentDidMount(){
-		axios.get(root_url + "/check-error")
+		axios.get('/check-error')
 			.then(response => {
-				console.log("ERRROR:" + response.data.errorMsg);
+				if (response.data.errorMsg) {
+					console.log('ERROR:' + response.data.errorMsg)
+				}
 				this.setState({
 					formError: response.data.errorMsg
-				});
-			});
+				})
+			})
 	}
 
 	onChangeEmail(event) {
 		this.setState({
 			email: event.target.value
-		});
+		})
 	}
 
 	onChangePassword(event) {
 		this.setState({
 			password: event.target.value
-		});
+		})
 	}
 
 	handleSubmit(event) {
-		event.preventDefault();
+		event.preventDefault()
 
 		const loginInfo = {
 			username: this.state.email,
 			password: this.state.password
-		};
+		}
 
-		console.log(loginInfo);
-		axios.post(root_url + "/login", loginInfo)
+		console.log(loginInfo)
+		axios.post('/login', loginInfo)
 			.then(function(response) {
 				if (response.data.isAuthenticated) {
-					window.location = "/";
+					window.location = '/'
 				} else {
-					console.log("Could not log in, try again!");
+					console.log('Could not log in, try again!')
 					
-					window.location.reload();
+					window.location.reload()
 				}
 			})
 			.catch(function(error){
-				console.log(error);
-				console.log("Error while trying to log in, try again!");
-				window.location.reload();
-			});
+				console.log(error)
+				console.log('Error while trying to log in, try again!')
+				window.location.reload()
+			})
 		
 	}
 
@@ -109,8 +109,8 @@ class Login extends Component {
 				</div>
 				
 			</div>
-		);
+		)
 	}
 }
 
-export default Login;
+export default Login

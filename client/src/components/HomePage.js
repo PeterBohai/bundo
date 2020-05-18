@@ -1,104 +1,103 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import "../stylesheets/HomePage.css";
-import Footer from "./Footer";
-import PropTypes from "prop-types";
-
-let root_url = "https://bundo-reviews.herokuapp.com";
-let test_url = "http://localhost:3001";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import '../stylesheets/HomePage.css'
+import Footer from './Footer'
+import PropTypes from 'prop-types'
 
 class HomePage extends Component {
 	static get propTypes() { 
 		return { 
 			history: PropTypes.object.isRequired,
 			location: PropTypes.object.isRequired
-		}; 
+		} 
 	}
 
 	constructor(props){
-		super(props);
+		super(props)
 		
-		this.onChangeFind = this.onChangeFind.bind(this);
-		this.onChangeNear = this.onChangeNear.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleLogout = this.handleLogout.bind(this);
+		this.onChangeFind = this.onChangeFind.bind(this)
+		this.onChangeNear = this.onChangeNear.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleLogout = this.handleLogout.bind(this)
 
 		this.state = {
-			findDescription: "",
-			nearLocation: "",
+			findDescription: '',
+			nearLocation: '',
 			authenticated: false
-		};
+		}
 
 	}
 
 	componentDidMount(){
-		axios.get(root_url + "/check-auth", {withCredentials: true})
+		axios.get('/check-auth', {withCredentials: true})
 			.then(response => {
-				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`);
+				console.log(response.data)
+				
+				console.log(`Homepage is authenticated: ${response.data.isAuthenticated}`)
 				this.setState({
 					authenticated: response.data.isAuthenticated
-				});
-			});
+				})
+			})
 	}
 
 	onChangeFind(event) {
 		this.setState({
 			findDescription: event.target.value
-		});
+		})
 	}
 
 	onChangeNear(event) {
 		this.setState({
 			nearLocation: event.target.value
-		});
+		})
 	}
 
 	handleSubmit(event) {
-		event.preventDefault();
+		event.preventDefault()
 
 		const searchInfo = {
 			findDescription: this.state.findDescription,
 			nearLocation: this.state.nearLocation
-		};
+		}
 
-		console.log("serach info from Home Page: " + JSON.stringify(searchInfo));
+		console.log('serach info from Home Page: ' + JSON.stringify(searchInfo))
 
-		let bizAlias = this.state.findDescription;
+		let bizAlias = this.state.findDescription
 
 		this.props.history.push({
 			pathname: `/biz/${bizAlias}`,
 			state: {findTerm: this.state.findDescription, 
 				queryLocation: this.state.nearLocation}
-		});
+		})
 		
 	}
 
 	handleLogout(event) {
-		event.preventDefault();
+		event.preventDefault()
 
-		axios.get(root_url + "/logout")
+		axios.get('/logout')
 			.then(function(response) {
 				if (response.data.isAuthenticated) {
-					console.log("still logged in!");
-					window.location.reload();
+					console.log('still logged in!')
+					window.location.reload()
 				} else {
-					window.location.reload();
+					window.location.reload()
 				}
-			});
+			})
 	}
 
 	render() {
 
-		let leftBtn = <div></div>;
-		let rightBtn = <div></div>;
+		let leftBtn = <div></div>
+		let rightBtn = <div></div>
 
 		if (this.state.authenticated) {
-			leftBtn = <Link className="nav-link" to="/" onClick={this.handleLogout}>Logout</Link>;
-			rightBtn = <Link className="nav-link active" to="/account">Peter</Link>;
+			leftBtn = <Link className="nav-link" to="/" onClick={this.handleLogout}>Logout</Link>
+			rightBtn = <Link className="nav-link active" to="/account">Peter</Link>
 		} else {
-			leftBtn = <Link className="nav-link" to="/login">Login</Link>;
-			rightBtn = <Link className="nav-link active" to="/register">Sign Up</Link>;
+			leftBtn = <Link className="nav-link" to="/login">Login</Link>
+			rightBtn = <Link className="nav-link active" to="/register">Sign Up</Link>
 		}
 
 		return (
@@ -141,9 +140,9 @@ class HomePage extends Component {
 				</div>
 				<Footer />
 			</div>
-		);
+		)
 	}
 	
 }
 
-export default HomePage;
+export default HomePage

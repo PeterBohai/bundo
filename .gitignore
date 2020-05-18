@@ -7,10 +7,12 @@ node_modules/
 /coverage
 
 # production
-/build
+build
 
-# misc
+# macOS
 .DS_Store
+
+# env files
 .env
 .env.local
 .env.development.local

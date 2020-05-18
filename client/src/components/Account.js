@@ -1,72 +1,69 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import "../stylesheets/Account.css";
-import Footer from "./Footer";
-import ResultsCard from "./ResultsCard";
-import temp_pfp from "../images/bundo-profile.jpg";
-
-let root_url = "https://bundo-reviews.herokuapp.com";
-let test_url = "http://localhost:3001";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import '../stylesheets/Account.css'
+import Footer from './Footer'
+import ResultsCard from './ResultsCard'
+import temp_pfp from '../images/bundo-profile.jpg'
 
 class Account extends Component {
 	constructor(props){
-		super(props);
+		super(props)
 
 		this.state = {
-			email: "",
-			password: "",
+			email: '',
+			password: '',
 			authenticated: false,
 			userInfo: {}
-		};
+		}
 	}
 
 	componentDidMount(){
-		axios.get(root_url + "/check-auth")
+		axios.get('/check-auth')
 			.then(response => {
-				console.log(`User is authenticated: ${response.data.isAuthenticated}`);
+				console.log(`User is authenticated: ${response.data.isAuthenticated}`)
 				this.setState({
 					authenticated: response.data.isAuthenticated
-				});
+				})
 
 				if (!response.data.isAuthenticated) {
-					window.location = "/";
+					window.location = '/'
 				} else {
-					console.log("User logged in");
-					axios.get(root_url + "/user-info").then(
+					console.log('User logged in')
+					axios.get('/user-info').then(
 						res => {
-							console.log(res.data);
+							console.log(res.data)
 							this.setState({
 								userInfo: res.data
-							});
+							})
 							
 						}
-					);
+					)
 				}
 				
-			});
+			})
 		
 		
 	}
 
 	render() {
-		let resultCards = null;
+		let resultCards = null
 		if (this.state.userInfo.bookmarks) {
-			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} inAccountPage={true}/>);
+			resultCards = this.state.userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} inAccountPage={true}/>)
 		}
 
-		let footer = null;
-		console.log(this.state.userInfo.bookmarks);
+		let footer = null
+		console.log(this.state.userInfo.bookmarks)
 		if (this.state.userInfo.bookmarks !== undefined && this.state.userInfo.bookmarks.length > 0){
 			footer = <div className="footer-section">
 				<Footer />
-			</div>;
-			console.log("here");
+			</div>
+			console.log('here')
 		} else {
 			footer = <div className="footer-section-empty">
 				<Footer />
-			</div>;
-			console.log("HERE");
+			</div>
+			console.log('HERE')
 		}
 		
 		return (
@@ -104,8 +101,8 @@ class Account extends Component {
 				{footer}
 				
 			</div>
-		);
+		)
 	}
 }
 
-export default Account;
+export default Account
