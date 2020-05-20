@@ -1,4 +1,3 @@
-require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const session = require('express-session')
@@ -6,7 +5,9 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const passport = require('passport')
 const path = require('path')
+const config = require('./utils/config')
 const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 
 const searchRouter = require('./routes/search')
 const userRouter = require('./routes/account')
@@ -22,7 +23,7 @@ app.use(express.static('client/build'))		// Serve static React build for 3001 or
 app.use(morgan(logger.httpLogFormat))		// HTTP request logger
 
 // configure authentication with session and passport
-app.use(session({secret: process.env.SECRET, resave: false, saveUninitialized: false})) 
+app.use(session({secret: config.SECRET, resave: false, saveUninitialized: false})) 
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -32,8 +33,7 @@ let emailError = ''
 let authError = ''
 let userInfo = {}
 
-const mongoAtlasUrl = process.env.MONGO_ATLAS_URI
-mongoose.connect(mongoAtlasUrl, {
+mongoose.connect(config.MONGO_ATLAS_URI, {
 	useNewUrlParser: true, 
 	useCreateIndex: true, 
 	useUnifiedTopology: true, 
@@ -174,19 +174,9 @@ app.get('*', (req, res) =>{
 })
 
 // custom error handler
-const errorHandler = (err, req, res, next) => {
-	logger.error(err.message)
+app.use(middleware.errorHandler)
 
-	if (err.name === 'ValidationError') {
-		return res.status(400).send({error: err.message})
-	}
-  
-	// pass to default Express error handler
-	next(err)
-}
-app.use(errorHandler)
-
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-	logger.info(`Server started on PORT ${PORT}`)
+const port = config.PORT || 3001
+app.listen(port, () => {
+	logger.info(`Server started on PORT ${port}`)
 })

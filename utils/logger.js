@@ -1,7 +1,8 @@
 const morgan = require('morgan')
 const chalk = require('chalk')
+const config = require('./config')
 
-const inProduction = process.env.NODE_ENV === 'production'
+const inProduction = config.NODE_ENV === 'production'
 const timestampLog = () => {
 	const date = new Date()
 	return chalk.dim(`[${date.getTime()}]`)
@@ -33,7 +34,7 @@ const error = (...params) => {
 }
 
 morgan.token('milliDate', () =>  {
-	return timestampLog()
+	return inProduction ? '' : timestampLog()
 })
 morgan.token('body', req =>  {
 	const logBody = req.body

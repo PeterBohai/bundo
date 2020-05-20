@@ -1,5 +1,6 @@
 const searchRouter = require('express').Router()
 const axios = require('axios')
+const config = require('../utils/config')
 const logger = require('../utils/logger')
 
 searchRouter.post('/', (req, res, next) => {
@@ -9,12 +10,12 @@ searchRouter.post('/', (req, res, next) => {
 	// make request to YELP
 	axios.get('https://api.yelp.com/v3/businesses/search', {
 		headers: {
-			Authorization: `Bearer ${process.env.YELP_API_KEY}`
+			Authorization: `Bearer ${config.YELP_API_KEY}`
 		},
 		params: {
 			term: searchBody.userQueryTerm,
 			location: searchBody.userQueryLocation,
-			limit: 12
+			limit: 2
 		}
 	})
 		.then(response =>  {	
@@ -55,7 +56,7 @@ searchRouter.post('/', (req, res, next) => {
 				
 				// query Google Places API (search for place_id first and then get Details data)
 				const phoneInput = '%2B' + biz.phone.slice(1)
-				await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${phoneInput}&inputtype=phonenumber`)
+				await axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${config.GOOGLE_API_KEY}&input=${phoneInput}&inputtype=phonenumber`)
 					.then(response => {
 						
 						if (response.data.status === 'OK' && response.data.candidates.length >= 0) {
@@ -65,7 +66,7 @@ searchRouter.post('/', (req, res, next) => {
 							logger.error('GOOGLE Failed to find business using phone number\n', response.data)
 							logger.info('GOOGLE Attempting to look for place_id again with business name')
 						
-							return axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${process.env.GOOGLE_API_KEY}&input=${biz.name}&inputtype=textquery`)
+							return axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=${config.GOOGLE_API_KEY}&input=${biz.name}&inputtype=textquery`)
 								.then(response => {
 									if (response.data.status === 'OK' && response.data.candidates.length >= 0) {
 										return response.data.candidates[0].place_id
@@ -82,7 +83,7 @@ searchRouter.post('/', (req, res, next) => {
 					.then(async (googlePlaceId) => {
 						await axios.get('https://maps.googleapis.com/maps/api/place/details/json', {
 							params: {
-								key: process.env.GOOGLE_API_KEY,
+								key: config.GOOGLE_API_KEY,
 								place_id: googlePlaceId,
 								fields: 'rating,user_ratings_total,url,formatted_phone_number'
 							}
@@ -111,12 +112,12 @@ searchRouter.post('/', (req, res, next) => {
 				
 				
 				// query Facebook Grpahs API (search for id first then get Information data)
-				const fbAccessToken = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`
+				const fbAccessToken = `${config.FACEBOOK_APP_ID}|${config.FACEBOOK_APP_SECRET}`
 				let queryName = biz.name
 				if (biz.name.indexOf(' ') !== -1) {
 					queryName = biz.name.substr(0, biz.name.indexOf(' '))
 				}
-	
+				
 				await axios.get('https://graph.facebook.com/search', {
 					params: {
 						type: 'place',
