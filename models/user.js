@@ -5,13 +5,25 @@ const findOrCreate = require('mongoose-findorcreate')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-	firstName: String,
-	lastName: String,
+	username: {
+		type: String,
+		required: true,
+		minlength: 3
+	},
+	password: {
+		type: String,
+		required: true
+	},
+	firstName: {
+		type: String,
+		required: true
+	},
+	lastName: {
+		type: String,
+		required: true
+	},
 	location: String,
-	username: String,
-	password: String,
-	googleID: String,
-	bookmarks: [Object]
+	bookmarks: [Object]		// change to string (Yelp ID)
 })
 
 userSchema.plugin(passportLocalMongoose)

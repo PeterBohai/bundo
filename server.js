@@ -174,6 +174,7 @@ app.get('*', (req, res) =>{
 })
 
 // custom error handler
+
 app.use(middleware.errorHandler)
 
 const port = config.PORT || 3001
