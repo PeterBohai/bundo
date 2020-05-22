@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 const passportLocalMongoose = require('passport-local-mongoose')
 const findOrCreate = require('mongoose-findorcreate')
 
@@ -8,9 +9,10 @@ const userSchema = new Schema({
 	username: {
 		type: String,
 		required: true,
+		unique: true,
 		minlength: 3
 	},
-	password: {
+	passwordHash: {
 		type: String,
 		required: true
 	},
@@ -26,8 +28,17 @@ const userSchema = new Schema({
 	bookmarks: [Object]		// change to string (Yelp ID)
 })
 
+userSchema.set('toJSON', {
+	transform: (document, returnedObject) => {
+		delete returnedObject._id
+		delete returnedObject.__v
+		delete returnedObject.passwordHash
+	}
+})
+
 userSchema.plugin(passportLocalMongoose)
 userSchema.plugin(findOrCreate)
+userSchema.plugin(uniqueValidator)
 
 const User = mongoose.model('User', userSchema)
 

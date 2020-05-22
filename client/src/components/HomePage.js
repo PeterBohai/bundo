@@ -63,13 +63,13 @@ class HomePage extends Component {
 
 		console.log('serach info from Home Page: ' + JSON.stringify(searchInfo))
 
-		let bizAlias = this.state.findDescription
-
-		this.props.history.push({
-			pathname: `/biz/${bizAlias}`,
+		const searchResultsLocation = {
+			pathname: '/query/search',
+			search: `?find_desc=${encodeURIComponent(this.state.findDescription)}&find_loc=${encodeURIComponent(this.state.nearLocation)}`,
 			state: {findTerm: this.state.findDescription, 
 				queryLocation: this.state.nearLocation}
-		})
+		}
+		this.props.history.push(searchResultsLocation)
 		
 	}
 

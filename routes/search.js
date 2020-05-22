@@ -13,8 +13,8 @@ searchRouter.post('/', (req, res, next) => {
 			Authorization: `Bearer ${config.YELP_API_KEY}`
 		},
 		params: {
-			term: searchBody.userQueryTerm,
-			location: searchBody.userQueryLocation,
+			term: searchBody.searchDesc,
+			location: searchBody.searchLoc,
 			limit: 12
 		}
 	})
@@ -108,7 +108,6 @@ searchRouter.post('/', (req, res, next) => {
 						logger.error('GOOGLE Place Search/Detials: ', err)
 						next(err)
 					})
-			
 				
 				
 				// query Facebook Grpahs API (search for id first then get Information data)
@@ -117,7 +116,7 @@ searchRouter.post('/', (req, res, next) => {
 				if (biz.name.indexOf(' ') !== -1) {
 					queryName = biz.name.substr(0, biz.name.indexOf(' '))
 				}
-				
+
 				await axios.get('https://graph.facebook.com/search', {
 					params: {
 						type: 'place',
@@ -151,9 +150,13 @@ searchRouter.post('/', (req, res, next) => {
 					})
 					.catch(err => {
 						biz.error = err.response.status
-						logger.error('FACEBOOK Places Search:\n', `status - ${err.response.status}\n`,
-							`msg - ${err.response.statusText}`)
-						next(err)
+						if (err.response.status === 403) {
+							logger.error('FACEBOOK Places Search: check API query limit')
+						} else {
+							logger.error('FACEBOOK Places Search:\n', `status - ${err.response.status}\n`,
+								`msg - ${err.response.statusText}`)
+						}
+						
 					})
 			}))
 

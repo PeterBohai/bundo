@@ -10,8 +10,8 @@ const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 
 const searchRouter = require('./routes/search')
+const authRouter = require('./routes/auth')
 const userRouter = require('./routes/account')
-const bizRouter = require('./routes/biz')
 const User = require('./models/user')
 
 const app = express()
@@ -57,9 +57,9 @@ passport.deserializeUser(function(id, done) {
 })
 
 // routes
-app.use('/search', searchRouter)
+app.use('/api/search', searchRouter)
+app.use('/auth', authRouter)
 app.use('/account', userRouter)
-app.use('/biz', bizRouter)
 
 app.get('/logout', (req, res) =>{
 	req.logOut()

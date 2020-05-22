@@ -1,4 +1,4 @@
-.BizResults {
+.search-results {
 	background: #eeeeee;
 }
 
@@ -15,10 +15,6 @@
 	border: none;
 	height: 1px;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); 
-}
-
-.loader-spinner{
-	margin: 3rem 50%;
 }
 
 .mid-section {

@@ -23,7 +23,7 @@ import facebookLogo from '../images/facebook/facebook_logo.png'
 function ResultsCard(props) {
 
 	ResultsCard.propTypes = {
-		biz: PropTypes.array,
+		biz: PropTypes.object,
 		authenticated: PropTypes.bool,
 		inAccountPage: PropTypes.bool
 	}
