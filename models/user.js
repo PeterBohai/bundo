@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
-const passportLocalMongoose = require('passport-local-mongoose')
 const findOrCreate = require('mongoose-findorcreate')
 
 const Schema = mongoose.Schema
@@ -36,7 +35,6 @@ userSchema.set('toJSON', {
 	}
 })
 
-userSchema.plugin(passportLocalMongoose)
 userSchema.plugin(findOrCreate)
 userSchema.plugin(uniqueValidator)
 

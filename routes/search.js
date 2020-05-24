@@ -15,7 +15,7 @@ searchRouter.post('/', (req, res, next) => {
 		params: {
 			term: searchBody.searchDesc,
 			location: searchBody.searchLoc,
-			limit: 12
+			limit: 3
 		}
 	})
 		.then(response =>  {	
@@ -113,9 +113,9 @@ searchRouter.post('/', (req, res, next) => {
 				// query Facebook Grpahs API (search for id first then get Information data)
 				const fbAccessToken = `${config.FACEBOOK_APP_ID}|${config.FACEBOOK_APP_SECRET}`
 				let queryName = biz.name
-				if (biz.name.indexOf(' ') !== -1) {
-					queryName = biz.name.substr(0, biz.name.indexOf(' '))
-				}
+				// if (biz.name.indexOf(' ') !== -1) {
+				// 	queryName = biz.name.substr(0, biz.name.indexOf(' '))
+				// }
 
 				await axios.get('https://graph.facebook.com/search', {
 					params: {
@@ -127,6 +127,7 @@ searchRouter.post('/', (req, res, next) => {
 					}
 				})
 					.then(response => {
+						logger.debug(response.data.data)
 						return response.data.data[0].id
 					})
 					.then(async (fbPlaceId) => {
@@ -140,6 +141,7 @@ searchRouter.post('/', (req, res, next) => {
 								biz.fbRating = infoResponse.data.overall_star_rating
 								biz.fbReviewCount = infoResponse.data.rating_count
 								biz.fbUrl = infoResponse.data.link
+								logger.debug(biz)
 							})
 							.catch(err => {
 								biz.error = err.response.status

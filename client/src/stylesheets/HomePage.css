@@ -29,8 +29,7 @@
 	border-bottom: .25rem solid transparent;
   }
   
-  .nav-masthead .nav-link:hover,
-  .nav-masthead .nav-link:focus {
+  .nav-masthead .nav-link:hover{
 	border-bottom-color: #eeeeee;
   }
   
@@ -41,6 +40,10 @@
   .nav-masthead .active {
 	color: #fff;
 	border-bottom-color: #fff;
+  }
+
+  button.nav-link {
+	  border: none;
   }
 
 /*
