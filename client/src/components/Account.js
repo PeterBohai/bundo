@@ -4,7 +4,7 @@ import queryString from 'query-string'
 import axios from 'axios'
 import '../stylesheets/Account.css'
 import Footer from './Footer'
-import ResultsCard from './ResultsCard'
+import BizCard from './BizCard'
 import temp_pfp from '../images/bundo-profile.jpg'
 
 const Account = () => {
@@ -30,7 +30,7 @@ const Account = () => {
 	useEffect(hook, [])
 
 	const bookmarkCards = userInfo.bookmarks.length > 0 ? 
-		userInfo.bookmarks.map((biz) => <ResultsCard key={biz.yelpID} biz={biz} inAccountPage={true}/>)
+		userInfo.bookmarks.map((bizID) => <li key={bizID}>{bizID}</li>)
 		: null
 
 	let footer = 
@@ -63,14 +63,16 @@ const Account = () => {
 					</div>
 				</div>
 
-				<div className="profile-content container text-center">
+				<div className="profile-content container">
 					<p className="bookmarks-title">Bookmarks</p>
 					
 					<div className="card-results">
 						<div className="row">
-							{bookmarkCards}
 						</div>
 					</div>
+					<ul>
+						{bookmarkCards}
+					</ul>
 				</div>
 			</div>
 			{footer}	

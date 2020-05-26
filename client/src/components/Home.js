@@ -2,7 +2,7 @@ import React, { useState, useEffect }from 'react'
 import { Link, useHistory} from 'react-router-dom'
 import Footer from './Footer'
 import authService from '../services/authentication'
-import '../stylesheets/HomePage.css'
+import '../stylesheets/Home.css'
 
 const Home = () => {
 	const [findDesc, setFindDesc] = useState('')
@@ -16,11 +16,9 @@ const Home = () => {
 			setAuthenticated(isValid)
 			if (isValid) {
 				setUser(JSON.parse(window.localStorage.getItem('currentBundoUser')))
-			}
-			
+			}	
 		})
 	}, [])
-	console.log('Authenticated:', authenticated)
 
 	const handleSubmit = (event) => {
 		event.preventDefault()

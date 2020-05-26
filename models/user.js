@@ -24,7 +24,7 @@ const userSchema = new Schema({
 		required: true
 	},
 	location: String,
-	bookmarks: [Object]		// change to string (Yelp ID)
+	bookmarks: [String]
 })
 
 userSchema.set('toJSON', {
