@@ -15,7 +15,7 @@ searchRouter.post('/', (req, res, next) => {
 		params: {
 			term: searchBody.searchDesc,
 			location: searchBody.searchLoc,
-			limit: 3
+			limit: 6
 		}
 	})
 		.then(response =>  {	
