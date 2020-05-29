@@ -12,8 +12,7 @@ userDetailsRouter.post('/details', (req, res) => {
 				return res.status(401).json({error: `Could not find user with ID: ${userID}`})
 			}
 			logger.info('Successfully fetched user details')
-			res.json(user)
-			
+			res.json(user)	
 		})
 })
 

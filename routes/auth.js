@@ -67,7 +67,7 @@ authRouter.post('/verify', async (req, res, next) => {
 		next(err)
 	})
 	
-	if (user === null){
+	if (user === null || user.username !== decoded.username){
 		logger.error('Incorrect id credential in authentication token')
 		return res.status(400).json({valid: false})
 	}

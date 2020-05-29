@@ -24,7 +24,7 @@ const userSchema = new Schema({
 		required: true
 	},
 	location: String,
-	bookmarks: [String]
+	bookmarks: [Object]
 })
 
 userSchema.set('toJSON', {

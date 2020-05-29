@@ -46,12 +46,10 @@ const SearchResults = () => {
 	useEffect(hook, [])
 
 	const resultCards = results.map(biz => {
-		const saved = authenticated && user.bookmarks.includes(biz.yelpID)
-		
+		const saved = authenticated && user.bookmarks.some(entry => entry.yelpID === biz.yelpID)
+
 		return <BizCard key={biz.yelpID} biz={biz} authenticated={authenticated} bookmarked={saved}/>
-	}
-		
-	)
+	})
 
 	return (
 		<div className="search-results">

@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import axios from 'axios'
 import '../stylesheets/Account.css'
-import Footer from './Footer'
 import BizCard from './BizCard'
 import temp_pfp from '../images/bundo-profile.jpg'
 
@@ -11,38 +10,43 @@ const Account = () => {
 	const [userInfo, setUserInfo] = useState({
 		firstName: '',
 		lastName: '',
-		bookmarks: []
+		bookmarks: JSON.parse(window.localStorage.getItem('currentBundoUser')).bookmarks
 	})
+	const [results, setResults] = useState([])
 	const location = useLocation()
 	const userid = queryString.parse(location.search).userid
 
-	const hook = () => {
+	const userDetailsHook = () => {
 		axios.post('/api/user/details', {
 			userid : userid
 		})
 			.then(response => {
 				setUserInfo(response.data)
+				Promise.all(userInfo.bookmarks.map((biz, index) => {
+					return axios.post('/api/search/details', {
+						index,
+						yelpID: biz.yelpID,
+						googleID: biz.googleID,
+						facebookID: biz.facebookID
+					})
+						.then(bizData => bizData.data)
+				}))
+					.then (bizDataResults => setResults(bizDataResults))
 			})
-			.catch(err => {
-				console.log(err)
-			})
+			.catch(err => console.log(err))
 	}
-	useEffect(hook, [])
+	useEffect(userDetailsHook, [])
+	
+	// make sure Yelp internal server error (from loading too soon after bookmarking) will not crash page
+	results.forEach(biz => {
+		if (biz.yelpError) {
+			window.location.reload()
+		}
+	})
 
-	const bookmarkCards = userInfo.bookmarks.length > 0 ? 
-		userInfo.bookmarks.map((bizID) => <li key={bizID}>{bizID}</li>)
-		: null
-
-	let footer = 
-	<div className="footer-section-empty">
-		<Footer />
-	</div>
-
-	if (userInfo.bookmarks !== undefined && userInfo.bookmarks.length > 0){
-		footer = <div className="footer-section">
-			<Footer />
-		</div>
-	}
+	const resultCards = results.map(biz => {
+		return <BizCard key={biz.yelpID} biz={biz} authenticated={true} bookmarked={true}/>
+	})
 
 	return (
 		<div className="Account">
@@ -68,14 +72,12 @@ const Account = () => {
 					
 					<div className="card-results">
 						<div className="row">
+							{resultCards}
 						</div>
 					</div>
-					<ul>
-						{bookmarkCards}
-					</ul>
 				</div>
 			</div>
-			{footer}	
+				
 		</div>
 	)
 }

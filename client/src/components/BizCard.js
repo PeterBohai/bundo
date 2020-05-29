@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -21,6 +21,7 @@ import googleAttr from '../images/google/powered_by_google_on_white.png'
 import facebookLogo from '../images/facebook/facebook_logo.png'
 
 const BizCard = ({ biz, authenticated, bookmarked }) => {
+	const location = useLocation()
 	const [isSaved, setIsSaved] = useState(bookmarked)
 	
 	const saveUnsaveHandler = (event) => {
@@ -29,9 +30,13 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 			const currUser = JSON.parse(window.localStorage.getItem('currentBundoUser'))
 			
 			if (!isSaved){
-				currUser.bookmarks.push(biz.yelpID)
+				currUser.bookmarks.push({
+					yelpID: biz.yelpID,
+					googleID: biz.googleID,
+					facebookID: biz.facebookID
+				})
 			} else {
-				currUser.bookmarks = currUser.bookmarks.filter( id => id !== biz.yelpID)
+				currUser.bookmarks = currUser.bookmarks.filter( entry => entry.yelpID !== biz.yelpID)	
 			}
 			
 			// Update user bookmarks on client side
@@ -44,6 +49,9 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 				.then(response => {
 					console.log(`Updated bookmarks in database successfully: ${response.data.newBookmarks}`)
 					setIsSaved(!isSaved)
+					if (location.pathname.includes('/user/details')){
+						window.location.reload()
+					}
 				})
 				.catch(err => {
 					console.log(`Error updating bookmark to database: ${err.response.data.error}`)
@@ -121,6 +129,39 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 		}
 	}
 
+	const yelpSection = 
+		<div className="jumbotron yelp-data">
+			<div className="yelp-logo-container">
+				<img src="https://s3-media2.fl.yelpcdn.com/assets/srv0/styleguide/1ea40efd80f5/assets/img/brand_guidelines/yelp_fullcolor.png" alt=""  width="25%" className="yelp-logo"/>
+			</div>
+			<div className="yelp-review-section">
+				<div className="yelp-rating">
+					{ratingImage}
+				</div>
+				
+				<p className="yelp-review-count">{biz.yelpReviewCount} reviews</p>
+			</div>
+			<div className="price-category">
+				<p>{biz.price} {'\u00A0'} • {'\u00A0'} Category</p>
+			</div>
+			<div className="biz-info-section">
+				<div className="jumbotron biz-address">
+					{address}
+				</div>
+				<p className="biz-phone">
+					<strong>Phone: </strong>{biz.displayPhone}
+				</p>
+				<p className="biz-hours">
+					<strong>Hours: </strong><span className={biz.isOpen === 'Open now' ? 'open' : 'closed'}>{biz.isOpen}</span>
+				</p>
+			</div>
+
+			<div className="biz-url">
+				<a target="_blank" rel="noopener noreferrer" href={biz.yelpUrl} className="external-anchor">View on Yelp</a>
+			</div>
+			
+		</div>
+
 	const googleSection = 
 		<div className="jumbotron google-data">
 			<div className="google-logo-container">
@@ -172,41 +213,9 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 					{saveUnsaveButton}
 
 					<div className="card-text">
-						<div className="jumbotron yelp-data">
-							<div className="yelp-logo-container">
-								<img src="https://s3-media2.fl.yelpcdn.com/assets/srv0/styleguide/1ea40efd80f5/assets/img/brand_guidelines/yelp_fullcolor.png" alt=""  width="25%" className="yelp-logo"/>
-							</div>
-							<div className="yelp-review-section">
-								<div className="yelp-rating">
-									{ratingImage}
-								</div>
-								
-								<p className="yelp-review-count">{biz.yelpReviewCount} reviews</p>
-							</div>
-							<div className="price-category">
-								<p>{biz.price} {'\u00A0'} • {'\u00A0'} Category</p>
-							</div>
-							<div className="biz-info-section">
-								<div className="jumbotron biz-address">
-									{address}
-								</div>
-								<p className="biz-phone">
-									<strong>Phone: </strong>{biz.displayPhone}
-								</p>
-								<p className={`biz-hours ${biz.isOpen === 'Open now' ? '' : 'closed'}`}>
-									<strong>Hours: </strong><span className={biz.isOpen === 'Open now' ? 'open' : 'closed'}>{biz.isOpen}</span>
-								</p>
-							</div>
-
-							<div className="biz-url">
-								<a target="_blank" rel="noopener noreferrer" href={biz.yelpUrl} className="external-anchor">View on Yelp</a>
-							</div>
-							
-						</div>
-
-						{googleSection}
-
-						{biz.error ? null : facebookSection}
+						{biz.yelpError ? null : yelpSection}
+						{biz.googleError ? null : googleSection}
+						{biz.fbError ? null : facebookSection}
 					</div>
 				</div>
 			</div>
