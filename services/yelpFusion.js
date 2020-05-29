@@ -13,7 +13,7 @@ const businessSearch = (term, location, next) => {
 		params: {
 			term,
 			location,
-			limit: 3
+			limit: 6
 		}
 	}
 	const req = axios.get(`${baseUrl}/businesses/search`, options)
