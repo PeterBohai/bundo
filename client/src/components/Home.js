@@ -1,6 +1,8 @@
 import React, { useState, useEffect }from 'react'
-import { Link, useHistory} from 'react-router-dom'
+import { useHistory} from 'react-router-dom'
 import Footer from './Footer'
+import LoginOutBtn from './LoginOutBtn'
+import SignupUserBtn from './SignupUserBtn'
 import authService from '../services/authentication'
 import '../stylesheets/Home.css'
 
@@ -29,47 +31,13 @@ const Home = () => {
 		history.push(searchResultsLocation)
 	}
 
-	const handleUser = (event) => {
-		event.preventDefault()
-		const userDetailsLocation = {
-			pathname: '/user/details',
-			search: `?userid=${user.id}`
-		}
-		history.push(userDetailsLocation)
-	}
-
-	const handleLogout = (event) => {
-		event.preventDefault()
-		window.localStorage.removeItem('currentBundoUser')
-		window.location.reload()
-	}
-
-	let leftBtn = null
-	let rightBtn = null
-
-	if (authenticated === null) {
-		leftBtn = null
-		rightBtn = null
-	}
-	else if (authenticated) {
-		leftBtn = <button className="nav-link" to="/" onClick={handleLogout}>Logout</button>
-		rightBtn = <button className="nav-link active" onClick={handleUser}>{user.firstName}</button>
-	} else {
-		leftBtn = <Link className="nav-link" to="/login">Login</Link>
-		rightBtn = <Link className="nav-link active" to="/register">Sign Up</Link>
-	}
-
 	return (
 		<div className="home-page text-right">
-			<div className="search-and-nav-section">
-				<div className="masthead">
-					<div className="inner">
-						<nav className="nav nav-masthead justify-content-center">
-							{leftBtn}
-							{rightBtn}
-						</nav>
-					</div>
-				</div>
+			<div className="search-and-nav">
+				<nav className="nav-section">
+					<LoginOutBtn authenticated={authenticated} />
+					<SignupUserBtn authenticated={authenticated} userInfo={user} />
+				</nav>
 				
 				<div className="front-content text-center">
 					<h1 className="display-3 main-title">Bundo!</h1>
@@ -110,7 +78,7 @@ const Home = () => {
 				</div>
 			</div>
 			
-			<div className="about-us-section text-center">
+			<div className="about-us text-center">
 				<h1 className="sub-header">About Us</h1>
 				<p className="sub-paras">
 					Bundo is the new way to find more reliable and accurate ratings for any kind of business! By bundling data from trusted, popular crowd-sourced review sites such as Yelp, Google, or Facebook together, you can see how a business is rated on all these platforms. Its the best of many worlds in <strong>ONE</strong> convenient place! What are you waiting for? Start <strong>BUNDO</strong>ing!

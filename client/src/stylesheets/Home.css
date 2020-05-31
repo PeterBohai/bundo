@@ -1,4 +1,4 @@
-.search-and-nav-section{
+.search-and-nav{
 	background: #00adb5;
 	padding-top: 1.5rem;
 	padding-left: 15rem;
@@ -14,37 +14,12 @@
  * Header
  */
 
- .masthead {
+.nav-section {
+	margin-top: 0.5rem;
 	margin-bottom: 10rem;
 	display: inline-block;
 	left: 0;
-	
-  }
-  
-  .nav-masthead .nav-link {
-	padding: .25rem 0;
-	font-weight: 700;
-	color: #eeeeee;
-	background-color: transparent;
-	border-bottom: .25rem solid transparent;
-  }
-  
-  .nav-masthead .nav-link:hover{
-	border-bottom-color: #eeeeee;
-  }
-  
-  .nav-masthead .nav-link + .nav-link {
-	margin-left: 1rem;
-  }
-  
-  .nav-masthead .active {
-	color: #fff;
-	border-bottom-color: #fff;
-  }
-
-  button.nav-link {
-	  border: none;
-  }
+}
 
 /*
  * Search Form
@@ -68,7 +43,7 @@
  * About Us
  */
 
- .about-us-section {
+ .about-us {
 	color: #222831;
 	padding-top: 10rem;
 	padding-left: 15rem;

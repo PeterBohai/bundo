@@ -1,0 +1,26 @@
+.loginout{
+	display: inline-block;
+	padding: .25rem .3rem;
+	line-height: 1.5rem;
+	color: #eeeeee;
+	background-color: transparent;
+	font-weight: 700;
+	border-bottom: .2rem solid transparent;
+}
+
+.loginout:hover{
+	color: #fff;
+	border-bottom-color: #fff;
+	text-decoration: none;
+}
+
+.hidden{
+	visibility: hidden;
+}
+
+button.loginout {
+	border: transparent;
+	border-bottom: .2rem solid transparent;
+	
+}
+
