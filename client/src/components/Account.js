@@ -4,6 +4,7 @@ import queryString from 'query-string'
 import axios from 'axios'
 import '../stylesheets/Account.css'
 import BizCard from './BizCard'
+import Footer from './Footer'
 import temp_pfp from '../images/bundo-profile.jpg'
 
 const Account = () => {
@@ -49,35 +50,56 @@ const Account = () => {
 	})
 
 	return (
-		<div className="Account">
-			
-			<div className="header">
-				<div className="navbar navbar-expand-md justify-content-center">
-					<Link className="navbar-brand" to="/">Bundo</Link>
-				</div>
+		<div className="account">
+			<div className="navbar navbar-expand-md justify-content-center">
+				<Link className="home-link" to="/">Bundo!</Link>
 			</div>
 
-			<div className="main">
-				<div className="basic-profile-info jumbotron">
-					<div className="container">
-						<div className="profile-pic-name-container">
-							<img className="profile-pic" src={temp_pfp} width="124px" alt="profile" />
-							<h1 className="profile-name">{userInfo.firstName} {userInfo.lastName}</h1>
-						</div>
+			<div className="account-main container-fluid">
+				<div className="card profile-card">
+					<div className="card-body pfp-name">
+						<img className="profile-pic" src={temp_pfp} width="124px" alt="profile" />
+						<h2 className="profile-name">{userInfo.firstName} {userInfo.lastName}</h2>
 					</div>
 				</div>
+				<div className="row">
+					<div className="col-lg-3 col-md-1 account-about-col">
+						<div className="card about-card">
+							<div className="card-body">
+								<h5 className="card-title about-title">About {userInfo.firstName}</h5>
+								<div className="card-text">
+									<p className="about-subtitle mb-2">Location</p>
+									<p className="about-subtitle mb-2">Bundoing Since</p>
+									<p className="about-subtitle mb-2">Things I love</p>
+									<p className="about-subtitle mb-2">My Hometown</p>
+									<p className="about-subtitle mb-2">Stats</p>
+								</div>
+							</div>
+						</div>
+					</div>
 
-				<div className="profile-content container">
-					<p className="bookmarks-title">Bookmarks</p>
+					<div className="col-lg-9 col-md-1 account-bookmarks-col">
+						<div className="card bookmarks-card">
+							<div className="card-body bookmarks-card-body">
+								<p className="card-title bookmarks-title">My Bookmarks</p>
+								<div className="card-bookmark-results container-fluid">
+									<div className="row bookmarks-row">
+										{resultCards}
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+
 					
-					<div className="card-results">
-						<div className="row">
-							{resultCards}
-						</div>
-					</div>
+
+					
 				</div>
-			</div>
 				
+			</div>
+
+			<Footer />
 		</div>
 	)
 }

@@ -1,18 +1,61 @@
 .footer {
-	display: flex;
-	background: #393e46;
-	height: 2.5rem;
-	justify-content: center;
-	align-items: center;
+	background: #CBF3F0;
+	height: 12rem;
+	padding: 2rem 15rem;
+	position: relative;
+	margin-top: -12rem;
 }
 
- .footer-content {
-	display: inline-block;
-	color: #eeeeee;
-	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
-	font-size: 0.9rem;
+.contact{
+	display: block;
+	text-align: center;
+	color: rgb(80, 80, 80);
 }
-.footer-content p {
-	margin: 0;
+
+.footer-title{
+	font-weight: bold;
+}
+
+.footer-content{
+	font-weight: lighter;
+	color: rgb(80, 80, 80);
+}
+
+.contact-links{
+	display: inline-block;	
+}
+
+#github-icon {
+	margin-right: 1rem;
+	color: rgba(0, 0, 0, 0.541);
+	font-size: 2rem;
+	transition: all 400ms ease;
+}
+
+#linkedin-icon {
+	margin-left: 1rem;
+	color: #0073b19d;
+	font-size: 2rem;
+	transition: all 400ms ease;
+}
+
+#github-icon:hover {
+	color: black;
+}
+
+#linkedin-icon:hover {
+	color: #0072b1;
+}
+
+.copyright{
+	display: block;
+	color: rgb(80, 80, 80);
+	background-color: #2EC4B6;
+	font-size: 0.9rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 0.8rem 0;
 }

@@ -1,57 +1,157 @@
-.card-img-top {
-    width: 100%;
-    height: 22vw;
-    object-fit: cover;
+.bizcard {
+	padding: 0;
 }
 
-.biz-link {
-	font-size: 1.3rem;
-	color: #00adb5;
+.bizcard-card{
+	transition: all 350ms ease;
 }
 
-.jumbotron {
-	padding: 0.8rem;
-	margin-bottom: 1rem;
+.bizcard-card:hover {
+	box-shadow: 0 0 8px rgba(0,0,0,.15);
+}
+/* .bizcard-shadow{
+	box-shadow: rgba(60, 66, 87, 0.12) 0px 3px 7px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+} */
+.bizcard-col-wrapper{
+	padding-left: 0;
+}
+.bizcard-body {
+	padding: 1%;
+	padding-left: 2%;
+}
+.bizcard-title {
+	font-weight: bold;
+}
+.bizcard-img-col{
+	padding: 1.5%;
+	padding-left: 2%;
 }
 
-.biz-url {
+.card-img {
+	max-height: 14rem;
+	object-fit: cover;
+}
+
+.external-anchor {
+	color: grey;
+	font-size: 0.9rem;
+}
+.external-anchor:hover {
+	color: black;
+}
+
+.bizcard-info-section{
+	display: inline-block;
+	height: 13.1rem;
+	min-height: 13.1rem;
+	margin-right: 2%;
+	padding-left: 2%;
+	padding-right: 2%;
+	font-size: 0.9rem;
+	border-radius: 5px;
+	border: 2px solid darkgrey;
+	background-color: #fff;
+}
+
+.bizcard-review-section{
+	display: inline-block;
+	vertical-align: top;
+	min-height: 13.1rem;
+	border-radius: 5px;
+	background-color: #fff;
+	border: 2px solid darkgrey;
+	width: 60%;
+}
+
+.review-subsection{
+	display: table;
+	height: 4.3rem;
+	padding-left: 4%;
+	padding-right: 5%;
+}
+
+.biz-address {
+	display: inline-block;
+	padding: 0.2rem 0.8rem;
+	margin-bottom: 0.5rem;
 	text-align: center;
-	padding-top: 0.5rem;
+	border-radius: 5px;
+	background-color: #f9f7f7;
+	font-size: 0.8rem;
 }
 
-.bookmark-section {
-	width: 25%;
-	margin: 0 auto;
-	margin-bottom: 0.5rem;
+.address-line {
+	margin: 0;
+	line-height: 1.4;
 }
 
-.bookmark-section-un {
-	margin-bottom: 0.5rem;
+.biz-basic-info {
+	margin: 0;
 }
 
-.save-button {
-	padding: 1px 16px;
+.open {
+	color: #049c02;
+	font-weight: bold;
+}
+.closed {
+	color: red;
 	font-weight: bold;
 }
 
- /* YELP Info section */
-.yelp-data {
-	position: relative;
+.card-save-button{
+	width: 100%;
+	margin-top: 0.5rem;
+	text-align: center;
 }
-
-.yelp-logo-container {
-	position: relative;
-	margin-bottom: 1.5rem; 
-}
-
-.yelp-logo {
+.save-button {
 	display: inline-block;
-	position: absolute;
-	top: -0.8rem;
-	right: -0.3rem;
-
+	padding: 0 0.5rem;
+	font-size: 0.9rem;
 }
 
+.review-site-bizinfo{
+	display: inline-block;
+}
+
+.review-site-url{
+	display: inline-block;
+	margin-right: 0.5rem;
+}
+
+.yelp-logo{
+	display: block;
+	margin-bottom: 0.2rem;
+}
+.google-logo{
+	display: block;
+	margin-bottom: 0.4rem;
+}
+.facebook-logo{
+	display: block;
+	margin-bottom: 0.2rem;
+}
+
+.review-subsection-hr{
+	margin: 0;
+	background-color: darkgrey;
+}
+
+ /* YELP Info section */
+
+.yelp-rating-num{
+	font-size: 0.9rem;
+	display: inline-block;
+	margin-right: 0.3rem;
+	background-color: rgb(235, 66, 44);
+	padding: 0 0.4rem;
+	border-radius: 5px;
+	color: white;
+	line-height: 19px;
+}
+
+.yelp-rating-img {
+	display: inline-block;
+}
 .yelp-rating {
 	display: inline-block;
 }
@@ -62,49 +162,10 @@
 	font-size: 0.8rem;
 	font-weight: bold;
 	margin: 0;
-	margin-left: 0.4rem;
-}
-
-.price-category {
-	color: #757b86;
-	font-size: 0.9rem;
-}
-
-.biz-info-section {
-	color: #393e46;
-	margin-top: 1rem; 
-	font-size: 0.9rem;
-}
-
-.biz-address {
-	text-align: center;
-	margin-bottom: 1rem;
-	background-color: #f9f7f7;
-}
-
-.biz-phone {
-	margin-top: 0;
-}
-
-.open {
-	color: #049c02;
-	font-weight: bold;
-}
-
-.closed {
-	color: red;
-	font-weight: bold;
-}
-
-.biz-url {
-	margin-top: 0.5rem;
+	margin-left: 0.5rem;
 }
 
  /* GOOGLE Info section */
-
-.google-data {
-	position: relative;
-}
 
 .google-rating{
 	color: darkorange;
@@ -115,6 +176,11 @@
 	font-size: 0.9rem;
 	display: inline-block;
 	margin-right: 0.3rem;
+	background-color: darkorange;
+	padding: 0 0.4rem;
+	border-radius: 5px;
+	color: white;
+	line-height: 19px;
 }
 
 .google-review-count {
@@ -126,36 +192,14 @@
 	margin-left: 0.4rem;
 }
 
-.google-logo-container {
-	position: relative;
-	margin-bottom: 1.5rem; 
-}
-
-.google-logo {
+.test-facebook-rating {
+	font-size: 0.9rem;
 	display: inline-block;
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-.facebook-data {
-	position: relative;
-}
-
-.facebook-rating {
-	background: rgb(66, 103, 178);
-	border-radius: 50%;
+	margin-right: 0.3rem;
+	background-color: rgb(88, 131, 218);
+	padding: 0 0.4rem;
+	border-radius: 5px;
 	color: white;
-	font-size: 1.2rem;
-	width: 3rem;
-	height: 3rem;
-	text-align: center;
-	line-height: 3rem;
-	display: inline-block;
-}
-
-.facebook-review-section {
-	margin-top: 1rem;
 }
 
 .facebook-review-count {
@@ -167,9 +211,13 @@
 	margin-left: 0.4rem;
 }
 
-.facebook-logo {
-	display: inline-block;
-	position: absolute;
-	top: 0.8rem;
-	right: 0.8rem;
+.outer {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.middle {
+	display: table-cell;
+	vertical-align: middle;
 }

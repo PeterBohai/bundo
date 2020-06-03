@@ -19,6 +19,7 @@ import yelp_45 from '../images/yelp_stars/regular/regular_4_half.png'
 import yelp_5 from '../images/yelp_stars/regular/regular_5.png'
 import googleAttr from '../images/google/powered_by_google_on_white.png'
 import facebookLogo from '../images/facebook/facebook_logo.png'
+import yelpLogo from '../images/yelp_logo.png'
 
 const BizCard = ({ biz, authenticated, bookmarked }) => {
 	const location = useLocation()
@@ -98,17 +99,16 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 		ratingImage = <img src={yelp_0} alt="" />
 	}
 
-	const address = biz.address.map((line, i) => <p key={i}>{line}</p>)
+	const address = biz.address.map((line, i) => <p key={i} className="address-line">{line}</p>)
 
 	const saveUnsaveButton = 
-		<div className="bookmark-section text-center">
-			<button 
-				className={`btn btn-outline-${isSaved ? 'secondary' : 'danger'} save-button`}
-				onClick={saveUnsaveHandler}
-			>
-				{isSaved ? 'Unsave' : 'Save'}
-			</button>
-		</div>
+		<button 
+			className={`btn btn-outline-${isSaved ? 'secondary' : 'danger'} save-button`}
+			onClick={saveUnsaveHandler}
+		>
+			{isSaved ? 'Unsave' : 'Save'}
+		</button>
+	
 
 	// different google ratings
 	let googleRatingImage = []
@@ -129,96 +129,116 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 		}
 	}
 
-	const yelpSection = 
-		<div className="jumbotron yelp-data">
-			<div className="yelp-logo-container">
-				<img src="https://s3-media2.fl.yelpcdn.com/assets/srv0/styleguide/1ea40efd80f5/assets/img/brand_guidelines/yelp_fullcolor.png" alt=""  width="25%" className="yelp-logo"/>
-			</div>
-			<div className="yelp-review-section">
-				<div className="yelp-rating">
-					{ratingImage}
+
+	const newYelp = 
+		<div className="review-subsection">
+			<div className="middle">
+				<img className="yelp-logo" src={yelpLogo} alt=""  width="55px"/>
+				<div className="review-site-bizinfo">
+					<div className="review-site-url">
+						<a className="external-anchor" target="_blank" rel="noopener noreferrer" href={biz.yelpUrl}>View source</a>
+					</div>
+					<div className="yelp-rating">
+						<div className="yelp-rating-num">
+							{isNaN(biz.yelpRating) ? biz.yelpRating :(Math.round(biz.yelpRating * 100) / 100).toFixed(1)}
+						</div>
+						<div className="yelp-rating-img">
+							{ratingImage}
+						</div>
+					</div>
+					<p className="yelp-review-count">{biz.yelpReviewCount} reviews</p>
 				</div>
-				
-				<p className="yelp-review-count">{biz.yelpReviewCount} reviews</p>
-			</div>
-			<div className="price-category">
-				<p>{biz.price} {'\u00A0'} • {'\u00A0'} Category</p>
-			</div>
-			<div className="biz-info-section">
-				<div className="jumbotron biz-address">
-					{address}
-				</div>
-				<p className="biz-phone">
-					<strong>Phone: </strong>{biz.displayPhone}
-				</p>
-				<p className="biz-hours">
-					<strong>Hours: </strong><span className={biz.isOpen === 'Open now' ? 'open' : 'closed'}>{biz.isOpen}</span>
-				</p>
 			</div>
 
-			<div className="biz-url">
-				<a target="_blank" rel="noopener noreferrer" href={biz.yelpUrl} className="external-anchor">View on Yelp</a>
-			</div>
 			
 		</div>
-
-	const googleSection = 
-		<div className="jumbotron google-data">
-			<div className="google-logo-container">
-				<img src={googleAttr} alt="" className="google-logo"/>
-			</div>
-
-			<div className="google-review-section">
-				<div className="google-rating">
-					<p className="google-rating-num">{biz.googleRating}</p>
-					{googleRatingImage}
+	
+	const newGoogle = 
+		<div className="review-subsection">
+			<div className="middle">
+				<img className="google-logo" src={googleAttr} alt="" />
+				<div className="review-site-bizinfo">
+					<div className="review-site-url">
+						<a className="external-anchor" target="_blank" rel="noopener noreferrer" href={biz.googleUrl} >View source</a>
+					</div>
+					<div className="google-rating">
+						<p className="google-rating-num">
+							{isNaN(biz.googleRating) ? biz.googleRating : (Math.round(biz.googleRating * 100) / 100).toFixed(1)}
+						</p>
+						{googleRatingImage}
+					</div>
+					<p className="google-review-count">{biz.googleReviewCount} reviews</p>
 				</div>
-				
-				<p className="google-review-count">{biz.googleReviewCount} reviews</p>
-			</div>
-
-			<div className="biz-url">
-				<a target="_blank" rel="noopener noreferrer" href={biz.googleUrl} className="external-anchor">View on Google</a>
 			</div>
 		</div>
 
-	const facebookSection = 
-		<div className="jumbotron facebook-data">
-			<div className="facebook-logo-container">
-				<img src={facebookLogo} alt="" className="facebook-logo" width="80px"/>
-			</div>
-
-			<div className="facebook-review-section">
-				<div className="facebook-rating">
-					{biz.fbRating}
+	const newFacebook = 
+		<div className="review-subsection">
+			<div className="middle">
+				<img className="facebook-logo" src={facebookLogo} alt=""  width="65px"/>
+				<div className="review-site-bizinfo">
+					<div className="review-site-url">
+						<a className="external-anchor" target="_blank" rel="noopener noreferrer" href={biz.fbUrl}>View source</a>
+					</div>
+					<p className="test-facebook-rating">
+						{isNaN(biz.fbRating) ? biz.fbRating : (Math.round(biz.fbRating * 100) / 100).toFixed(1)}
+					</p>
+					<p className="facebook-review-count">{biz.fbReviewCount} opinions</p>
 				</div>
-				
-				<p className="facebook-review-count">{biz.fbReviewCount} opinions</p>
-			</div>
-
-			<div className="biz-url">
-				<a target="_blank" rel="noopener noreferrer" href={biz.fbUrl} className="external-anchor">View on Facebook</a>
 			</div>
 		</div>
+
 	
 	return (
-		<div className="col-lg-4 col-md-6 mb-4" >				
-			<div className="card shadow-sm h-100 ">
-				<img src={biz.imageUrl} alt="" className="card-img-top"  />
-				<div className="card-body">
-					<h5 className="card-title">
-						{biz.indexID + '. '} <Link className="biz-link" to="#">{biz.name}</Link>
-					</h5>
+		<div className="col-12 bizcard" >				
+			<div className="card mb-4 container-fluid bizcard-card">
+				<div className="row">
+					<div className="col-md-3 bizcard-img-col">
+						<div className="outer">
+							<div className="middle">
+								<img src={biz.imageUrl} className="card-img" alt="business image"/>
+							</div>
+						</div>
+					</div>
+					<div className="col-md-9 bizcard-col-wrapper">
+						<div className="card-body bizcard-body">
+							<h5 className="card-title bizcard-title">{biz.indexID + '. ' +biz.name}</h5>
+							
+							<div className="bizcard-info-section">
+								<div className="outer">
+									<div className="middle">
+										<div className="biz-address">
+											{address}
+										</div>
+										<p className="biz-basic-info">
+											<strong>Price: </strong>{biz.price}
+										</p>
+										<p className="biz-basic-info">
+											<strong>Phone: </strong>{biz.displayPhone}
+										</p>
+										<p className="biz-basic-info">
+											<strong>Hours: </strong><span className={biz.isOpen === 'Open now' ? 'open' : 'closed'}>{biz.isOpen}</span>
+										</p>
+										<div className="card-save-button">
+											{saveUnsaveButton}
+										</div>
+										
+									</div>
+								</div>
+							</div>
 
-					{saveUnsaveButton}
-
-					<div className="card-text">
-						{biz.yelpError ? null : yelpSection}
-						{biz.googleError ? null : googleSection}
-						{biz.fbError ? null : facebookSection}
+							<div className="bizcard-review-section">
+								{newYelp}
+								<hr className="review-subsection-hr"></hr>
+								{newGoogle}
+								<hr className="review-subsection-hr"></hr>
+								{newFacebook}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	)
 }

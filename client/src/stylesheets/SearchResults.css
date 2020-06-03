@@ -1,42 +1,33 @@
 .search-results {
-	background: #eeeeee;
+	background: rgb(255, 249, 241);
 }
 
-.navbar {
-	background: #00adb5;
-}
-.navbar-brand {
-	color: #eeeeee;
-	font-size: 1.5rem;
+.search-results-main {
+	width: 100%;
+	min-height: 150vh;
+	padding-top: 7rem;
+	padding-bottom: 19rem;
 }
 
-.bizResults-hr {
+.subtitle-hr {
 	width: 60%;
 	border: none;
 	height: 1px;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); 
 }
 
-.mid-section {
-	position: relative;
-	background: #eeeeee;
-	width: 100%;
-	height: 100%;
-	padding-top: 4rem;
-}
-
-.page-title-content {
-	padding: 1.5rem 10rem;
+.results-subtitle {
+	padding: 0 10rem;
 	padding-bottom: 0.1rem;
 	margin: 0;
 }
 
-.term-title {
+.term-subtitle {
 	font-weight: bold;
 	color: #222831;
 }
 
-.location-title {
+.location-subtitle {
 	font-weight: normal;
 	font-size: 1.5rem;
 	color: #393e46;
@@ -46,10 +37,4 @@
 	padding-top: 2rem;
 	padding-left: 5rem;
 	padding-right: 5rem;
-}
-
-.footer-section {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
 }

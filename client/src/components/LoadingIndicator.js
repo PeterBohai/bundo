@@ -9,7 +9,7 @@ const LoadingIndicator = () => {
 	return (
 		promiseInProgress &&
 		<div className="loader-spinner">
-			<PropagateLoader sizeUnit={'px'} size={15} color={'#00adb5'}/>
+			<PropagateLoader sizeUnit={'px'} size={15} color={'#FF9F1C'}/>
 		</div> 
 	)
 }

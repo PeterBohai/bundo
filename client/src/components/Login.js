@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 import '../stylesheets/Login.css'
 import Footer from './Footer'
+import NavBar from './NavBar'
 
 const Login = () => {
 	const [email, setEmail] = useState('')
@@ -32,51 +33,51 @@ const Login = () => {
 
 	return (
 		<div className="text-center Login">
-			<div className="header">
-				<div className="navbar navbar-expand-md fixed-top justify-content-center">
-					<Link className="navbar-brand" to="/">Bundo</Link>
-				</div>
-			</div>
+			<NavBar fixedTop={false}/>
 
-			<div className="login-mid-section">
-				<div className="mid-container">
-					<h3 className="login-msg">Log In to Bundo!</h3>
-					<form className="form-signin" onSubmit={handleLogin}>
-						<p className="error-msg form-text">{errorMsg} </p>
-						
-						<label htmlFor="inputEmail" className="sr-only">Email</label>
-						<input 
-							type="email" 
-							id="inputEmail" 
-							className="form-control" 
-							placeholder="Email" required 
-							value={email} 
-							onChange={({ target }) => setEmail(target.value)} 
-						/>
-						
-						<label htmlFor="inputPassword" className="sr-only">Password</label>
-						<input 
-							type="password" 
-							id="inputPassword" 
-							className="form-control"
-							placeholder="Password" 
-							required value={password} 
-							onChange={({ target }) => setPassword(target.value)} 
-						/>
-						
-						<button 
-							type="submit"
-							className="btn btn-lg btn-info btn-block login-button" 
-						>
-						Log in
-						</button>
-					</form>
+			<div className="login-main">
+				<div className="card signup-card">
+					<div className="card-body">
+						<h4 className="signup-subtitle">Log in</h4>
+						<form className="form-signup text-left" onSubmit={handleLogin}>
+							<p className="error-msg form-text">{errorMsg} </p>
+							
+							<div className="form-group">
+								<label htmlFor="inputEmail">Email</label>
+								<input 
+									type="email" 
+									id="inputEmail" 
+									className="form-control" 
+									placeholder="Enter email address" required 
+									value={email} 
+									onChange={({ target }) => setEmail(target.value)} 
+								/>
+							</div>
+							
+							<div className="form-group">
+								<label htmlFor="inputPassword">Password</label>
+								<input 
+									type="password" 
+									id="inputPassword" 
+									className="form-control"
+									placeholder="Enter password" 
+									required value={password} 
+									onChange={({ target }) => setPassword(target.value)} 
+								/>
+							</div>
+							
+							<button 
+								type="submit"
+								className="register-button btn btn-lg btn-info btn-block login-button" 
+							>
+							Log in
+							</button>
+						</form>
+					</div>
 				</div>
 			</div>
 			
-			<div className="footer-section">
-				<Footer />
-			</div>		
+			<Footer />	
 		</div>
 	)
 }

@@ -4,9 +4,12 @@ import axios from 'axios'
 import queryString from 'query-string'
 import { trackPromise } from 'react-promise-tracker'
 import BizCard from './BizCard'
+import Footer from './Footer'
+import SearchForm from './SearchForm'
 import LoadingIndicator from './LoadingIndicator'
 import authService from '../services/authentication'
 import '../stylesheets/SearchResults.css'
+import NavBar from './NavBar'
 
 const SearchResults = () => {
 	const [results, setResults] = useState([])
@@ -53,32 +56,26 @@ const SearchResults = () => {
 
 	return (
 		<div className="search-results">
-			<div className="header">
-				<div className="navbar navbar-expand-md fixed-top justify-content-center">
-					<Link className="navbar-brand" to="/">Bundo</Link>
-				</div>
-			</div>
+			<NavBar fixedTop={true}/>
 
-			<div className="mid-section">
-				
-				<div className="jumbotron text-center page-title-content">
-					<div className="container page-title-content-container">
-						<h2 className="term-title">
-							{params.find_desc} 
-							<p className="location-title">{params.find_loc}</p>
-						</h2>
-					</div>
-					<hr className="bizResults-hr"></hr>
+			<div className="search-results-main">
+				<div className="results-subtitle text-center">
+					<h2 className="term-subtitle">
+						{params.find_desc} 
+						<p className="location-subtitle">{params.find_loc}</p>
+					</h2>
+					<hr className="subtitle-hr"></hr>
 					<LoadingIndicator />
 				</div>
 
-				<div className="fluid-container card-results">
+				<div className="card-results fluid-container">
 					<div className="row">
 						{resultCards}
 					</div>
 				</div>
-				
 			</div>
+
+			<Footer />
 
 		</div>
 	)

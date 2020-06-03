@@ -1,0 +1,21 @@
+.home-page-form .search-form {
+	border: none;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+	transition: all 400ms ease;
+}
+
+.home-page-form .search-form:focus {
+	border: none;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.home-page-form {
+	margin-top: 3.5rem;
+}
+
+.search-button {
+	background: #000000;
+	margin: 0 auto;
+	margin-top: 2rem;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+}

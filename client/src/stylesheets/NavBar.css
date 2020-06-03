@@ -1,0 +1,15 @@
+.navbar {
+	background: #FFBF69;
+	height: 5rem;
+}
+
+.home-link {
+	color: #000;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.home-link:hover {
+	color: rgb(90, 90, 90);
+	text-decoration: none;
+}

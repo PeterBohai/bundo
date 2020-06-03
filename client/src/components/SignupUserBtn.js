@@ -19,7 +19,7 @@ const SignupUserBtn = ({ authenticated, userInfo }) => {
 	return (
 		authenticated 
 			?  <button className={className} onClick={handleUser}>{userInfo.firstName}</button>
-			: <Link className={className} to="/register">Sign Up</Link>
+			: <Link className={className} to="/register">Sign up</Link>
 	)
 }
 

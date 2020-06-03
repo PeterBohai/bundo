@@ -1,5 +1,9 @@
+.home-page {
+	min-height: 100%;
+}
+
 .search-and-nav{
-	background: #00adb5;
+	background: #FFBF69;
 	padding-top: 1.5rem;
 	padding-left: 15rem;
 	padding-right: 15rem;
@@ -7,7 +11,8 @@
 }
 
 .main-title {
-	color: #222831
+	color: #000000;
+	font-weight: bold;
 }
 
 /*
@@ -25,8 +30,15 @@
  * Search Form
  */
 
-.form-signin .form-control:focus {
-  z-index: 2;
+.home-page-form .search-form {
+	border: none;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+	transition: all 400ms ease;
+}
+
+.home-page-form .search-form:focus {
+	border: none;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
 }
 
 .home-page-form {
@@ -34,9 +46,10 @@
 }
 
 .search-button {
-	background: #222831;
+	background: #000000;
 	margin: 0 auto;
 	margin-top: 2rem;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
 }
 
 /*
@@ -44,16 +57,16 @@
  */
 
  .about-us {
-	color: #222831;
+	color: #000000;
 	padding-top: 10rem;
 	padding-left: 15rem;
 	padding-right: 15rem;
-	padding-bottom: 10rem;
-	background: #eeeeee;
+	padding-bottom: 22rem;
+	background: #FFFFFF;
  }
 
- .sub-header {
-	 color: #393e46;
+ .about-us-subtitle {
+	 font-weight: bolder;
 	 margin-bottom: 1.8rem;
  }
 

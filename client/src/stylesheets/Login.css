@@ -2,49 +2,30 @@
 	height: 100vh;
 	background: #eeeeee;
 }
-.login-mid-section {
-	position: relative;
-	background: #eeeeee;
+.login-main {
+	background: #f5f5f5;
 	width: 100%;
-	height: 100%;
-
-}
-.navbar {
-	background: #00adb5;
-}
-.navbar-brand {
-	color: #eeeeee;
-	font-size: 1.5rem;
-}
-
-.mid-container {
-	width: 20rem;
-	position: absolute;
-	top: 50%; left: 50%;
-	transform: translate(-50%,-50%);
+	min-height: 100vh;
+	padding-top: 5rem;
+	padding-bottom: 20rem;
 }
 
 .login-msg {
 	margin-bottom: 2rem;
 }
 
-.form-signin {
-	width: 100%;
-	max-width: 330px;
-	padding: 15px;
-	margin: auto;
-}
-
-.form-signin .form-control {
+.form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .form-control:focus {
-  z-index: 2;
+
+.form-control:focus{
+	box-shadow: 0 0 0 0.15rem rgba(0,123,255,.25);
 }
+
 .error-msg {
 	margin-bottom: 1px;
 }
