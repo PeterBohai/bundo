@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -66,37 +66,37 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 	let ratingImage = null
 	switch (biz.yelpRating) {
 	case 0:
-		ratingImage = <img src={yelp_0} alt="" />
+		ratingImage = <img src={yelp_0} alt="Yelp 0 stars" />
 		break
 	case 1:
-		ratingImage = <img src={yelp_1} alt="" />
+		ratingImage = <img src={yelp_1} alt="Yelp 1 stars" />
 		break
 	case 1.5:
-		ratingImage = <img src={yelp_15} alt="" />
+		ratingImage = <img src={yelp_15} alt="Yelp 1 and a half stars" />
 		break
 	case 2:
-		ratingImage = <img src={yelp_2} alt="" />
+		ratingImage = <img src={yelp_2} alt="Yelp 2 stars" />
 		break
 	case 2.5:
-		ratingImage = <img src={yelp_25} alt="" />
+		ratingImage = <img src={yelp_25} alt="Yelp 2 and a half  stars" />
 		break
 	case 3:
-		ratingImage = <img src={yelp_3} alt="" />
+		ratingImage = <img src={yelp_3} alt="Yelp 3 stars" />
 		break
 	case 3.5:
-		ratingImage = <img src={yelp_35} alt="" />
+		ratingImage = <img src={yelp_35} alt="Yelp 3 and a half  stars" />
 		break
 	case 4:
-		ratingImage = <img src={yelp_4} alt="" />
+		ratingImage = <img src={yelp_4} alt="Yelp 4 stars" />
 		break
 	case 4.5:
-		ratingImage = <img src={yelp_45} alt="" />
+		ratingImage = <img src={yelp_45} alt="Yelp 4 and a half  stars" />
 		break
 	case 5:
-		ratingImage = <img src={yelp_5} alt="" />
+		ratingImage = <img src={yelp_5} alt="Yelp 5 stars" />
 		break
 	default:
-		ratingImage = <img src={yelp_0} alt="" />
+		ratingImage = <img src={yelp_0} alt="Yelp 0 stars" />
 	}
 
 	const address = biz.address.map((line, i) => <p key={i} className="address-line">{line}</p>)
@@ -196,7 +196,7 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 					<div className="col-md-3 bizcard-img-col">
 						<div className="outer">
 							<div className="middle">
-								<img src={biz.imageUrl} className="card-img" alt="business image"/>
+								<img src={biz.imageUrl} className="card-img" alt={biz.name}/>
 							</div>
 						</div>
 					</div>

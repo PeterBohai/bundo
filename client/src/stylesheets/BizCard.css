@@ -7,7 +7,7 @@
 }
 
 .bizcard-card:hover {
-	box-shadow: 0 0 8px rgba(0,0,0,.15);
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
 }
 /* .bizcard-shadow{
 	box-shadow: rgba(60, 66, 87, 0.12) 0px 3px 7px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
@@ -17,19 +17,21 @@
 }
 .bizcard-body {
 	padding: 1%;
+	padding-top: 1.5%;
+	padding-bottom: 1.5%;
 	padding-left: 2%;
 }
 .bizcard-title {
 	font-weight: bold;
 }
 .bizcard-img-col{
-	padding: 1.5%;
+	padding: 1%;
 	padding-left: 2%;
 }
 
 .card-img {
-	max-height: 14rem;
-	object-fit: cover;
+	max-height: 15rem;
+	object-fit: fill;
 }
 
 .external-anchor {

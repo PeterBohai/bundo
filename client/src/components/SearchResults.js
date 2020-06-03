@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import queryString from 'query-string'
 import { trackPromise } from 'react-promise-tracker'

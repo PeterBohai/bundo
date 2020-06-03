@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import IsEmail from 'isemail'
 import Footer from './Footer'
