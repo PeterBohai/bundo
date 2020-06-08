@@ -23,7 +23,7 @@ const Register = () => {
 		})
 			.then(response => {
 				console.log('Successfully registered', response.data)
-				history.push({pathname: '/login'})
+				history.push({pathname: '/login', state: {prevPath: '/register'}})
 			})
 			.catch(err => {
 				console.log(`Registeration error\n${err.response.data.error}`)

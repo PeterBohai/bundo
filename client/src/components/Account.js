@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import axios from 'axios'
 import '../stylesheets/Account.css'
 import BizCard from './BizCard'
 import Footer from './Footer'
+import NavBar from './NavBar'
 import temp_pfp from '../images/bundo-profile.jpg'
 
 const Account = () => {
@@ -51,9 +52,7 @@ const Account = () => {
 
 	return (
 		<div className="account">
-			<div className="navbar navbar-expand-md justify-content-center">
-				<Link className="home-link" to="/">Bundo!</Link>
-			</div>
+			<NavBar fixedTop={false} />
 
 			<div className="account-main container-fluid">
 				<div className="card profile-card">

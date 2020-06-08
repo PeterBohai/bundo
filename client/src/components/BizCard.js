@@ -176,15 +176,25 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 		<div className="review-subsection">
 			<div className="middle">
 				<img className="facebook-logo" src={facebookLogo} alt=""  width="65px"/>
-				<div className="review-site-bizinfo">
-					<div className="review-site-url">
-						<a className="external-anchor" target="_blank" rel="noopener noreferrer" href={biz.fbUrl}>View source</a>
+				{biz.fbError ?
+					<div className="review-site-bizinfo">
+						<div className="review-site-url">
+							<a className="external-anchor" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/">View source</a>
+						</div>
+						<p className="facebook-rating facebook-rating-error">
+							N/A
+						</p>
 					</div>
-					<p className="test-facebook-rating">
-						{isNaN(biz.fbRating) ? biz.fbRating : (Math.round(biz.fbRating * 100) / 100).toFixed(1)}
-					</p>
-					<p className="facebook-review-count">{biz.fbReviewCount} opinions</p>
-				</div>
+					: <div className="review-site-bizinfo">
+						<div className="review-site-url">
+							<a className="external-anchor" target="_blank" rel="noopener noreferrer" href={biz.fbUrl}>View source</a>
+						</div>
+						<p className={isNaN(biz.fbRating) ? 'facebook-rating facebook-rating-error' : 'facebook-rating'}>
+							{isNaN(biz.fbRating) ? biz.fbRating : (Math.round(biz.fbRating * 100) / 100).toFixed(1)}
+						</p>
+						<p className="facebook-review-count">{biz.fbReviewCount} opinions</p>
+					</div>
+				}
 			</div>
 		</div>
 

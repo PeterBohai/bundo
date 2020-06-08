@@ -194,7 +194,7 @@
 	margin-left: 0.4rem;
 }
 
-.test-facebook-rating {
+.facebook-rating {
 	font-size: 0.9rem;
 	display: inline-block;
 	margin-right: 0.3rem;
@@ -202,6 +202,10 @@
 	padding: 0 0.4rem;
 	border-radius: 5px;
 	color: white;
+}
+
+.facebook-rating-error {
+	font-size: 0.85rem;
 }
 
 .facebook-review-count {

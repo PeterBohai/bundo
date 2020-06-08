@@ -5,7 +5,7 @@
 .search-results-main {
 	width: 100%;
 	min-height: 150vh;
-	padding-top: 7rem;
+	padding-top: 6.5rem;
 	padding-bottom: 19rem;
 }
 
@@ -13,6 +13,7 @@
 	width: 60%;
 	border: none;
 	height: 1px;
+	margin-bottom: 0.5rem;
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); 
 }
 
@@ -24,12 +25,14 @@
 
 .term-subtitle {
 	font-weight: bold;
-	color: #222831;
+	color: black;
+	font-size: 1.6rem;
+	margin: 0;
 }
 
 .location-subtitle {
 	font-weight: normal;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	color: #393e46;
 }
 

@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import React, { useState }from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import '../stylesheets/Home.css'
+import '../stylesheets/SearchForm.css'
 
-const SearchForm = () => {
+const SearchForm = ({ inNavBar }) => {
 	const [findDesc, setFindDesc] = useState('')
 	const [findLoc, setFindLoc] = useState('')
 	const history = useHistory()
@@ -14,14 +15,26 @@ const SearchForm = () => {
 			pathname: '/query/search',
 			search: `?find_desc=${encodeURIComponent(findDesc)}&find_loc=${encodeURIComponent(findLoc)}`
 		}
-		history.push(searchResultsLocation)
+		if (location.pathname === '/') {
+			history.push(searchResultsLocation)
+		} else {
+			history.push(searchResultsLocation)
+			window.location.reload()
+		}
+	}
+
+	let btnClassName = 'search-button btn btn-dark'
+	let inputClassName = 'col-md-6'
+	if (inNavBar) {
+		btnClassName = 'col-md-2 btn btn-dark search-button-navbar'
+		inputClassName = 'col-md-5'
 	}
 
 	return (
-		<div className="home-page text-right">
-			<form className="home-page-form" onSubmit={handleSubmit}>
+		<div className={inNavBar? 'navbar-form-main':'search-form-main'}>
+			<form className={inNavBar? 'navbar-form':'home-page-form'} onSubmit={handleSubmit}>
 				<div className="form-row align-items-center">
-					<div className="col-md-6">
+					<div className={inputClassName}>
 						<label htmlFor="inputFind" className="sr-only">Find</label>
 						<input 
 							type="text" 
@@ -33,7 +46,7 @@ const SearchForm = () => {
 						/>
 					</div>
 
-					<div className="col-md-6">
+					<div className={inputClassName}>
 						<label htmlFor="inputLocation" className="sr-only">Near</label>
 						<input 
 							type="text" 
@@ -47,7 +60,7 @@ const SearchForm = () => {
 
 					<button
 						type="submit"
-						className="search-button btn btn-dark" 
+						className={btnClassName}
 					>
 							Search
 					</button>

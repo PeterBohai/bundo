@@ -29,7 +29,7 @@ const Home = () => {
 				
 				<div className="front-content text-center">
 					<h1 className="display-3 main-title">Bundo!</h1>
-					<SearchForm />
+					<SearchForm inNavBar={false}/>
 				</div>
 			</div>
 			

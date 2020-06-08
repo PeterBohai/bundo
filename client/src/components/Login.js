@@ -1,15 +1,17 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import '../stylesheets/Login.css'
 import Footer from './Footer'
 import NavBar from './NavBar'
 
-const Login = () => {
+const Login = ( { prevPath } ) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [errorMsg, setErrorMsg] = useState(null)
 	const history = useHistory()
+	const location = useLocation()
 
 	const handleLogin = (event) => {
 		event.preventDefault()
@@ -21,7 +23,11 @@ const Login = () => {
 				console.log('Successful log in')
 				const user = response.data
 				window.localStorage.setItem('currentBundoUser', JSON.stringify(user)) 
-				history.push({pathname: '/'})
+				if (location.state.prevPath === '/register') {
+					history.go(-2)
+				} else {
+					history.goBack()
+				}
 			})
 			.catch(err => {
 				console.log(`Login error\n${err.response.data.error}`)

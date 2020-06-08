@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import queryString from 'query-string'
 import { trackPromise } from 'react-promise-tracker'
+import authService from '../services/authentication'
 import BizCard from './BizCard'
 import Footer from './Footer'
-import SearchForm from './SearchForm'
-import LoadingIndicator from './LoadingIndicator'
-import authService from '../services/authentication'
-import '../stylesheets/SearchResults.css'
 import NavBar from './NavBar'
+import LoadingIndicator from './LoadingIndicator'
+import '../stylesheets/SearchResults.css'
 
 const SearchResults = () => {
 	const [results, setResults] = useState([])
@@ -56,14 +55,14 @@ const SearchResults = () => {
 
 	return (
 		<div className="search-results">
-			<NavBar fixedTop={true}/>
+			<NavBar fixedTop={true} authenticated={authenticated} user={user}/>
 
 			<div className="search-results-main">
 				<div className="results-subtitle text-center">
-					<h2 className="term-subtitle">
+					<div className="term-subtitle">
 						{params.find_desc} 
 						<p className="location-subtitle">{params.find_loc}</p>
-					</h2>
+					</div>
 					<hr className="subtitle-hr"></hr>
 					<LoadingIndicator />
 				</div>
