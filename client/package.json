@@ -2,6 +2,12 @@
   "name": "bundo",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -10,7 +16,6 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "axios": "^0.21.4",
     "bootstrap": "^4.6.2",
-    "eslint": "^6.8.0",
     "isemail": "^3.2.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
@@ -23,11 +28,8 @@
     "react-social-login-buttons": "^3.1.0",
     "react-spinners": "^0.6.1"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "eslint": "^8.33.0"
   },
   "eslintConfig": {
     "extends": "react-app"
