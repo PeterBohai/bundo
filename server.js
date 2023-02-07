@@ -19,11 +19,9 @@ app.use(express.static('client/build'))		// Serve static React build for 3001 or
 app.use(morgan(logger.httpLogFormat))		// HTTP request logger
 
 mongoose.connect(config.MONGO_ATLAS_URI, {
-	useNewUrlParser: true, 
-	useCreateIndex: true, 
-	useUnifiedTopology: true, 
-	useFindAndModify: false}
-)
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
 	.then(() => {
 		logger.info('Connected to MongoDB Atlas')
 	})
