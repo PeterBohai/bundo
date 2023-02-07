@@ -1,9 +1,9 @@
 .footer {
 	background: #CBF3F0;
-	height: 12rem;
+	height: 8rem;
 	padding: 2rem 15rem;
 	position: relative;
-	margin-top: -12rem;
+	margin-top: -8rem;
 }
 
 .contact{
@@ -50,7 +50,6 @@
 .copyright{
 	display: block;
 	color: rgb(80, 80, 80);
-	background-color: #2EC4B6;
 	font-size: 0.9rem;
 	position: absolute;
 	bottom: 0;
