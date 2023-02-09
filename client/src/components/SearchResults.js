@@ -57,7 +57,7 @@ const SearchResults = () => {
 		<div className="search-results">
 			<NavBar fixedTop={true} authenticated={authenticated} user={user}/>
 
-			<div className="search-results-main">
+			<div className="search-results-main container">
 				<div className="results-subtitle text-center">
 					<div className="term-subtitle">
 						{params.find_desc} 

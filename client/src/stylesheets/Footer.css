@@ -1,7 +1,7 @@
 .footer {
 	background: #CBF3F0;
 	height: 8rem;
-	padding: 2rem 15rem;
+	padding: 2rem 2rem;
 	position: relative;
 	margin-top: -8rem;
 }
@@ -25,27 +25,16 @@
 	display: inline-block;	
 }
 
-#github-icon {
-	margin-right: 1rem;
+.social-icon {
+	margin-right: 1.5rem;
 	color: rgba(0, 0, 0, 0.541);
 	font-size: 2rem;
 	transition: all 400ms ease;
 }
-
-#linkedin-icon {
-	margin-left: 1rem;
-	color: #0073b19d;
-	font-size: 2rem;
-	transition: all 400ms ease;
-}
-
-#github-icon:hover {
+.social-icon:hover {
 	color: black;
 }
 
-#linkedin-icon:hover {
-	color: #0072b1;
-}
 
 .copyright{
 	display: block;
