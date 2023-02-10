@@ -1,13 +1,8 @@
-.Login {
-    height: 100vh;
-    background: #eeeeee;
-}
 .login-main {
-    background: #f5f5f5;
+    background: #fafafa;
     width: 100%;
     min-height: 100vh;
-    margin: 0;
-    margin-top: -5rem;
+    margin-top: -5rem !important;
 }
 
 .login-msg {

@@ -45,7 +45,10 @@ const Register = () => {
             <NavBar fixedTop={false} />
 
             <div className="register-main row mx-0">
-                <div className="col-md-5 col-11 mx-auto" style={{ marginTop: "10rem" }}>
+                <div
+                    className="col-xxl-3 col-lg-4 col-md-5 col-sm-7 col-11 mx-auto"
+                    style={{ marginTop: "10rem" }}
+                >
                     <h4 className="signup-subtitle">Sign up</h4>
                     <form className="form-signup text-left" onSubmit={handleRegister}>
                         <label htmlFor="inputFirstName" className="sr-only">

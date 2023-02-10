@@ -39,11 +39,14 @@ const Login = ({ prevPath }) => {
     };
 
     return (
-        <div className="text-center Login">
+        <div className="text-center login">
             <NavBar fixedTop={false} />
 
-            <div className="login-main row">
-                <div className="col-md-5 col-11 mx-auto" style={{ marginTop: "10rem" }}>
+            <div className="login-main row m-0">
+                <div
+                    className="col-xxl-3 col-lg-4 col-md-5 col-sm-7 col-11 mx-auto"
+                    style={{ marginTop: "10rem" }}
+                >
                     <h4 className="signup-subtitle">Log in</h4>
                     <form className="form-signup text-left" onSubmit={handleLogin}>
                         <p className="error-msg form-text">{errorMsg} </p>
