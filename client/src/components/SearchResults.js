@@ -1,83 +1,82 @@
-import React, { useState, useEffect} from 'react'
-import { useLocation } from 'react-router-dom'
-import axios from 'axios'
-import queryString from 'query-string'
-import { trackPromise } from 'react-promise-tracker'
-import authService from '../services/authentication'
-import BizCard from './BizCard'
-import Footer from './Footer'
-import NavBar from './NavBar'
-import LoadingIndicator from './LoadingIndicator'
-import '../stylesheets/SearchResults.css'
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import queryString from "query-string";
+import { trackPromise } from "react-promise-tracker";
+import authService from "../services/authentication";
+import BizCard from "./BizCard";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import LoadingIndicator from "./LoadingIndicator";
+import "../stylesheets/SearchResults.css";
 
 const SearchResults = () => {
-	const [results, setResults] = useState([])
-	const [authenticated, setAuthenticated] = useState(null)
-	const [user, setUser] = useState({
-		bookmarks: []
-	})
-	const location = useLocation()
-	const params = queryString.parse(location.search)
-	
-	const hook = () => {
-		trackPromise(
-			axios.post('/api/search', {
-				searchDesc: params.find_desc,
-				searchLoc: params.find_loc
-			})
-				.then(async (response) => {
-					const isValid = await authService.authenticated()
-					setAuthenticated(isValid)
-					if (isValid) {
-						setUser(JSON.parse(window.localStorage.getItem('currentBundoUser')))
-					}
-					setResults(response.data.businesses)
-				})
-				.catch(err => {
-					console.log(err)
-				})
-		)
-		authService.authenticated().then(isValid => {
-			setAuthenticated(isValid)
-			if (isValid) {
-				setUser(JSON.parse(window.localStorage.getItem('currentBundoUser')))
-			}
-			
-		})
-	}
-	useEffect(hook, [])
+    const [results, setResults] = useState([]);
+    const [authenticated, setAuthenticated] = useState(null);
+    const [user, setUser] = useState({
+        bookmarks: [],
+    });
+    const location = useLocation();
+    const params = queryString.parse(location.search);
 
-	const resultCards = results.map(biz => {
-		const saved = authenticated && user.bookmarks.some(entry => entry.yelpID === biz.yelpID)
+    const hook = () => {
+        trackPromise(
+            axios
+                .post("/api/search", {
+                    searchDesc: params.find_desc,
+                    searchLoc: params.find_loc,
+                })
+                .then(async (response) => {
+                    const isValid = await authService.authenticated();
+                    setAuthenticated(isValid);
+                    if (isValid) {
+                        setUser(JSON.parse(window.localStorage.getItem("currentBundoUser")));
+                    }
+                    setResults(response.data.businesses);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        );
+        authService.authenticated().then((isValid) => {
+            setAuthenticated(isValid);
+            if (isValid) {
+                setUser(JSON.parse(window.localStorage.getItem("currentBundoUser")));
+            }
+        });
+    };
+    useEffect(hook, []);
 
-		return <BizCard key={biz.yelpID} biz={biz} authenticated={authenticated} bookmarked={saved}/>
-	})
+    const resultCards = results.map((biz) => {
+        const saved = authenticated && user.bookmarks.some((entry) => entry.yelpID === biz.yelpID);
 
-	return (
-		<div className="search-results">
-			<NavBar fixedTop={true} authenticated={authenticated} user={user}/>
+        return (
+            <BizCard key={biz.yelpID} biz={biz} authenticated={authenticated} bookmarked={saved} />
+        );
+    });
 
-			<div className="search-results-main container">
-				<div className="results-subtitle text-center">
-					<div className="term-subtitle">
-						{params.find_desc} 
-						<p className="location-subtitle">{params.find_loc}</p>
-					</div>
-					<hr className="subtitle-hr"></hr>
-					<LoadingIndicator />
-				</div>
+    return (
+        <div className="search-results">
+            <NavBar fixedTop={true} authenticated={authenticated} user={user} />
 
-				<div className="card-results fluid-container">
-					<div className="row">
-						{resultCards}
-					</div>
-				</div>
-			</div>
+            <div className="search-results-main container px-5">
+                <div className="results-subtitle text-center">
+                    <div className="term-subtitle">
+                        {params.find_desc}
+                        <p className="location-subtitle">{params.find_loc}</p>
+                    </div>
+                    <hr className="mb-5" />
+                    <LoadingIndicator />
+                </div>
 
-			<Footer />
+                <div className="card-results container">
+                    <div className="row">{resultCards}</div>
+                </div>
+            </div>
 
-		</div>
-	)
-}
+            <Footer />
+        </div>
+    );
+};
 
-export default SearchResults
+export default SearchResults;

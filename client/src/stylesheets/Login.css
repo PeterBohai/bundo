@@ -1,41 +1,41 @@
 .Login {
-	height: 100vh;
-	background: #eeeeee;
+    height: 100vh;
+    background: #eeeeee;
 }
 .login-main {
-	background: #f5f5f5;
-	width: 100%;
-	min-height: 100vh;
-	padding-top: 5rem;
-	padding-bottom: 20rem;
+    background: #f5f5f5;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    margin-top: -5rem;
 }
 
 .login-msg {
-	margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
 }
 
-.form-control:focus{
-	box-shadow: 0 0 0 0.15rem rgba(0,123,255,.25);
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
 }
 
 .error-msg {
-	margin-bottom: 1px;
+    margin-bottom: 1px;
 }
 
-.login-button{
-	margin-top: 2.5rem;
+.login-button {
+    margin-top: 2.5rem;
 }
 
 .footer-section {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

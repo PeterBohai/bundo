@@ -1,49 +1,49 @@
-.navbar-form-main{
-	margin-left: 3.5rem;
-	width: 60%;
+.navbar-form-main {
+    margin-left: 3.5rem;
+    width: 60%;
 }
 
 .navbar-form-main .search-form {
-	border: none;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-	transition: all 400ms ease;
-	height: 2.3rem;
+    border: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+    transition: all 400ms ease;
+    height: 2.3rem;
 }
 
 .home-page-form .search-form {
-	border: none;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-	transition: all 400ms ease;
+    border: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+    transition: all 400ms ease;
 }
 
 .home-page-form .search-form:focus {
-	border: none;
-	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+    border: none;
+    box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
 }
 
 .navbar-form-main .search-form:focus {
-	border: none;
-	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+    border: none;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
 }
 
 .home-page-form {
-	margin-top: 3.5rem;
+    margin-top: 3.5rem;
 }
 
 .nabar-form {
-	margin: 0;
+    margin: 0;
 }
 
 .search-button {
-	background: #000000;
-	margin: 0 auto;
-	margin-top: 2rem;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+    background: #000000;
+    margin: 0 auto;
+    margin-top: 2rem;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
 }
 
-.search-button-navbar{
-	display: inline-block;
-	background: #000000;
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-	height: 2.3rem;
+.search-button-navbar {
+    display: inline-block;
+    background: #000000;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+    height: 2.3rem;
 }

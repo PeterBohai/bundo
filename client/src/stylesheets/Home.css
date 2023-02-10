@@ -1,16 +1,16 @@
 .home-page {
-	min-height: 100%;
+    min-height: 100%;
 }
 
-.search-and-nav{
-	background: #FFBF69;
-	padding-top: 1.5rem;
-	padding-bottom: 10rem;
+.search-and-nav {
+    background: #ffbf69;
+    padding-top: 1.5rem;
+    padding-bottom: 13rem;
 }
 
 .main-title {
-	color: #000000;
-	font-weight: bold;
+    color: #000000;
+    font-weight: bold;
 }
 
 /*
@@ -18,26 +18,24 @@
  */
 
 .nav-section {
-	margin-top: 0.5rem;
-	margin-bottom: 10rem;
-	display: inline-block;
-	left: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 10rem;
+    display: inline-block;
+    left: 0;
 }
 
 /*
  * About Us
  */
 
- .about-us {
-	color: #000000;
-	padding-top: 10rem;
-	padding-bottom: 22rem;
-	background: #FFFFFF;
- }
+.about-us {
+    color: #000000;
+    padding-top: 10rem;
+    padding-bottom: 22rem;
+    background: #ffffff;
+}
 
- .about-us-subtitle {
-	 font-weight: bolder;
-	 margin-bottom: 1.8rem;
- }
-
-
+.about-us-subtitle {
+    font-weight: bolder;
+    margin-bottom: 1.8rem;
+}
