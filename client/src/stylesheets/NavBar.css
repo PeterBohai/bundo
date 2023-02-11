@@ -1,8 +1,5 @@
 .bundo-navbar {
     background: #ffbf69;
-    height: 5rem;
-    padding-left: 4rem;
-    padding-right: 4rem;
 }
 
 .home-link {
@@ -19,4 +16,14 @@
 .search {
     display: inline-block;
     width: 50%;
+}
+
+.simple-navlink {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.simple-navlink:hover {
+    color: #3b3b3b;
 }
