@@ -7,8 +7,8 @@ const SignupUserBtn = ({ authenticated, userInfo, simpleDesign = false }) => {
     const history = useHistory();
 
     let className = simpleDesign
-        ? "simple-navlink text-decoration-underline nav-link my-1"
-        : "signup-user my-1";
+        ? "simple-navlink text-decoration-underline nav-link"
+        : "signup-user";
     if (authenticated === null) {
         className += " hidden";
     }

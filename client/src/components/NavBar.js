@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../stylesheets/NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import LoginOutBtn from "./LoginOutBtn";
 import SignupUserBtn from "./SignupUserBtn";
 import SearchForm from "./SearchForm";
@@ -14,6 +15,9 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
     let baseClassName = "bundo-navbar navbar navbar-expand-sm py-1";
     if (fixedTop) {
         baseClassName += " fixed-top";
+    }
+    if (location.pathname !== "/") {
+        baseClassName += " shadow";
     }
 
     return (
@@ -31,6 +35,7 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
                         Bundo!
                     </Link>
                 </div>
+
                 {location.pathname === "/query/search" ? (
                     <button
                         id="navbarCollapseButton"
@@ -62,37 +67,57 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
                             </li>
                         </ul>
                     )}
-                    {location.pathname === "/" ? (
+
+                    {location.pathname !== "/query/search" ? (
                         <div>
-                            <LoginOutBtn
-                                authenticated={authenticated}
-                                simpleDesign={location.pathname === "/query/search"}
-                            />
-                            <SignupUserBtn
-                                authenticated={authenticated}
-                                userInfo={user}
-                                simpleDesign={location.pathname === "/query/search"}
-                            />
-                        </div>
-                    ) : (
-                        <ul className="navbar-nav ms-auto w-100 justify-content-end">
+                            <a
+                                className="simple-navlink"
+                                style={{ margin: "0.5rem" }}
+                                href="https://github.com/PeterBohai/snoosdigest"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <FontAwesomeIcon icon={faGithub} size="lg" />
+                            </a>
                             {location.pathname === "/login" ? null : (
-                                <li className="nav-item">
-                                    <LoginOutBtn
-                                        authenticated={authenticated}
-                                        simpleDesign={location.pathname === "/query/search"}
-                                    />
-                                </li>
+                                <LoginOutBtn
+                                    authenticated={authenticated}
+                                    simpleDesign={location.pathname === "/query/search"}
+                                />
                             )}
                             {location.pathname === "/register" ? null : (
-                                <li className="nav-item">
-                                    <SignupUserBtn
-                                        authenticated={authenticated}
-                                        userInfo={user}
-                                        simpleDesign={location.pathname === "/query/search"}
-                                    />
-                                </li>
+                                <SignupUserBtn
+                                    authenticated={authenticated}
+                                    userInfo={user}
+                                    simpleDesign={location.pathname === "/query/search"}
+                                />
                             )}
+                        </div>
+                    ) : (
+                        <ul className="navbar-nav ms-auto w-100 justify-content-end my-1">
+                            <li className="nav-item">
+                                <a
+                                    className="simple-navlink nav-link"
+                                    href="https://github.com/PeterBohai/snoosdigest"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <FontAwesomeIcon icon={faGithub} size="lg" />
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <LoginOutBtn
+                                    authenticated={authenticated}
+                                    simpleDesign={location.pathname === "/query/search"}
+                                />
+                            </li>
+                            <li className="nav-item">
+                                <SignupUserBtn
+                                    authenticated={authenticated}
+                                    userInfo={user}
+                                    simpleDesign={location.pathname === "/query/search"}
+                                />
+                            </li>
                         </ul>
                     )}
                 </div>

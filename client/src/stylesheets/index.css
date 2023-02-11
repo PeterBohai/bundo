@@ -1,13 +1,14 @@
-html, body {
-  background: #fff;
-  min-height: 100vh;
+html,
+body {
+    background: #fafafa;
+    min-height: 100vh;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 p {
-	margin: 0;
-	margin-bottom: 2px;
+    margin: 0;
+    margin-bottom: 2px;
 }

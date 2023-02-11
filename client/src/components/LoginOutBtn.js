@@ -6,7 +6,7 @@ import "../stylesheets/LoginOutBtn.css";
 const LoginOutBtn = ({ authenticated, simpleDesign = false }) => {
     const location = useLocation();
 
-    let className = simpleDesign ? "simple-navlink nav-link my-1" : "loginout my-1";
+    let className = simpleDesign ? "simple-navlink nav-link" : "loginout";
     if (authenticated === null) {
         className += " hidden";
     }

@@ -26,7 +26,11 @@ const Home = () => {
                 <NavBar fixedTop={false} authenticated={authenticated} user={user} />
 
                 <div className="front-content text-center container mt-5 pt-5">
-                    <h1 className="display-2 main-title">Bundo!</h1>
+                    <h1 className="display-2 main-title">
+                        Bundo!
+                        <br />
+                        <p className="fs-3 fw-light">crowd-sourced reviews at a glance</p>
+                    </h1>
                     <SearchForm inNavBar={false} />
                 </div>
             </div>
