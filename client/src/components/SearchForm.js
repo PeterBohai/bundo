@@ -31,7 +31,7 @@ const SearchForm = ({ inNavBar }) => {
         <div className={inNavBar ? "navbar-form-main" : "search-form-main"}>
             <form className={inNavBar ? "navbar-form" : "home-page-form"} onSubmit={handleSubmit}>
                 {inNavBar ? (
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <input
                             type="text"
                             id="inputFind"

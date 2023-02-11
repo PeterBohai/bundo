@@ -5,10 +5,14 @@ import "../stylesheets/SignupUserBtn.css";
 
 const SignupUserBtn = ({ authenticated, userInfo, simpleDesign = false }) => {
     const history = useHistory();
-    let className = authenticated === null ? "signup-user hidden" : "signup-user";
-    if (simpleDesign) {
-        className = "simple-navlink text-decoration-underline nav-link";
+
+    let className = simpleDesign
+        ? "simple-navlink text-decoration-underline nav-link my-1"
+        : "signup-user my-1";
+    if (authenticated === null) {
+        className += " hidden";
     }
+
     const handleUser = (event) => {
         event.preventDefault();
         const userDetailsLocation = {
