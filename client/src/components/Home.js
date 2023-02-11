@@ -4,6 +4,7 @@ import LoginOutBtn from "./LoginOutBtn";
 import SignupUserBtn from "./SignupUserBtn";
 import SearchForm from "./SearchForm";
 import authService from "../services/authentication";
+import NavBar from "./NavBar";
 import "../stylesheets/Home.css";
 
 const Home = () => {
@@ -22,14 +23,7 @@ const Home = () => {
     return (
         <div className="home-page text-right">
             <div className="search-and-nav">
-                <div className="navbar navbar-expand-sm">
-                    <div className="container">
-                        <div className="ms-auto">
-                            <LoginOutBtn authenticated={authenticated} />
-                            <SignupUserBtn authenticated={authenticated} userInfo={user} />
-                        </div>
-                    </div>
-                </div>
+                <NavBar fixedTop={false} authenticated={authenticated} user={user} />
 
                 <div className="front-content text-center container mt-5 pt-5">
                     <h1 className="display-2 main-title">Bundo!</h1>
