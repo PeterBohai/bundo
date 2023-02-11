@@ -7,6 +7,7 @@
     border: 0.1rem solid transparent;
     border-radius: 0.3rem;
     text-decoration: none;
+    transition: all 400ms ease;
 }
 
 .loginout:hover {

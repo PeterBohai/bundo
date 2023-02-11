@@ -7,6 +7,7 @@
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
+    transition: all 400ms ease;
 }
 
 .home-link:hover {
