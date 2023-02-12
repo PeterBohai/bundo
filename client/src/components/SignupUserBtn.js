@@ -6,9 +6,7 @@ import "../stylesheets/SignupUserBtn.css";
 const SignupUserBtn = ({ authenticated, userInfo, simpleDesign = false }) => {
     const history = useHistory();
 
-    let className = simpleDesign
-        ? "simple-navlink text-decoration-underline nav-link"
-        : "signup-user";
+    let className = simpleDesign ? "simple-navlink nav-link" : "signup-user";
     if (authenticated === null) {
         className += " hidden";
     }
@@ -27,7 +25,15 @@ const SignupUserBtn = ({ authenticated, userInfo, simpleDesign = false }) => {
             {userInfo.firstName}
         </button>
     ) : (
-        <Link className={className} to="/register">
+        <Link
+            className={className}
+            to="/register"
+            style={
+                simpleDesign
+                    ? { textDecoration: "underline", textDecorationThickness: "2px" }
+                    : null
+            }
+        >
             Sign up
         </Link>
     );
