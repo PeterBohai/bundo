@@ -4,25 +4,7 @@
 
 .search-results-main {
     width: 100%;
-    min-height: 150vh;
+    min-height: 110vh;
     padding-top: 5rem;
-    padding-bottom: 19rem;
-}
-
-.results-subtitle {
-    padding-bottom: 0.1rem;
-    margin: 0;
-}
-
-.term-subtitle {
-    font-weight: bold;
-    color: black;
-    font-size: 1.6rem;
-    margin: 0;
-}
-
-.location-subtitle {
-    font-weight: normal;
-    font-size: 1.3rem;
-    color: #393e46;
+    padding-bottom: 12rem;
 }

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
-import LoginOutBtn from "./LoginOutBtn";
-import SignupUserBtn from "./SignupUserBtn";
 import SearchForm from "./SearchForm";
 import authService from "../services/authentication";
 import NavBar from "./NavBar";

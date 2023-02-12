@@ -1,228 +1,98 @@
-.bizcard {
-	padding: 0;
+.bizcard-card {
+    transition: all 350ms ease;
+    font-size: 0.9rem;
 }
 
-.bizcard-card{
-	transition: all 350ms ease;
-}
-
-.bizcard-card:hover {
-	box-shadow: 0 0 10px rgba(0,0,0,.2);
-}
-/* .bizcard-shadow{
-	box-shadow: rgba(60, 66, 87, 0.12) 0px 3px 7px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-} */
-.bizcard-col-wrapper{
-	padding-left: 0;
-}
-.bizcard-body {
-	padding: 1%;
-	padding-top: 1.5%;
-	padding-bottom: 1.5%;
-	padding-left: 2%;
-}
-.bizcard-title {
-	font-weight: bold;
-}
-.bizcard-img-col{
-	padding: 2%;
-}
-
-.card-img {
-	max-height: 15rem;
-	object-fit: fill;
+.biz-img {
+    max-height: 12.6rem;
+    max-width: 12.6rem;
 }
 
 .external-anchor {
-	color: grey;
-	font-size: 0.9rem;
+    color: #6c757d;
+    font-size: 0.8rem;
 }
 .external-anchor:hover {
-	color: black;
+    color: black;
 }
 
-.bizcard-info-section{
-	display: inline-block;
-	height: 13.1rem;
-	min-height: 13.1rem;
-	margin-right: 2%;
-	padding-left: 2%;
-	padding-right: 2%;
-	font-size: 0.9rem;
-	border-radius: 5px;
-	border: 2px solid darkgrey;
-	background-color: #fff;
-}
-
-.bizcard-review-section{
-	display: inline-block;
-	vertical-align: top;
-	min-height: 13.1rem;
-	border-radius: 5px;
-	background-color: #fff;
-	border: 2px solid darkgrey;
-	width: 60%;
-}
-
-.review-subsection{
-	display: table;
-	height: 4.3rem;
-	padding-left: 4%;
-	padding-right: 5%;
+.review-subsection {
+    display: table;
+    height: 4.3rem;
+    padding-left: 4%;
+    padding-right: 5%;
 }
 
 .biz-address {
-	display: inline-block;
-	padding: 0.2rem 0.8rem;
-	margin-bottom: 0.5rem;
-	text-align: center;
-	border-radius: 5px;
-	background-color: #f9f7f7;
-	font-size: 0.8rem;
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #f9f7f7;
+    font-size: 0.8rem;
 }
 
-.address-line {
-	margin: 0;
-	line-height: 1.4;
+.open-tag {
+    color: #049c02 !important;
+    font-weight: bold;
+}
+.closed-tag {
+    color: red !important;
+    font-weight: bold;
 }
 
-.biz-basic-info {
-	margin: 0;
-}
-
-.open {
-	color: #049c02;
-	font-weight: bold;
-}
-.closed {
-	color: red;
-	font-weight: bold;
-}
-
-.card-save-button{
-	width: 100%;
-	margin-top: 0.5rem;
-	text-align: center;
-}
 .save-button {
-	display: inline-block;
-	padding: 0 0.5rem;
-	font-size: 0.9rem;
+    display: inline-block;
+    padding: 0 0.4rem;
+    font-size: 0.8rem;
 }
 
-.review-site-bizinfo{
-	display: inline-block;
+.review-site-url {
+    display: inline-block;
+    margin-right: 0.5rem;
 }
 
-.review-site-url{
-	display: inline-block;
-	margin-right: 0.5rem;
+.review-subsection-hr {
+    margin: 0;
+    background-color: darkgrey;
 }
 
-.yelp-logo{
-	display: block;
-	margin-bottom: 0.2rem;
-}
-.google-logo{
-	display: block;
-	margin-bottom: 0.4rem;
-}
-.facebook-logo{
-	display: block;
-	margin-bottom: 0.2rem;
+.rating-score {
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-right: 0.3rem;
+    border-radius: 5px;
+    color: black;
 }
 
-.review-subsection-hr{
-	margin: 0;
-	background-color: darkgrey;
+.review-count {
+    display: inline-block;
+    font-size: 0.7rem;
 }
 
- /* YELP Info section */
-
-.yelp-rating-num{
-	font-size: 0.9rem;
-	display: inline-block;
-	margin-right: 0.3rem;
-	background-color: rgb(235, 66, 44);
-	padding: 0 0.4rem;
-	border-radius: 5px;
-	color: white;
-	line-height: 19px;
-}
-
+/* YELP Info section */
 .yelp-rating-img {
-	display: inline-block;
+    display: inline-block;
 }
 .yelp-rating {
-	display: inline-block;
+    display: inline-block;
+}
+.yelp-star {
+    height: 17px;
 }
 
-.yelp-review-count {
-	color: #393e46;
-	display: inline-block;
-	font-size: 0.8rem;
-	font-weight: bold;
-	margin: 0;
-	margin-left: 0.5rem;
-}
+/* GOOGLE Info section */
 
- /* GOOGLE Info section */
-
-.google-rating{
-	color: darkorange;
-	display: inline-block
- }
-
-.google-rating-num {
-	font-size: 0.9rem;
-	display: inline-block;
-	margin-right: 0.3rem;
-	background-color: darkorange;
-	padding: 0 0.4rem;
-	border-radius: 5px;
-	color: white;
-	line-height: 19px;
-}
-
-.google-review-count {
-	color: #393e46;
-	display: inline-block;
-	font-size: 0.8rem;
-	font-weight: bold;
-	margin: 0;
-	margin-left: 0.4rem;
-}
-
-.facebook-rating {
-	font-size: 0.9rem;
-	display: inline-block;
-	margin-right: 0.3rem;
-	background-color: rgb(88, 131, 218);
-	padding: 0 0.4rem;
-	border-radius: 5px;
-	color: white;
+.google-rating-img {
+    color: darkorange;
+    display: inline-block;
 }
 
 .facebook-rating-error {
-	font-size: 0.85rem;
+    font-size: 0.85rem;
 }
-
-.facebook-review-count {
-	color: #393e46;
-	display: inline-block;
-	font-size: 0.8rem;
-	font-weight: bold;
-	margin: 0;
-	margin-left: 0.4rem;
-}
-
-.outer {
-	display: table;
-	height: 100%;
-	width: 100%;
-}
-
-.middle {
-	display: table-cell;
-	vertical-align: middle;
+.review-left-col {
+    display: inline-block;
+    min-width: 4.6rem;
 }
