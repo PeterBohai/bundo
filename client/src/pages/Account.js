@@ -7,6 +7,7 @@ import BizCard from "../components/BizCard";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import temp_pfp from "../images/bundo-profile.jpg";
+import { useWindowSize } from "../services/hooks";
 
 const Account = () => {
     const currUser = JSON.parse(window.localStorage.getItem("currentBundoUser"));
@@ -17,6 +18,7 @@ const Account = () => {
     });
     const [results, setResults] = useState([]);
     const location = useLocation();
+    const windowSize = useWindowSize();
     const userid = queryString.parse(location.search).userid;
 
     const userDetailsHook = () => {
@@ -58,7 +60,11 @@ const Account = () => {
         <div className="account">
             <NavBar />
 
-            <div className="account-main container-fluid">
+            <div
+                className={`account-main container-fluid pt-4 ${
+                    windowSize.width > 450 ? "px-5" : ""
+                }`}
+            >
                 <div className="card profile-card">
                     <div className="card-body pfp-name">
                         <img className="profile-pic" src={temp_pfp} width="124px" alt="profile" />

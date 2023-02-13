@@ -248,7 +248,7 @@ const BizCard = ({ biz, user, bookmarked }) => {
 
     return (
         <div
-            className={`card px-0 shadow-sm mb-3 container-fluid bizcard-card ${
+            className={`card px-0 shadow mb-3 container-fluid bizcard-card ${
                 hovered ? "" : "border-light"
             }`}
             onMouseEnter={() => setHovered(true)}

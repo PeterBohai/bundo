@@ -3,13 +3,20 @@ import Footer from "../components/Footer";
 import SearchForm from "../components/SearchForm";
 import NavBar from "../components/NavBar";
 import "./Home.css";
+import { useWindowSize } from "../services/hooks";
 
 const Home = () => {
+    const windowSize = useWindowSize();
+
     return (
         <div className="home-page text-right">
             <div className="search-and-nav">
                 <NavBar />
-                <div className="front-content text-center container mt-5 pt-5">
+                <div
+                    className={`front-content text-center container mt-5 ${
+                        windowSize.width > 450 ? "pt-5" : ""
+                    }`}
+                >
                     <h1 className="display-2 main-title">
                         Bundo!
                         <br />
