@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faExternalLinkAlt, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import {
     faStar as faStarReg,
     faBookmark as faBookmarkReg,
 } from "@fortawesome/free-regular-svg-icons";
-import "../stylesheets/BizCard.css";
+import "./BizCard.css";
 import yelp_0 from "../images/yelp_stars/regular/regular_0.png";
 import yelp_1 from "../images/yelp_stars/regular/regular_1.png";
 import yelp_15 from "../images/yelp_stars/regular/regular_1_half.png";
@@ -23,8 +22,9 @@ import googleAttr from "../images/google/google_on_white.png";
 import facebookLogo from "../images/facebook/facebook_logo.png";
 import yelpLogo from "../images/yelp_logo.png";
 import { useWindowSize } from "../services/hooks";
+import { postBookmarkListChange } from "../services/user";
 
-const BizCard = ({ biz, authenticated, bookmarked }) => {
+const BizCard = ({ biz, user, bookmarked }) => {
     const location = useLocation();
     const windowSize = useWindowSize();
     const [isSaved, setIsSaved] = useState(bookmarked);
@@ -32,7 +32,7 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
 
     const saveUnsaveHandler = (event) => {
         event.preventDefault();
-        if (authenticated) {
+        if (user) {
             const currUser = JSON.parse(window.localStorage.getItem("currentBundoUser"));
 
             if (!isSaved) {
@@ -50,15 +50,9 @@ const BizCard = ({ biz, authenticated, bookmarked }) => {
             // Update user bookmarks on client side
             window.localStorage.setItem("currentBundoUser", JSON.stringify(currUser));
             // Update user bookmarks in the database
-            axios
-                .post("/api/user/bookmark", {
-                    userid: currUser.id,
-                    updatedBookmarks: currUser.bookmarks,
-                })
+            postBookmarkListChange(currUser)
                 .then((response) => {
-                    console.log(
-                        `Updated bookmarks in database successfully: ${response.data.newBookmarks}`
-                    );
+                    console.log(`Updated bookmarks in database: ${response.data.newBookmarks}`);
                     setIsSaved(!isSaved);
                     if (location.pathname.includes("/user/details")) {
                         window.location.reload();

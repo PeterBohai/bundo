@@ -1,16 +1,19 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../stylesheets/NavBar.css";
+import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import LoginOutBtn from "./LoginOutBtn";
-import SignupUserBtn from "./SignupUserBtn";
+import SignUpBtn from "./SignUpBtn";
 import SearchForm from "./SearchForm";
+import ProfileBtn from "./ProfileBtn";
+import { useAuth } from "../services/hooks";
 
-const NavBar = ({ fixedTop, authenticated, user }) => {
+const NavBar = ({ fixedTop = false }) => {
     const location = useLocation();
+    const auth = useAuth();
 
     let baseClassName = "bundo-navbar navbar navbar-expand-sm py-1";
     if (fixedTop) {
@@ -19,7 +22,6 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
     if (location.pathname !== "/") {
         baseClassName += " shadow";
     }
-
     return (
         <div className={baseClassName}>
             <div className="container">
@@ -69,36 +71,33 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
                     )}
 
                     {location.pathname !== "/query/search" ? (
-                        <div>
+                        // Use "hidden" so that the element is still in the DOM and does not flash the wrong UI while checking authentication
+                        <div className={auth.user == null ? "hidden" : ""}>
                             <a
                                 className="simple-navlink"
                                 style={{ margin: "0.5rem" }}
-                                href="https://github.com/PeterBohai/snoosdigest"
+                                href="https://github.com/PeterBohai/bundo"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 <FontAwesomeIcon icon={faGithub} size="lg" />
                             </a>
                             {location.pathname === "/login" ? null : (
-                                <LoginOutBtn
-                                    authenticated={authenticated}
-                                    simpleDesign={location.pathname === "/query/search"}
-                                />
+                                <LoginOutBtn user={auth.user} />
                             )}
-                            {location.pathname === "/register" ? null : (
-                                <SignupUserBtn
-                                    authenticated={authenticated}
-                                    userInfo={user}
-                                    simpleDesign={location.pathname === "/query/search"}
-                                />
-                            )}
+                            {location.pathname !== "/register" && !auth.user ? <SignUpBtn /> : null}
+                            {auth.user ? <ProfileBtn user={auth.user} /> : null}
                         </div>
                     ) : (
-                        <ul className="navbar-nav ms-auto w-100 justify-content-end my-1">
+                        <ul
+                            className={`navbar-nav ms-auto w-100 justify-content-end my-1 ${
+                                auth.user == null ? "hidden" : ""
+                            }`}
+                        >
                             <li className="nav-item">
                                 <a
                                     className="simple-navlink nav-link"
-                                    href="https://github.com/PeterBohai/snoosdigest"
+                                    href="https://github.com/PeterBohai/bundo"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -106,17 +105,13 @@ const NavBar = ({ fixedTop, authenticated, user }) => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <LoginOutBtn
-                                    authenticated={authenticated}
-                                    simpleDesign={location.pathname === "/query/search"}
-                                />
+                                <LoginOutBtn user={auth.user} simpleDesign />
                             </li>
                             <li className="nav-item">
-                                <SignupUserBtn
-                                    authenticated={authenticated}
-                                    userInfo={user}
-                                    simpleDesign={location.pathname === "/query/search"}
-                                />
+                                {location.pathname !== "/register" && !auth.user ? (
+                                    <SignUpBtn simpleDesign />
+                                ) : null}
+                                {auth.user ? <ProfileBtn simpleDesign user={auth.user} /> : null}
                             </li>
                         </ul>
                     )}

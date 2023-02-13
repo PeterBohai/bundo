@@ -1,11 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Home from "./components/Home";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import Account from "./components/Account";
-import SearchResults from "./components/SearchResults";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
+import Account from "./pages/Account";
+import SearchResults from "./pages/SearchResults";
 
 const App = () => {
     return (
@@ -19,6 +20,9 @@ const App = () => {
                 </Route>
                 <Route exact path="/login">
                     <Login />
+                </Route>
+                <Route exact path="/logout">
+                    <Logout />
                 </Route>
                 <Route exact path="/">
                     <Home />

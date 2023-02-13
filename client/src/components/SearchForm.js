@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import "../stylesheets/SearchForm.css";
+import "./SearchForm.css";
 
 const SearchForm = ({ inNavBar }) => {
     const [findDesc, setFindDesc] = useState("");
@@ -91,7 +91,7 @@ const SearchForm = ({ inNavBar }) => {
                             />
                         </div>
 
-                        <button type="submit" className="search-button btn btn-dark col-5 col-sm-2">
+                        <button type="submit" className="search-button btn btn-dark col-5 col-lg-2">
                             <FontAwesomeIcon icon={faSearch} /> Search
                         </button>
                     </div>
