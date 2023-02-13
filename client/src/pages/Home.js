@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from "react";
-import Footer from "./Footer";
-import SearchForm from "./SearchForm";
-import authService from "../services/authentication";
-import NavBar from "./NavBar";
-import "../stylesheets/Home.css";
+import React from "react";
+import Footer from "../components/Footer";
+import SearchForm from "../components/SearchForm";
+import NavBar from "../components/NavBar";
+import "./Home.css";
+import { useWindowSize } from "../services/hooks";
 
 const Home = () => {
-    const [authenticated, setAuthenticated] = useState(null);
-    const [user, setUser] = useState({});
-
-    useEffect(() => {
-        authService.authenticated().then((isValid) => {
-            setAuthenticated(isValid);
-            if (isValid) {
-                setUser(JSON.parse(window.localStorage.getItem("currentBundoUser")));
-            }
-        });
-    }, []);
+    const windowSize = useWindowSize();
 
     return (
         <div className="home-page text-right">
             <div className="search-and-nav">
-                <NavBar fixedTop={false} authenticated={authenticated} user={user} />
-
-                <div className="front-content text-center container mt-5 pt-5">
+                <NavBar />
+                <div
+                    className={`front-content text-center container mt-5 ${
+                        windowSize.width > 450 ? "pt-5" : ""
+                    }`}
+                >
                     <h1 className="display-2 main-title">
                         Bundo!
                         <br />
@@ -32,7 +25,6 @@ const Home = () => {
                     <SearchForm inNavBar={false} />
                 </div>
             </div>
-
             <div className="about-us text-left container px-5">
                 <h1 className="about-us-subtitle text-center">About Bundo!</h1>
                 <p className="lead">

@@ -1,26 +1,19 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../stylesheets/LoginOutBtn.css";
+import "./LoginOutBtn.css";
+import { useAuth } from "../services/hooks";
 
-const LoginOutBtn = ({ authenticated, simpleDesign = false }) => {
+const LoginOutBtn = ({ simpleDesign = false }) => {
     const location = useLocation();
+    const auth = useAuth();
 
     let className = simpleDesign ? "simple-navlink nav-link" : "loginout";
-    if (authenticated === null) {
-        className += " hidden";
-    }
 
-    const handleLogout = (event) => {
-        event.preventDefault();
-        window.localStorage.removeItem("currentBundoUser");
-        window.location.reload();
-    };
-
-    return authenticated ? (
-        <button className={className} onClick={handleLogout}>
-            Logout
-        </button>
+    return auth.user ? (
+        <Link className={className} to="/logout">
+            Log out
+        </Link>
     ) : (
         <Link
             className={className}
@@ -31,7 +24,7 @@ const LoginOutBtn = ({ authenticated, simpleDesign = false }) => {
                 },
             }}
         >
-            Login
+            Log in
         </Link>
     );
 };

@@ -3,16 +3,16 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import queryString from "query-string";
 import { trackPromise } from "react-promise-tracker";
-import authService from "../services/authentication";
-import BizCard from "./BizCard";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
-import LoadingIndicator from "./LoadingIndicator";
-import "../stylesheets/SearchResults.css";
-import { useWindowSize } from "../services/hooks";
+import BizCard from "../components/BizCard";
+import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
+import LoadingIndicator from "../components/LoadingIndicator";
+import "./SearchResults.css";
+import { useWindowSize, useAuth } from "../services/hooks";
 
 const SearchResults = () => {
     const windowSize = useWindowSize();
+    const auth = useAuth();
 
     const [results, setResults] = useState([]);
     const [responseError, setResponseError] = useState({
@@ -21,10 +21,6 @@ const SearchResults = () => {
         noResultsError: false,
     });
     const [noResultsError, setNoResultsError] = useState(false);
-    const [authenticated, setAuthenticated] = useState(null);
-    const [user, setUser] = useState({
-        bookmarks: [],
-    });
     const location = useLocation();
     const params = queryString.parse(location.search);
 
@@ -36,13 +32,7 @@ const SearchResults = () => {
                     searchLoc: params.find_loc,
                 })
                 .then(async (response) => {
-                    const isValid = await authService.authenticated();
                     const businesses = response.data.businesses;
-                    console.log(JSON.stringify(businesses));
-                    setAuthenticated(isValid);
-                    if (isValid) {
-                        setUser(JSON.parse(window.localStorage.getItem("currentBundoUser")));
-                    }
                     setResponseError({
                         status: null,
                         statusText: "",
@@ -61,12 +51,6 @@ const SearchResults = () => {
                     console.error(JSON.stringify(err.response));
                 })
         );
-        authService.authenticated().then((isValid) => {
-            setAuthenticated(isValid);
-            if (isValid) {
-                setUser(JSON.parse(window.localStorage.getItem("currentBundoUser")));
-            }
-        });
     };
     useEffect(hook, []);
 
@@ -97,16 +81,14 @@ const SearchResults = () => {
     );
 
     const resultCards = results.map((biz) => {
-        const saved = authenticated && user.bookmarks.some((entry) => entry.yelpID === biz.yelpID);
+        const saved = auth.user && auth.user.bookmarks.some((entry) => entry.yelpID === biz.yelpID);
 
-        return (
-            <BizCard key={biz.yelpID} biz={biz} authenticated={authenticated} bookmarked={saved} />
-        );
+        return <BizCard key={biz.yelpID} biz={biz} user={auth.user} bookmarked={saved} />;
     });
 
     return (
         <div className="search-results">
-            <NavBar fixedTop={true} authenticated={authenticated} user={user} />
+            <NavBar fixedTop />
 
             <div
                 className={`search-results-main container ${windowSize.width > 450 ? "px-5" : ""}`}

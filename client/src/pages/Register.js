@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import IsEmail from "isemail";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
-import "../stylesheets/Register.css";
+import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
+import "./Register.css";
 
 const Register = () => {
     const [firstName, setFirstName] = useState("");
@@ -42,7 +42,7 @@ const Register = () => {
 
     return (
         <div className="text-center register fluid-container">
-            <NavBar fixedTop={false} />
+            <NavBar />
 
             <div className="register-main row mx-0">
                 <div

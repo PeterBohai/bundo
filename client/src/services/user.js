@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const authenticated = async () => {
+export const getAuthStatus = async () => {
     const loggedUserJSON = window.localStorage.getItem("currentBundoUser");
 
     if (loggedUserJSON) {
@@ -20,4 +20,9 @@ const authenticated = async () => {
     return false;
 };
 
-export default { authenticated };
+export const postBookmarkListChange = (user) => {
+    return axios.post("/api/user/bookmark", {
+        userid: user.id,
+        updatedBookmarks: user.bookmarks,
+    });
+};

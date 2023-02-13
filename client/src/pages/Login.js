@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
-import "../stylesheets/Login.css";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
+import "./Login.css";
+import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
 
 const Login = ({ prevPath }) => {
     const [email, setEmail] = useState("");
@@ -40,7 +40,7 @@ const Login = ({ prevPath }) => {
 
     return (
         <div className="text-center login">
-            <NavBar fixedTop={false} />
+            <NavBar />
 
             <div className="login-main row m-0">
                 <div
