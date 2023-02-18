@@ -58,7 +58,7 @@ const SearchForm = ({ inNavBar }) => {
                             type="text"
                             id="inputLocation"
                             className="form-control search-form"
-                            placeholder='Near (Try "Vancouver")'
+                            placeholder="Near (location)"
                             required
                         />
                         <button
