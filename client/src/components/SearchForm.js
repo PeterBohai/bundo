@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { usePlacesWidget } from "react-google-autocomplete";
 import "./SearchForm.css";
 
 const SearchForm = ({ inNavBar }) => {
@@ -10,13 +11,23 @@ const SearchForm = ({ inNavBar }) => {
     const [findLoc, setFindLoc] = useState("");
     const history = useHistory();
     const location = useLocation();
+    const { ref } = usePlacesWidget({
+        apiKey: process.env.REACT_APP_GOOGLE_PLACES_API_KEY,
+        onPlaceSelected: (place) => {
+            setFindLoc(place.formatted_address);
+        },
+        options: {
+            types: ["(regions)"],
+        },
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        const locationVal = event.target.inputLocation.value;
         const searchResultsLocation = {
             pathname: "/query/search",
             search: `?find_desc=${encodeURIComponent(findDesc)}&find_loc=${encodeURIComponent(
-                findLoc
+                locationVal
             )}`,
         };
         if (location.pathname === "/") {
@@ -42,14 +53,13 @@ const SearchForm = ({ inNavBar }) => {
                             onChange={({ target }) => setFindDesc(target.value)}
                         />
                         <input
+                            ref={ref}
+                            name="inputLocation"
                             type="text"
                             id="inputLocation"
                             className="form-control search-form"
-                            placeholder="Near (location)"
+                            placeholder='Near (Try "Vancouver")'
                             required
-                            value={findLoc}
-                            onChange={({ target }) => setFindLoc(target.value)}
-                            aria-describedby="navbar-search-button"
                         />
                         <button
                             type="submit"
@@ -81,13 +91,13 @@ const SearchForm = ({ inNavBar }) => {
                                 Near
                             </label>
                             <input
+                                ref={ref}
+                                name="inputLocation"
                                 type="text"
                                 id="inputLocation"
                                 className="form-control search-form"
                                 placeholder='Near (Try "Vancouver")'
                                 required
-                                value={findLoc}
-                                onChange={({ target }) => setFindLoc(target.value)}
                             />
                         </div>
 
