@@ -6,6 +6,7 @@ const baseUrl = "https://api.yelp.com/v3";
 const headers = {
     Authorization: `Bearer ${config.YELP_API_KEY}`,
 };
+const RESULT_LIMIT = 6;
 
 const businessSearch = (term, location, next) => {
     const options = {
@@ -13,7 +14,7 @@ const businessSearch = (term, location, next) => {
         params: {
             term,
             location,
-            limit: 6,
+            limit: RESULT_LIMIT,
         },
     };
     const req = axios.get(`${baseUrl}/businesses/search`, options).catch((err) => {

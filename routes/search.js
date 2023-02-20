@@ -4,13 +4,12 @@ const yelpFusion = require("../services/yelpFusion");
 const googlePlaces = require("../services/googlePlaces");
 const facebookGraph = require("../services/facebookGraph");
 
-searchRouter.post("/", (req, res, next) => {
-    const searchBody = req.body;
+searchRouter.get("/", (req, res, next) => {
     let bizData = { businesses: [] };
 
     // make request to YELP
     yelpFusion
-        .businessSearch(searchBody.searchDesc, searchBody.searchLoc, next)
+        .businessSearch(req.query.term, req.query.loc, next)
         .then((yelpData) => {
             yelpData.businesses.forEach((business, index) => {
                 bizData.businesses.push({

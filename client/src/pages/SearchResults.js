@@ -27,9 +27,14 @@ const SearchResults = () => {
     const hook = () => {
         trackPromise(
             axios
-                .post("/api/search", {
-                    searchDesc: params.find_desc,
-                    searchLoc: params.find_loc,
+                .get("/api/search", {
+                    params: {
+                        term: params.find_desc,
+                        loc: params.find_loc,
+                    },
+                    headers: {
+                        "Cache-Control": "max-age=60",
+                    },
                 })
                 .then(async (response) => {
                     const businesses = response.data.businesses;
